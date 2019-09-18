@@ -30,7 +30,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
 import { bugs, website, server } from "variables/general.js";
-
+import RemoteTable from "components/RemoteTable/RemoteTable.jsx";
 import {
   dailySalesChart,
   emailsSubscriptionChart,
