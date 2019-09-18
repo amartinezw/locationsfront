@@ -36,6 +36,8 @@ import NotificationsPage from "views/Notifications/Notifications.js";
 
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
+import {Store} from "@material-ui/icons/Store";
+
 
 const dashboardRoutes = [
   {
@@ -52,7 +54,13 @@ const dashboardRoutes = [
     icon: LibraryBooks,
     component: Bodegas,
     layout: "/admin"
-  },
+  },{
+    path: "/tiendas",
+    name: "Tiendas",
+    icon: Store,
+    component: Bodegas,
+    layout: "/admin"
+  }
 ];
 
 export default dashboardRoutes;
