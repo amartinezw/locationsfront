@@ -30,13 +30,14 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
 import Bodegas from "views/Bodegas/Bodegas.js";
+import Warehouse from "views/Warehouse/Warehouse.js";
 import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
-import {Store} from "@material-ui/icons/Store";
+import Storage from "@material-ui/icons/Storage";
 
 
 const dashboardRoutes = [
@@ -50,17 +51,19 @@ const dashboardRoutes = [
   },
   {
     path: "/bodegas",
-    name: "Bodegas",    
+    name: "Localizaciones",
     icon: LibraryBooks,
     component: Bodegas,
     layout: "/admin"
-  },{
-    path: "/tiendas",
-    name: "Tiendas",
-    icon: Store,
-    component: Bodegas,
+  },
+  {
+    path: "/warehouse",
+    name: "Bodegas",
+    icon: Storage,
+    component: Warehouse,
     layout: "/admin"
-  }
+  },
+
 ];
 
 export default dashboardRoutes;
