@@ -16,13 +16,23 @@ import RemoteTable from "components/RemoteTable/RemoteTable.jsx";
 const useStyles = makeStyles(styles);
 
 export default function Bodegas() {
+  const bodegasColumns = [
+    { "title": "id", "field": "id" },
+    { "title": "Tienda", "field": "warehouse.store.name" }, 
+    { "title": "Bodega", "field": "warehouse.name" }, 
+    { "title": "Rack", "field": "rack"},
+    { "title": "Bloque", "field": "block" }, 
+    { "title": "Nivel", "field": "level" }, 
+    { "title": "Cadena de ubicacion", "field": "mapped_string" }
+  ];
+  
   const classes = useStyles();
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card plain>
-            <RemoteTable title="Lista de tiendas" urlfetch="http://ec2-34-219-142-13.us-west-2.compute.amazonaws.com/api/v1/warehouselocations/getall?warehouse_id=1" 
-              columns='[{ "title": "id", "field": "id" },{ "title": "Tienda", "field": "warehouse.store.name" }, { "title": "Bodega", "field": "warehouse.name" }, { "title": "Rack", "field": "rack"},{ "title": "Bloque", "field": "block" }, { "title": "Nivel", "field": "level" }, { "title": "Cadena de ubicacion", "field": "mapped_string" }]' />
+            <RemoteTable title="Lista de tiendas" urlfetch={process.env.REACT_APP_API_LOCATION+"/warehouselocations/getall?warehouse_id=1"} 
+              columns={bodegasColumns} />
         </Card>
       </GridItem>
     </GridContainer>

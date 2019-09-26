@@ -16,9 +16,11 @@
 
 */
 import React from "react";
+import * as Sentry from '@sentry/browser';
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Provider } from 'store'
 
 // core components
 import Admin from "layouts/Admin.js";
@@ -28,13 +30,17 @@ import "assets/css/material-dashboard-react.css?v=1.8.0";
 
 const hist = createBrowserHistory();
 
+Sentry.init({dsn: "https://5c2335fc39bc4bda9eec0cd4f890ac81@sentry.io/1732073"});
+
 ReactDOM.render(
+<Provider>
   <Router history={hist}>
     <Switch>
       <Route path="/admin" component={Admin} />
       <Route path="/rtl" component={RTL} />
       <Redirect from="/" to="/admin/dashboard" />
     </Switch>
-  </Router>,
+  </Router>
+</Provider>,
   document.getElementById("root")
 );
