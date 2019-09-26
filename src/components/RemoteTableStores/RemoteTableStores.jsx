@@ -7,14 +7,20 @@ export default class RemoteTableStores extends React.Component{
     constructor (props){
         super(props);
         this.serverApi = "http://ec2-34-219-142-13.us-west-2.compute.amazonaws.com/";
+        this.methods = {
+            show    : this.serverApi+'api/v1/warehouses/getall?',
+            add     : this.serverApi+'api/v1/warehouses/store?',
+            delete  : this.serverApi+'api/v1/warehouses/destroy?',
+            edit    : this.serverApi+'api/v1/warehouses/update?'
+        }
         this.query = "";
         this.state = {
             columns: [
-                { title: 'ID Tienda',field : "store.id", type: "numeric", },
-                { title: 'Num. Tienda', field: 'store.number', type: 'numeric' },
-                { title: 'Nombre de la tienda', field: 'store.name' },
-                { title: 'Num. Bodega (DB)', field: 'id', type: 'numeric' },
-                { title: 'Nombre de la bodega', field: 'name' },
+                { title: 'ID Tienda',field : "store.id", type: "numeric" },
+                { title: 'Num. Tienda', field: 'store.number', type: 'numeric',editable: 'never'},
+                { title: 'Nombre de la tienda', field: 'store.name',editable: 'never' },
+                { title: 'Num. Bodega (DB)', field: 'id', type: 'numeric' ,editable: 'never'},
+                { title: 'Nombre de la bodega', field: 'name'},
             ],
             data :[]
         }
@@ -28,9 +34,8 @@ export default class RemoteTableStores extends React.Component{
     show($query){
         this.query = $query;
         let $return;
-        console.log(this.props);
         $return = new Promise((resolve, reject) => {
-            let $url = this.serverApi+'api/v1/warehouses/getall?';
+            let $url = this.methods.show;
             $url += "per_page="+this.query.pageSize+"&page="+(this.query.page+1);
             let $params = {
                 method  : "get",
@@ -39,11 +44,13 @@ export default class RemoteTableStores extends React.Component{
             fetch($url,$params)
             .then(response => response.json())
             .then(result => {
+                console.log(result);
                 resolve({
                     data: result.data,
                     page: (result.current_page-1),
                     totalCount:result.total
                 });
+                console.log("one Charge");
             });
         });
 
@@ -62,7 +69,7 @@ export default class RemoteTableStores extends React.Component{
 
         let $result = new Promise(resolve => {
             setTimeout(() => {
-                let $url = this.serverApi+'api/v1/warehouses/store?store_id='+$newData.store.id;
+                let $url = this.methods.add+'store_id='+$newData.store.id;
                 fetch($url,$params)
                     .then(response => response.json())
                     .then(result => {
@@ -84,22 +91,19 @@ export default class RemoteTableStores extends React.Component{
 
     delete($oldData){
         let $return;
-        $oldData['per_page']= this.cache.totalCount;
+        $oldData['per_page']= this.query.totalCount;
         console.log($oldData);
 
         let $params = {
-            method: "DELETE",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-            },
+            method: "POST",
+            headers: this.headers,
             body: JSON.stringify($oldData)
         };
 
         $return =  new Promise(resolve => {
             setTimeout(() => {
-                let $url = 'api/stores/'+$oldData.id;
-                fetch($url)
+                let $url = this.methods.delete+'warehouse_id='+$oldData.id;
+                fetch($url,$params)
                     .then(response => response.json())
                     .then(result => {
                         console.log(result);
@@ -128,24 +132,21 @@ export default class RemoteTableStores extends React.Component{
     edit(newData,oldData){
         let $return;
         let $params = {
-            method: "PUT",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-            },
+            method: "POST",
+            headers: this.headers,
             body: JSON.stringify(newData)
         };
 
         $return = new Promise(resolve => {
             setTimeout(() => {
-                let $url = "api/stores/"+oldData.id;
+                let $url = this.methods.edit+"warehouse_id="+oldData.id+"&name="+newData.name+"&store_id="+newData.store.id;
+                //resolve();
                 fetch($url,$params)
                     .then(response => response.json())
                     .then(result => {
                         if(!result.success){
 
                         }
-                        console.log(result);
                         resolve();
                     })
                     .catch(error => {
@@ -169,6 +170,10 @@ export default class RemoteTableStores extends React.Component{
                         onRowAdd: newData => this.add(newData),
                         onRowUpdate: (newData, oldData) => this.edit(newData,oldData),
                         onRowDelete: oldData => this.delete(oldData)
+                    }}
+
+                    options={{
+                        pageSize: 10
                     }}
                 />
             </div>

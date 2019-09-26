@@ -13,7 +13,7 @@ export default function RemoteTable(props) {
             columns={JSON.parse(columns)}
             data={(query) =>
                 new Promise((resolve, reject) => {
-                    let url = {urlfetch}
+                    let url = urlfetch
                     let headers = {
                         "Accept": "application/json",
                         "Content-Type": "application/json",
@@ -24,6 +24,7 @@ export default function RemoteTable(props) {
                     url += '&order=' + 'asc'
                     url += '&column=' + 'id'
                     url += '&page=' + (query.page + 1)
+                    console.log(url,query);
                     fetch(url, {
                         headers: headers,
                     })
