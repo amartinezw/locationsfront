@@ -31,6 +31,7 @@ import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
 import Bodegas from "views/Bodegas/Bodegas.js";
 import Warehouse from "views/Warehouse/Warehouse.js";
+import Locations from "views/Racks/racks";
 import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
@@ -63,7 +64,13 @@ const dashboardRoutes = [
     component: Warehouse,
     layout: "/admin"
   },
-
+  {
+    path: "/Racks",
+    name: "Ubicaciones",
+    icon: Storage,
+    component: Locations,
+    layout: "/admin"
+  }
 ];
 
 export default dashboardRoutes;
