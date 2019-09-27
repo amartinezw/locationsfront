@@ -13,7 +13,7 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  { "title": "Ubicacion", "field": "warehouselocation_id"}
 		];
 		return <React.Fragment>
-		<Barcode value={itemsInBlock.data.data[0].warehouselocation.mapped_string} />
+		<Barcode value={itemsInBlock.data.mapped_string} />
 		<MaterialTable
 		  title="Productos en la ubicacion"
 		  columns={itemColumns}
