@@ -48,6 +48,9 @@ export default function AdminNavbarLinks() {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+  const color = {
+    fontColor : 'white'
+  };
   return (
     <div>
       <div className={classes.searchWrapper}>
@@ -207,11 +210,13 @@ export default function AdminNavbarLinks() {
                       Settings
                     </MenuItem>
                     <Divider light />
-                    <MenuItem
-                      className={classes.dropdownItem}
-                    >
-                        <Link to="/login">Logout</Link>
-                    </MenuItem>
+                    <Link style={color} to="/login">
+                      <MenuItem
+                        className={classes.dropdownItem}
+                      >
+                          Logout
+                      </MenuItem>
+                    </Link>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

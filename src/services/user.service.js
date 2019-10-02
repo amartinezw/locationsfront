@@ -19,17 +19,15 @@ function login(username, password) {
             'email' : username,
             'password' : password }),
     };
-    return fetch("http://localhost:8000/api/v1/user/authenticate", requestOptions)
+    return fetch(process.env.REACT_APP_API_LOCATION+"/user/authenticate", requestOptions)
         .then(handleResponse)
         .then(result => {
-            // login successful if there's a user in the response
-            if (result.code === 200) {
-                // store user details and basic auth credentials in local storage
-                // to keep user logged in between page refreshes
+            if (result.status === "success") {
                 result.user = window.btoa(username + ':' + password);
                 localStorage.setItem('user', JSON.stringify(result));
+                return result;
             }
-            return result;
+
         }).catch(function(error) {
             console.log('Hubo un problema con la petición de autenticación:' + error.message);
         });
@@ -46,7 +44,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch("http://localhost:8000/api/v1/user/getusers", requestOptions).then(handleResponse);
+    return fetch(process.env.REACT_APP_API_LOCATION+"/user/getusers", requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
