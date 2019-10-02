@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import userService from '../../services/user.service.js';
+import history from '../../history.js';
 
 function Copyright() {
     return (
@@ -62,10 +63,12 @@ class LoginPage extends React.Component {
         this.setState({ loading: true });
         userService.login(username, password)
             .then(
-                user => {
-                    const { from } = this.props.location.state || { from: { pathname: "/" } };
-                    this.props.history.push(from);
+                resutl => {
+                    const  from  = { from: { pathname: "/admin/dashboard" } };
+                    history.push("/admin/dashboard");
+                    window.location.reload();
                 },
+
                 error => this.setState({ error, loading: false })
             );
     }
@@ -103,9 +106,10 @@ class LoginPage extends React.Component {
                     </Typography>
                     <form style={form} noValidate onSubmit={this.handleSubmit}>
                         <TextField
+                            required
                             variant="outlined"
                             margin="normal"
-                            required
+                            type="email"
                             fullWidth
                             id="email"
                             label="Email Address"
@@ -115,6 +119,7 @@ class LoginPage extends React.Component {
                             autoFocus
                         />
                         <TextField
+                            required
                             variant="outlined"
                             margin="normal"
                             required

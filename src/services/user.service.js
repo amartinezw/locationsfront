@@ -10,21 +10,28 @@ const userService = {
 function login(username, password) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+process.env.REACT_APP_API_TOKEN
+        },
+        body: JSON.stringify({
+            'email' : username,
+            'password' : password }),
     };
-    return fetch(process.env.REACT_APP_API_LOCATION+"/api/user" , requestOptions)
+    return fetch("http://localhost:8000/api/v1/user/authenticate", requestOptions)
         .then(handleResponse)
-        .then(user => {
+        .then(result => {
             // login successful if there's a user in the response
-            if (user) {
+            if (result.code === 200) {
                 // store user details and basic auth credentials in local storage
                 // to keep user logged in between page refreshes
-                user.authdata = window.btoa(username + ':' + password);
-                localStorage.setItem('user', JSON.stringify(user));
+                result.user = window.btoa(username + ':' + password);
+                localStorage.setItem('user', JSON.stringify(result));
             }
-
-            return user;
+            return result;
+        }).catch(function(error) {
+            console.log('Hubo un problema con la petición de autenticación:' + error.message);
         });
 }
 
@@ -39,7 +46,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(process.env.REACT_APP_API_LOCATION+"/api/users", requestOptions).then(handleResponse);
+    return fetch("http://localhost:8000/api/v1/user/getusers", requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
