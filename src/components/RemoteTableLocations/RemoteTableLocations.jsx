@@ -72,7 +72,7 @@ export default class RemoteTableLocations extends React.Component{
                     .then(response => response.json())
                     .then(result => {
                         if(!result.success){
-                            let text = result.error.code;
+                            //let text = result.error.code;
                         }
                         resolve();
                     })

@@ -1,6 +1,5 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import ReactDOM from "react-dom";
 
 export default class RemoteTableStores extends React.Component{
 
@@ -74,7 +73,7 @@ export default class RemoteTableStores extends React.Component{
                     .then(response => response.json())
                     .then(result => {
                         if(!result.success){
-                            let text = result.error.code;
+                            //let text = result.error.code;
                         }
                         resolve();
                     })
