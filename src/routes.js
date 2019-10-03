@@ -38,6 +38,7 @@ import NotificationsPage from "views/Notifications/Notifications.js";
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
 
+
 const dashboardRoutes = [
   {
     path: "/dashboard",
@@ -62,5 +63,6 @@ const dashboardRoutes = [
     layout: "/admin"
   },
 ];
+
 
 export default dashboardRoutes;
