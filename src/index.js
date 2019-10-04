@@ -24,13 +24,12 @@ import { Provider } from 'store'
 import  PrivateRoutes  from "components/PrivateRoutes.js";
 import history from 'history.js';
 
-
 // core components
 import Admin from "layouts/Admin.js";
 import Login from "views/Login/Login.js";
 import RTL from "layouts/RTL.js";
+
 import "assets/css/material-dashboard-react.css?v=1.8.0";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 Sentry.init({dsn: "https://5c2335fc39bc4bda9eec0cd4f890ac81@sentry.io/1732073"});
 

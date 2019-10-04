@@ -1,4 +1,6 @@
 import React from 'react';
+import userService from '../../services/user.service.js';
+import history from '../../history.js';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,8 +11,8 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import userService from '../../services/user.service.js';
-import history from '../../history.js';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+
 
 function Copyright() {
     return (
@@ -64,12 +66,15 @@ class LoginPage extends React.Component {
         userService.login(username, password)
             .then(
                 resutl => {
-                    const  from  = { from: { pathname: "/admin/dashboard" } };
-                    history.push("/admin/dashboard");
-                    window.location.reload();
+                    if (resutl.status === 'success') {
+                        const  from  = { from: { pathname: "/admin/dashboard" } };
+                        history.push("/admin/dashboard");
+                         window.location.reload();
+                    }
+
                 },
 
-                error => this.setState({ error, loading: false })
+                error => this.setState({ error})
             );
     }
 
@@ -91,7 +96,16 @@ class LoginPage extends React.Component {
             marginTop: "10px",
         };
         const submit = {
-            margin: "10px",
+            margin: "0px",
+            marginTop:"5px",
+            marginBottom:"10px",
+        };
+
+        const snackbarWarning = {
+            margin: "0px",
+            marginTop:"5px",
+            marginBottom:"10px",
+            backgroundColor: "#F27458"
         };
 
         return (
@@ -104,7 +118,7 @@ class LoginPage extends React.Component {
                     <Typography component="h1" variant="h5">
                         Login
                     </Typography>
-                    <form style={form} noValidate onSubmit={this.handleSubmit}>
+                    <form style={form} onSubmit={this.handleSubmit}>
                         <TextField
                             required
                             variant="outlined"
@@ -141,6 +155,14 @@ class LoginPage extends React.Component {
                         >
                             Entrar
                         </Button>
+                        {error &&
+                        <div>
+                            <SnackbarContent
+                                message={error}
+                                style={snackbarWarning}
+                            />
+                        </div>
+                        }
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
