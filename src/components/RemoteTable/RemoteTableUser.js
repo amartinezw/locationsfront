@@ -2,8 +2,12 @@ import React from "react";
 import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
 import { makeStyles } from "@material-ui/core/styles";
+import userService from '../../services/user.service.js';
 // @material-ui/icons
 
+
+function delUser(id) {
+}
 export default function RemoteTableUser(props) {
     const { title, columns, urlfetch, ...rest} = props;
     return (
@@ -46,7 +50,7 @@ export default function RemoteTableUser(props) {
                 {
                     icon: 'delete',
                     tooltip: 'Eliminar usuario',
-                    //onClick: (event, result) => confirm("You want to delete " + result.name)
+                    onClick: (event, result) => alert("¿Eliminar a : " + result.name + " ?")
                 }
             ]}
             options={{

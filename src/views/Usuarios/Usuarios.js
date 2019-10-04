@@ -33,5 +33,6 @@ export default function Usuarios() {
                 </Card>
             </GridItem>
         </GridContainer>
+
     );
 }

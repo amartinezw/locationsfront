@@ -4,7 +4,7 @@ import React from "react";
 const userService = {
     login,
     logout,
-    getAll
+    getAll,
 };
 
 function login(username, password) {
@@ -44,6 +44,7 @@ function getAll() {
 
     return fetch(process.env.REACT_APP_API_LOCATION+"/user/getusers", requestOptions).then(handleResponse);
 }
+
 
 function handleResponse(response) {
     return response.text().then(text => {
