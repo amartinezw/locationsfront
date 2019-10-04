@@ -57,14 +57,15 @@ export default function Bodegas() {
     //const [open,setState] = useState(open);
     const [hasError, setErrors] = useState(false);
     const [planets, setPlanets] = useState({});
+    const [firstValue,setValue]= useState(0);
+    const key ="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjFiNjM2MWE2MDkzYjRiNzMwZWYxMTY1YzIxODA1ZmYxYWFjNWZhN2JlMjRlMzliZGQ2Yjk2NTA1OTcxZDZjMDgxNjE3Y2Y2YzBlYjUwMWRhIn0.eyJhdWQiOiIxIiwianRpIjoiMWI2MzYxYTYwOTNiNGI3MzBlZjExNjVjMjE4MDVmZjFhYWM1ZmE3YmUyNGUzOWJkZDZiOTY1MDU5NzFkNmMwODE2MTdjZjZjMGViNTAxZGEiLCJpYXQiOjE1NjgwNTAwMDEsIm5iZiI6MTU2ODA1MDAwMSwiZXhwIjoxNTk5NjcyNDAxLCJzdWIiOiIiLCJzY29wZXMiOltdfQ.I-zsnSQ7kvBgwYos9vcvsjsZoRubdhtyxLlSGXhIfO5FVD0qBf2OuxpTrTFaCzZuSt0xaZjBNbRxKC8YfZou4wY0HTFsquz7nfRTBSnyG1O1oI1RkJq3H9MHNdZSASyxd90SzD-hUN_erkQGV2Zx3QJcwBWbBrVrtuxP-VpeeHh2g3X9PnG5GnR5i7mkhFbPSVI6gYQvgbRvXcEMCGHt2ifKYC3cAr43cHUrNDQphYEesD9AxRgdruikVBQ3ZKFSi1Ax80Kr-iPrgaOIQMc17mQZK18x3jfsNNpFgQMWzcaUvJdF60G-DemLQHmnj3CEjSQt42vtwupHMsABGji_HFC0u26F1yuh2FcX1iVQ59UJ2bajYiWuudJt8PawVv0E2OZlb2AWJHa2Hpmt6ZX_TBYMRbuIWdRAU0UOUC5vbsf6tl4dwjAwig36LllWDNGaGZozK4DCyepOHpml35vBn1C9ju5KBKmZygGcULgPN7ehuxMCos8vRleHGx2qaXAZUiwPT55DLI_XjTqQe1R-qxDxqAWws6at0CnM4hiMj5VEl9ptvhzYpVJbd9ytlMV4rVS3woFdAz4APFopHx-nGtno5bbJCheL0NwkLD9JldR--MuZscx2NRhvdiqAkinryqQo3eaBqblTLT9J8z_U4kwwph-X5r_4dNngy1SlUYQ";
+    const headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": 'Bearer '+key
+    }
 
     async function fetchData() {
-        const key ="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjFiNjM2MWE2MDkzYjRiNzMwZWYxMTY1YzIxODA1ZmYxYWFjNWZhN2JlMjRlMzliZGQ2Yjk2NTA1OTcxZDZjMDgxNjE3Y2Y2YzBlYjUwMWRhIn0.eyJhdWQiOiIxIiwianRpIjoiMWI2MzYxYTYwOTNiNGI3MzBlZjExNjVjMjE4MDVmZjFhYWM1ZmE3YmUyNGUzOWJkZDZiOTY1MDU5NzFkNmMwODE2MTdjZjZjMGViNTAxZGEiLCJpYXQiOjE1NjgwNTAwMDEsIm5iZiI6MTU2ODA1MDAwMSwiZXhwIjoxNTk5NjcyNDAxLCJzdWIiOiIiLCJzY29wZXMiOltdfQ.I-zsnSQ7kvBgwYos9vcvsjsZoRubdhtyxLlSGXhIfO5FVD0qBf2OuxpTrTFaCzZuSt0xaZjBNbRxKC8YfZou4wY0HTFsquz7nfRTBSnyG1O1oI1RkJq3H9MHNdZSASyxd90SzD-hUN_erkQGV2Zx3QJcwBWbBrVrtuxP-VpeeHh2g3X9PnG5GnR5i7mkhFbPSVI6gYQvgbRvXcEMCGHt2ifKYC3cAr43cHUrNDQphYEesD9AxRgdruikVBQ3ZKFSi1Ax80Kr-iPrgaOIQMc17mQZK18x3jfsNNpFgQMWzcaUvJdF60G-DemLQHmnj3CEjSQt42vtwupHMsABGji_HFC0u26F1yuh2FcX1iVQ59UJ2bajYiWuudJt8PawVv0E2OZlb2AWJHa2Hpmt6ZX_TBYMRbuIWdRAU0UOUC5vbsf6tl4dwjAwig36LllWDNGaGZozK4DCyepOHpml35vBn1C9ju5KBKmZygGcULgPN7ehuxMCos8vRleHGx2qaXAZUiwPT55DLI_XjTqQe1R-qxDxqAWws6at0CnM4hiMj5VEl9ptvhzYpVJbd9ytlMV4rVS3woFdAz4APFopHx-nGtno5bbJCheL0NwkLD9JldR--MuZscx2NRhvdiqAkinryqQo3eaBqblTLT9J8z_U4kwwph-X5r_4dNngy1SlUYQ";
-        const headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "Authorization": 'Bearer '+key
-        }
         const params = {
             method: "GET",
             headers: headers
@@ -73,12 +74,41 @@ export default function Bodegas() {
         res
             .json()
             .then(res => {
-                res = res.results.map((planet) => {
-                    return planet
+                let options = res.data.map((data) => {
+                    return <option value={data.id} key={data.id} >{data.name}</option>;
                 });
-                setPlanets(res);
+                setPlanets(<Input type="select" name="warehouse" id="warehouse" >{options}</Input>);
             })
             .catch(err => setErrors(err));
+    }
+
+    async function saveData(data) {
+
+        let url= "http://ec2-34-219-142-13.us-west-2.compute.amazonaws.com/api/v1/warehouselocations/maplocations?";
+
+        const params = {
+            method: "POST",
+            headers: headers,
+            //body: JSON.stringify()
+        }
+        url += "blocks="+data[1]+"&levels="+data[2]+"&sides="+data[3]+"&warehouse_id="+data[0];
+        const res = await fetch(url,params);
+        res
+            .json()
+            .then(res => {
+                console.log(res);
+                
+                setState(!state);
+            })
+            .catch(err => setErrors(err));
+    }
+
+    const sendInfo = (e) => {
+        let info = Array.from(document.querySelector("form").elements);
+        let send = info.map((info) => {
+            return  info.value;
+        });
+        saveData(send);
     }
 
     useEffect(() => {
@@ -94,7 +124,7 @@ export default function Bodegas() {
         >
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                    Agregar nueva localización
+                    Nueva Ubicación
                 </h5>
                 <button
                     aria-label="Close"
@@ -107,67 +137,28 @@ export default function Bodegas() {
                 </button>
             </div>
             <div className="modal-body">
-                <Form>
+                <p>
+                    <small> Seleccione la cantidad de niveles y lados para crear la localización correspondiente</small>
+                </p>
+                <Form onSubmit={sendInfo}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-3 col-md-6 col-sm-12" >
                             <FormGroup>
                                 <Label for="bodega">Bodega</Label>
-                                {JSON.stringify(planets)}
+                                {planets}
                             </FormGroup>
                         </div>
                         <div className="col-lg-3 col-md-6 col-sm-12" >
                             <FormGroup>
                                 <Label for="bloque">Bloques</Label>
-                                <Input type="select" name="bloque" id="bloque">
-                                    <option value="1" >1</option>
-                                    <option value="2" >2</option>
-                                    <option value="3" >3</option>
-                                    <option value="4" >4</option>
-                                    <option value="5" >5</option>
-                                    <option value="6" >6</option>
-                                    <option value="7" >7</option>
-                                    <option value="8" >8</option>
-                                    <option value="9" >9</option>
-                                    <option value="10" >10</option>
-                                    <option value="11" >11</option>
-                                    <option value="12" >12</option>
-                                    <option value="13" >13</option>
-                                    <option value="14" >14</option>
-                                    <option value="15" >15</option>
-                                    <option value="16" >16</option>
-                                    <option value="17" >17</option>
-                                    <option value="18" >18</option>
-                                    <option value="19" >19</option>
-                                    <option value="20" >20</option>
-                                </Input>
+                                <Input type="number" min="0" defaultValue={firstValue} name="bloque" id="bloque" />
                             </FormGroup>
                         </div>
                         <div className="col-lg-3 col-md-6 col-sm-12" >
                             <FormGroup>
                                 <Label for="nivel">Niveles</Label>
-                                <Input type="select" name="nivel" id="nivel">
-                                    <option value="1" >1</option>
-                                    <option value="2" >2</option>
-                                    <option value="3" >3</option>
-                                    <option value="4" >4</option>
-                                    <option value="5" >5</option>
-                                    <option value="6" >6</option>
-                                    <option value="7" >7</option>
-                                    <option value="8" >8</option>
-                                    <option value="9" >9</option>
-                                    <option value="10" >10</option>
-                                    <option value="11" >11</option>
-                                    <option value="12" >12</option>
-                                    <option value="13" >13</option>
-                                    <option value="14" >14</option>
-                                    <option value="15" >15</option>
-                                    <option value="16" >16</option>
-                                    <option value="17" >17</option>
-                                    <option value="18" >18</option>
-                                    <option value="19" >19</option>
-                                    <option value="20" >20</option>
-                                </Input>
+                                <Input type="number" min="0" defaultValue={firstValue} name="nivel" id="nivel" />
                             </FormGroup>
                         </div>
                         <div className="col-lg-3 col-md-6 col-sm-12" >
@@ -192,7 +183,7 @@ export default function Bodegas() {
                 >
                     Cerrar
                 </Button>
-                <Button color="primary" type="button" >
+                <Button color="primary" type="button" onClick={sendInfo}>
                     Guardar
                 </Button>
             </div>
