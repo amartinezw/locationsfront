@@ -10,6 +10,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Hidden from "@material-ui/core/Hidden";
 import Poppers from "@material-ui/core/Popper";
 import Divider from "@material-ui/core/Divider";
+import { Link } from 'react-router-dom';
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
@@ -46,6 +47,9 @@ export default function AdminNavbarLinks() {
   };
   const handleCloseProfile = () => {
     setOpenProfile(null);
+  };
+  const color = {
+    fontColor : 'white'
   };
   return (
     <div>
@@ -206,12 +210,13 @@ export default function AdminNavbarLinks() {
                       Settings
                     </MenuItem>
                     <Divider light />
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Logout
-                    </MenuItem>
+                    <Link style={color} to="/login">
+                      <MenuItem
+                        className={classes.dropdownItem}
+                      >
+                          Logout
+                      </MenuItem>
+                    </Link>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

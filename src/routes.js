@@ -22,11 +22,13 @@ import LibraryBooks from "@material-ui/icons/LibraryBooks";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import Bodegas from "views/Bodegas/Bodegas.js";
+import Ubicaciones from "views/Ubicaciones/Ubicaciones.js";
 import Warehouse from "views/Warehouse/Warehouse.js";
 import Locations from "views/Racks/racks";
 
 // core components/views for RTL layout
 import Storage from "@material-ui/icons/Storage";
+
 
 
 const dashboardRoutes = [
@@ -46,6 +48,13 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
+    path: "/ubicaciones",
+    name: "Ubicaciones",
+    icon: LibraryBooks,
+    component: Ubicaciones,
+    layout: "/admin"
+  },
+  {
     path: "/warehouse",
     name: "Bodegas",
     icon: Storage,
@@ -60,5 +69,6 @@ const dashboardRoutes = [
     layout: "/admin"
   }
 ];
+
 
 export default dashboardRoutes;

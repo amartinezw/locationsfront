@@ -42,7 +42,15 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function Bodegas() {
-    const classes = useStyles();
+    const bodegasColumns = [
+    { "title": "id", "field": "id" },
+    { "title": "Tienda", "field": "warehouse.store.name" },
+    { "title": "Bodega", "field": "warehouse.name" },
+    { "title": "Rack", "field": "rack"},
+    { "title": "Bloque", "field": "block" },
+    { "title": "Nivel", "field": "level" },
+    { "title": "Cadena de ubicacion", "field": "mapped_string" }
+  ];const classes = useStyles();
     /*
     const state = {
         exampleModal: false
@@ -97,7 +105,7 @@ export default function Bodegas() {
             .json()
             .then(res => {
                 console.log(res);
-                
+
                 setState(!state);
             })
             .catch(err => setErrors(err));
@@ -114,7 +122,6 @@ export default function Bodegas() {
     useEffect(() => {
         fetchData();
     },[]);
-
   return (
     <Grid container>
         <Modal
@@ -193,8 +200,8 @@ export default function Bodegas() {
             <Button color="primary" onClick={() => setState(!state)} >Agregar nueva localización</Button>
           </div>
         <Card plain>
-            <RemoteTable title="Lista de tiendas" urlfetch="http://ec2-34-219-142-13.us-west-2.compute.amazonaws.com/api/v1/warehouselocations/getall?warehouse_id=1"
-              columns='[{ "title": "id", "field": "id" },{ "title": "Tienda", "field": "warehouse.store.name" }, { "title": "Bodega", "field": "warehouse.name" }, { "title": "Rack", "field": "rack"},{ "title": "Bloque", "field": "block" }, { "title": "Nivel", "field": "level" }, { "title": "Cadena de ubicacion", "field": "mapped_string" }]' />
+            <RemoteTable title="Lista de tiendas" urlfetch={process.env.REACT_APP_API_LOCATION+"/warehouselocations/getall?warehouse_id=1"}
+              columns={bodegasColumns} />
         </Card>
       </GridItem>
     </Grid>
