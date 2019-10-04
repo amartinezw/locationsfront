@@ -17,26 +17,18 @@
 */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
-import Unarchive from "@material-ui/icons/Unarchive";
-import Language from "@material-ui/icons/Language";
+
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
-import UserProfile from "views/UserProfile/UserProfile.js";
-import TableList from "views/TableList/TableList.js";
-import Typography from "views/Typography/Typography.js";
 import Bodegas from "views/Bodegas/Bodegas.js";
 import Ubicaciones from "views/Ubicaciones/Ubicaciones.js";
-import Icons from "views/Icons/Icons.js";
-import Maps from "views/Maps/Maps.js";
-import NotificationsPage from "views/Notifications/Notifications.js";
+import Warehouse from "views/Warehouse/Warehouse.js";
+import Locations from "views/Racks/racks";
 
 // core components/views for RTL layout
-import RTLPage from "views/RTLPage/RTLPage.js";
+import Storage from "@material-ui/icons/Storage";
+
 
 
 const dashboardRoutes = [
@@ -50,18 +42,32 @@ const dashboardRoutes = [
   },
   {
     path: "/bodegas",
-    name: "Bodegas",    
+    name: "Localizaciones",
     icon: LibraryBooks,
     component: Bodegas,
     layout: "/admin"
   },
   {
     path: "/ubicaciones",
-    name: "Ubicaciones",    
+    name: "Ubicaciones",
     icon: LibraryBooks,
     component: Ubicaciones,
     layout: "/admin"
   },
+  {
+    path: "/warehouse",
+    name: "Bodegas",
+    icon: Storage,
+    component: Warehouse,
+    layout: "/admin"
+  },
+  {
+    path: "/Racks",
+    name: "Ubicaciones",
+    icon: Storage,
+    component: Locations,
+    layout: "/admin"
+  }
 ];
 
 
