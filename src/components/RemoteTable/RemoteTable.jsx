@@ -37,6 +37,7 @@ export default function RemoteTable(props) {
             })
         })
       }        
+
       options={{
         pageSize: 20,              
         debounceInterval: 500,            

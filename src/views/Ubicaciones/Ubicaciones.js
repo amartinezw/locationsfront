@@ -13,6 +13,7 @@ import Fetch from 'components/Fetch/Fetch.js';
 import Button from '@material-ui/core/Button';
 import Blocks from "components/Blocks/Blocks.js";
 import ItemsInBlock from "components/ItemsInBlock/ItemsInBlock.js";
+import Typography from '@material-ui/core/Typography';
 import { actions, connect } from 'store';
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -46,6 +46,29 @@ const fetchItemsInBlock = (block) => {
   })
 }
 
+const fetchInventory = (store) => {
+  return new Promise((resolve, reject) => {                                    
+    let url = process.env.REACT_APP_API_LOCATION+'/locationvariation/getall'
+    let headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
+    }
+
+    url += '?per_page=' + '15'
+    url += '&order=' + 'asc'
+    url += '&column=' + 'id'
+    url += '&page=' + '1'
+    fetch(url, {            
+      headers: headers,
+    })
+      .then(response => response.json())
+      .then(result => {
+        resolve(result)
+      })
+  })
+}
+
 const config = {
   initialState: {
     blocks: {
@@ -53,7 +76,10 @@ const config = {
     },
     itemsInBlock: {
       loading: false,
-    }
+    },
+    inventory: {
+      loading: false,
+    },
   },
   actionsCreators: {
     getBlocks: async (_, actions, rack) => {      
@@ -63,6 +89,10 @@ const config = {
     getItemsInBlock: async (_, actions, block) => {      
       const data = await fetchItemsInBlock(block)      
       return { itemsInBlock: { loading: false, data: data } }
+    },
+    getInventory: async (_, actions) => {      
+      const data = await fetchInventory()      
+      return { inventory: { loading: false, data: data } }
     },
   },
 }
