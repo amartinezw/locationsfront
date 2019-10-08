@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
