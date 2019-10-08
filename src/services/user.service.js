@@ -4,6 +4,7 @@ import React from "react";
 const userService = {
     login,
     logout,
+    addUser,
     getAll,
     delUsusario
 };
@@ -35,6 +36,29 @@ function login(username, password) {
                 return result;
             }
 
+        })
+}
+
+function addUser(name, email, password, address) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+process.env.REACT_APP_API_TOKEN
+        },
+        body: JSON.stringify({
+            'name'      : name,
+            'email'     : email,
+            'password'  : password,
+            'address'   : address }),
+    };
+    return fetch(process.env.REACT_APP_API_LOCATION+"/user/create", requestOptions)
+        .then(handleResponse)
+        .then(result => {
+            if (result.status === "success") {
+                return result;
+            }
         })
 }
 

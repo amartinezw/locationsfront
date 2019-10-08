@@ -31,6 +31,7 @@ import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
 import Bodegas from "views/Bodegas/Bodegas.js";
 import Ubicaciones from "views/Ubicaciones/Ubicaciones.js";
+import Usuarios from "views/Usuarios/Usuarios.js";
 import Inventario from "views/Inventario/Inventario.js";
 import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
@@ -69,6 +70,13 @@ const dashboardRoutes = [
     icon: LibraryBooks,
     component: Inventario,
     layout: "/admin"
+  },
+  {
+      path: "/usuarios",
+      name: "Usuarios",
+      icon: Person,
+      component: Usuarios,
+      layout: "/admin"
   },
 ];
 

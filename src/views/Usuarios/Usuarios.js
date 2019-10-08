@@ -7,22 +7,19 @@ import Hidden from "@material-ui/core/Hidden";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-
-import styles from "assets/jss/material-dashboard-react/views/iconsStyle.js";
 import RemoteTableUser from "components/RemoteTable/RemoteTableUser.js";
 import Button from '@material-ui/core/Button';
-
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import { useSpring, animated } from 'react-spring';
 import TextField from "@material-ui/core/TextField/TextField";
-import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 import Grid from "@material-ui/core/Grid/Grid";
-import Link from "@material-ui/core/Link/Link";
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import CopyToClipboard from "react-copy-to-clipboard";
 import userService from "../../services/user.service";
 import history from "../../history";
+import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +35,6 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2, 4, 3),
     },
 }));
-
 const Fade = React.forwardRef(function Fade(props, ref) {
     const { in: open, children, onEnter, onExited, ...other } = props;
     const style = useSpring({
@@ -55,7 +51,6 @@ const Fade = React.forwardRef(function Fade(props, ref) {
             }
         },
     });
-
     return (
         <animated.div ref={ref} style={style} {...other}>
             {children}
@@ -63,47 +58,55 @@ const Fade = React.forwardRef(function Fade(props, ref) {
     );
 });
 
-
-
 export default function Usuarios() {
+
+     const [state, setState] = React.useState({
+        name : '',
+        email : '',
+        password : '',
+        address: '',
+        pws: '',
+        error: '',
+     });
     const [open, setOpen] = React.useState(false);
+
+    
+    const generatePws = () => {
+        var pass = require("randomstring");
+        setState({ ...state, pws: pass.generate(7) });
+    };
+    const handleNameChange = e => {
+        setState({...state, name: e.target.value })
+    };
+    const handleEmailChange = e => {
+        setState({...state, email: e.target.value});
+    };
+    const handleAddressChange = e => {
+        setState({...state, address: e.target.value});
+    };
+    const handlePassChange = e => {
+        setState({...state, password: e.target.value});
+    };
 
     const handleOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleSubmit = (e) => {
+
+    const handleSubmit = e => {
         e.preventDefault();
 
-        this.setState({ submitted: true });
-        const { username, password, returnUrl } = this.state;
+        const { name, email, address, password } = state;
 
-        // stop here if form is invalid
-        if (!(username && password)) {
-            return;
-        }
-
-        this.setState({ loading: true });
-        userService.login(username, password)
-            .then(
-                resutl => {
-                    if (resutl.status === 'success') {
-                        const  from  = { from: { pathname: "/admin/dashboard" } };
-                        history.push("/admin/dashboard");
-                        window.location.reload();
-                    }
-
-                },
-
-                error => this.setState({ error})
-            );
-    }
-
-
+        alert(`Your state values: \n 
+            name: ${name} \n 
+            pass: ${password} \n 
+            address: ${address} \n 
+            email: ${email}`);
+    };
     const usuarios = [
         { "title": "id", "field": "id" },
         { "title": "Nombre", "field": "name" },
@@ -111,9 +114,7 @@ export default function Usuarios() {
         { "title": "Direccion", "field": "address"},
         { "title": "Creación", "field": "created_at" }
     ];
-
     const classes = useStyles();
-
     const paper = {
         marginTop: "8px",
         display: 'flex',
@@ -125,16 +126,14 @@ export default function Usuarios() {
         backgroundColor: "white",
         color: "red",
     };
-    const form = {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: "10px",
-    };
     const submit = {
         margin: "0px",
         marginTop:"5px",
         marginBottom:"10px",
     };
-
+    const genPws = {
+        marginTop:"24px",
+    };
     const snackbarWarning = {
         margin: "0px",
         marginTop:"5px",
@@ -166,47 +165,118 @@ export default function Usuarios() {
                 >
                     <Fade in={open}>
                         <div className={classes.paper}>
-                            <form style={form} onSubmit={handleSubmit}>
-                                <TextField
-                                    required
-                                    variant="outlined"
-                                    margin="normal"
-                                    type="email"
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="username"
-                                    autoComplete="email"
-                                    //onChange={this.handleChange}
-                                    autoFocus
-                                />
-                                <TextField
-                                    required
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    //onChange={this.handleChange}
-                                    autoComplete="current-password"
-                                />
-
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    style={submit}
-                                >
-                                    Guardar
-                                </Button>
+                            <form className={classes.container} onSubmit={handleSubmit}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12}>
+                                        <h3>
+                                            Registrar nuevo usuario
+                                        </h3>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            variant="outlined"
+                                            margin="normal"
+                                            type="text"
+                                            id="name"
+                                            label="Nombre Completo"
+                                            name="name"
+                                            autoComplete="nombre"
+                                            autoFocus
+                                            onChange={handleNameChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            variant="outlined"
+                                            margin="normal"
+                                            type="email"
+                                            id="email"
+                                            label="Email Address"
+                                            name="email"
+                                            autoComplete="email"
+                                            onChange={handleEmailChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            variant="outlined"
+                                            margin="normal"
+                                            type="text"
+                                            id="direccion"
+                                            label="Direccion"
+                                            name="address"
+                                            autoComplete="address"
+                                            onChange={handleAddressChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <TextField
+                                            id="password"
+                                            name="password"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            label="Password"
+                                            value={values.pws}
+                                            onChange={handlePassChange}
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <CopyToClipboard text={state.pws}>
+                                                            <Button
+                                                                margin="normal"
+                                                                color="primary"
+                                                            >
+                                                                <FileCopyIcon>
+                                                                </FileCopyIcon>
+                                                            </Button>
+                                                        </CopyToClipboard>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Button
+                                            variant="contained"
+                                            margin="normal"
+                                            color="primary"
+                                            style={genPws}
+                                            onClick={generatePws}
+                                        >
+                                            Generar
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Button
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            color="primary"
+                                            style={submit}
+                                        >
+                                            Guardar
+                                        </Button>
+                                    </Grid>
+                                </Grid>
                             </form>
                         </div>
                     </Fade>
                 </Modal>
+                {values.error &&
+                <div>
+                    <SnackbarContent
+                        message={values.error}
+                        style={snackbarWarning}
+                    />
+                </div>
+                }
                 <Card plain>
                     <RemoteTableUser title="Lista de usuarios" />
                 </Card>
