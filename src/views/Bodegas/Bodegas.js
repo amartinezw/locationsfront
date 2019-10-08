@@ -4,23 +4,30 @@ import React, {useState ,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
 // core components
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-
-import styles from "assets/jss/material-dashboard-react/views/iconsStyle.js";
-import RemoteTable from "components/RemoteTable/RemoteTable.jsx";
-import Button from "components/CustomButtons/Button.js";
+import GridItem from "../../components/Grid/GridItem.js";
+import GridContainer from "../../components/Grid/GridContainer.js";
+import Card from "../../components/Card/Card.js";
+import RemoteTable from "../../components/RemoteTable/RemoteTable.jsx";
+import Button from "../../components/CustomButtons/Button.js";
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
+
 import Snackbar from '@material-ui/core/Snackbar';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { amber, green } from '@material-ui/core/colors';
+import clsx from 'clsx';
+import WarningIcon from '@material-ui/icons/Warning';
+import PropTypes from 'prop-types';
+import Slide from '@material-ui/core/Slide';
+import Grow from '@material-ui/core/Grow';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -85,7 +92,7 @@ export default function Bodegas() {
       label: '2',
     }
   ];
-  const [bodegas, setWarehouse] = useState([])
+  const [bodegas, setWarehouse] = useState([{value:1, label:""}])
   const [open, setOpen] = useState(false);
   const [hasError, setErrors] = useState(false);
 
@@ -133,84 +140,131 @@ export default function Bodegas() {
       headers: headers,
       //body: JSON.stringify()
     }
-    url += "blocks="+data.get("blocks")+"&levels="+data.get("levels")+"&sides="+data.get("sides");//+"&warehouse_id="+data.get("warehouse");
+    url += "blocks="+data.get("blocks")+"&levels="+data.get("levels")+"&sides="+data.get("sides")+"&warehouse_id="+data.get("warehouse");
     const res = await fetch(url,params);
     res
         .json()
         .then(res => {
           console.log(res);
+          if(res.message){
+              setMsg("La petición se realizó con éxito");
+              setTypeMsg("success");
+          }else{
+              setMsg(res.error.message);
+              setTypeMsg("error");
+          }
+          handleOpenSnack();
           handleClose();
         })
-        .catch(err => setErrors(err));
+        .catch(err => {
+            setErrors(err);
+            setMsg(err);
+            setTypeMsg("error");
+            handleOpenSnack();
+            handleClose();
+        });
   }
 
   const sendInfo = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    saveData(data);
+    if(data.get("blocks") == 0 || data.get("levels") == 0){
+        setMsg("Verifique los campos que desea almacenar");
+        setTypeMsg("warning");
+        handleOpenSnack();
+    }else{
+        saveData(data);
+    }
   }
 
   useEffect(() => {
     fetchData();
   },[]);
+    /**
+     * SnackBar
+     */
 
-  const useStyles1 = makeStyles(theme => ({
-    success: {
-      backgroundColor: green[600],
-    },
-    error: {
-      backgroundColor: theme.palette.error.dark,
-    },
-    info: {
-      backgroundColor: theme.palette.primary.main,
-    },
-    warning: {
-      backgroundColor: amber[700],
-    },
-    icon: {
-      fontSize: 20,
-    },
-    iconVariant: {
-      opacity: 0.9,
-      marginRight: theme.spacing(1),
-    },
-    message: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-  }));
+    const variantIcon = {
+        success: CheckCircleIcon,
+        warning: WarningIcon,
+        error: ErrorIcon,
+        info: InfoIcon,
+    };
 
-  function MySnackbarContentWrapper(props) {
-    const classes = useStyles1();
-    const { className, message, onClose, variant, ...other } = props;
-    const Icon = variantIcon[variant];
+    const snackStyles = makeStyles(theme => ({
+        success: {
+            backgroundColor: green[600],
+        },
+        error: {
+            backgroundColor: theme.palette.error.dark,
+        },
+        info: {
+            backgroundColor: theme.palette.primary.main,
+        },
+        warning: {
+            backgroundColor: amber[700],
+        },
+        icon: {
+            fontSize: 20,
+        },
+        iconVariant: {
+            opacity: 0.9,
+            marginRight: theme.spacing(1),
+        },
+        message: {
+            display: 'flex',
+            alignItems: 'center',
+        },
+    }));
 
-    return (
-        <SnackbarContent
-            className={clsx(classes[variant], className)}
-            aria-describedby="client-snackbar"
-            message={
-              <span id="client-snackbar" className={classes.message}>
+    const [openSnack,setOpenSnack] = useState(false);
+    const [msg,setMsg] = useState("");
+    const [typeMsg,setTypeMsg] = useState("info");
+    const handleCloseSnack = () => {
+        setOpenSnack(false);
+    }
+    const handleOpenSnack = () => {
+        setOpenSnack(true);
+    }
+
+    MySnackbarContentWrapper.propTypes = {
+        className: PropTypes.string,
+        message: PropTypes.string,
+        onClose: PropTypes.func,
+        variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
+    };
+
+    function MySnackbarContentWrapper(props) {
+        const classes = snackStyles();
+        const { className, message, onClose, variant, ...other } = props;
+        const Icon = variantIcon[variant];
+
+        return (
+            <SnackbarContent
+                className={clsx(classes[variant], className)}
+                aria-describedby="client-snackbar"
+                message={
+                    <span id="client-snackbar" className={classes.message}>
           <Icon className={clsx(classes.icon, classes.iconVariant)} />
-                {message}
+                        {message}
         </span>
-            }
-            action={[
-              <IconButton key="close" aria-label="close" color="inherit" onClick={onClose}>
-                <CloseIcon className={classes.icon} />
-              </IconButton>,
-            ]}
-            {...other}
-        />
-    );
-  }
+                }
+                action={[
+                    <IconButton key="close" aria-label="close" color="inherit" onClick={onClose}>
+                        <CloseIcon className={classes.icon} />
+                    </IconButton>,
+                ]}
+                {...other}
+            />
+        );
+    }
 
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Button variant="contained" type="button" color="primary" onClick={handleOpen}>Agregar un nuevo rack</Button>
         <Card plain>
-            <RemoteTable title="Lista de tiendas" urlfetch={process.env.REACT_APP_API_LOCATION+"/warehouselocations/getall?warehouse_id=1"} 
+            <RemoteTable  title="Lista de tiendas" urlfetch={process.env.REACT_APP_API_LOCATION+"/warehouselocations/getall?warehouse_id=1"}
               columns={bodegasColumns} />
         </Card>
       </GridItem>
@@ -307,7 +361,7 @@ export default function Bodegas() {
                   ))}
                 </TextField>
               <div className={classes.textRight} >
-                <Button type="button" variant="contained" color="warning" >
+                <Button type="button" variant="contained" color="warning" onClick={handleClose} >
                   Cancelar
                 </Button>
                 <Button type="submit" variant="contained" color="success" >
@@ -318,21 +372,26 @@ export default function Bodegas() {
           </div>
         </Fade>
       </Modal>
-      <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={open}
-          autoHideDuration={6000}
-          onClose={handleClose}
-      >
-        <MySnackbarContentWrapper
-          onClose={handleClose}
-          variant="success"
-          message="This is a success message!"
-      />
-      </Snackbar>
+        <div>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={openSnack}
+                autoHideDuration={6000}
+                onClose={handleCloseSnack}
+                ContentProps={{
+                    'aria-describedby': 'message-id',
+                }}
+            >
+                <MySnackbarContentWrapper
+                    onClose={handleCloseSnack}
+                    variant={typeMsg}
+                    message={msg}
+                />
+            </Snackbar>
+        </div>
     </GridContainer>
   );
 }
