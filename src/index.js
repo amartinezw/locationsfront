@@ -19,7 +19,7 @@ import React from "react";
 import * as Sentry from '@sentry/browser';
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
-import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'store'
 import  PrivateRoutes  from "components/PrivateRoutes.js";
 import history from 'history.js';
@@ -40,7 +40,7 @@ ReactDOM.render(
             <PrivateRoutes exact path="/admin/dashboard" component={Admin} />
             <PrivateRoutes exact path="/admin/bodegas" component={Admin} />
             <PrivateRoutes exact path="/admin/ubicaciones" component={Admin} />
-            <PrivateRoutes exact path="/admin/usuarios" component={Admin} />
+            <PrivateRoutes exact path="/admin/inventario" component={Admin} />
             <PrivateRoutes exact path="/logout" component={Admin} />
             <Route path="/login" component={Login} />
         </div>
