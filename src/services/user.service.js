@@ -57,6 +57,7 @@ function addUser(name, email, password, address) {
         .then(handleResponse)
         .then(result => {
             if (result.status === "success") {
+                console.log(result);
                 return result;
             }
         })

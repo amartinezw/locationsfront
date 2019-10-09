@@ -111,7 +111,7 @@ export default function Usuarios() {
         userService.addUser(name, email, password, address)
             .then(
                 resutl => {
-                    if (resutl.status === 200) {
+                    if (resutl.status === "success") {
                         const  from  = { from: { pathname: "/admin/usuarios" } };
                         history.push(from);
                         window.location.reload();
