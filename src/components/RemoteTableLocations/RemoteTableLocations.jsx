@@ -5,45 +5,47 @@ export default class RemoteTableLocations extends React.Component{
 
     constructor (props){
         super(props);
-        this.serverApi = "http://ec2-34-219-142-13.us-west-2.compute.amazonaws.com/";
         this.methods = {
-            show    : this.serverApi+'api/v1/locationvariation/getall?',
-            add     : this.serverApi+'api/v1/warehouses/store?',
-            delete  : this.serverApi+'api/v1/warehouses/destroy?',
-            edit    : this.serverApi+'api/v1/warehouses/update?'
+            show    : process.env.REACT_APP_API_LOCATION+'/locationvariation/getall?',
+            add     : process.env.REACT_APP_API_LOCATION+'/warehouses/store?',
+            delete  : process.env.REACT_APP_API_LOCATION+'/warehouses/destroy?',
+            edit    : process.env.REACT_APP_API_LOCATION+'/warehouses/update?'
         }
         this.query = "";
         this.state = {
             columns: [
                 { title: 'Anaquel',field : "warehouselocation.mapped_string" },
                 { title: 'Bodega',field : "warehouselocation.warehouse.name" },
-                { title: 'Tienda',field : "warehouselocation.warehouse.store.name", type: "numeric" },
-                { title: 'Talla',field : "variation.name" },
-                { title: 'SKU',field : "variation.sku" },
-                { title: 'Descripción',field : "variation.product.name" }
+                //{ title: 'Tienda',field : "warehouselocation.warehouse.store.name", type: "numeric" },
+                //{ title: 'Talla',field : "variation.name" },
+                //{ title: 'SKU',field : "variation.sku" },
+                //{ title: 'Descripción',field : "variation.product.name" }
             ],
             data :[]
         }
         this.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": 'Bearer '+this.props.key_,
+            "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
         }
     }
 
     show($query){
         this.query = $query;
         let $return;
+        let $params = {
+            method  : "GET",
+            headers : this.headers
+        }
+
         $return = new Promise((resolve, reject) => {
-            let $url = this.methods.show;
+            let $url = this.methods.show+"warehouse_id=1";
             $url += "per_page="+this.query.pageSize+"&page="+(this.query.page+1);
-            let $params = {
-                method  : "get",
-                headers : this.headers
-            }
+
             fetch($url,$params)
                 .then(response => response.json())
                 .then(result => {
+                    console.log(result);
                     resolve({
                         data: result.data,
                         page: (result.current_page-1),
@@ -51,7 +53,6 @@ export default class RemoteTableLocations extends React.Component{
                     });
                 });
         });
-
         return $return;
     }
 

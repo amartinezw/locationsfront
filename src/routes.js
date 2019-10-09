@@ -53,26 +53,19 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/warehouse",
-    name: "Bodegas (D)",
+    path: "/altabodegas",
+    name: "Alta de Bodegas",
     icon: Storage,
     component: Warehouse,
     layout: "/admin"
   },
   {
-    path: "/racks",
-    name: "Ubicaciones (Racks)",
+    path: "/anaqueles",
+    name: "Lista de Anaqueles",
     icon: LibraryBooks,
     component: Locations,
     layout: "/admin"
   },
-  {
-    path: "/prueba",
-    name: "Pruebas",
-    icon: Storage,
-    component: Locations,
-    layout: "/admin"
-  }
 ];
 
 

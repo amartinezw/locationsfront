@@ -262,7 +262,7 @@ export default function Bodegas() {
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
-        <Button variant="contained" type="button" color="primary" onClick={handleOpen}>Agregar un nuevo rack</Button>
+        <Button variant="contained" type="button" color="primary" onClick={handleOpen}>Agregar un nuevo estante</Button>
         <Card plain>
             <RemoteTable  title="Lista de tiendas" urlfetch={process.env.REACT_APP_API_LOCATION+"/warehouselocations/getall?warehouse_id=1"}
               columns={bodegasColumns} />
@@ -292,7 +292,7 @@ export default function Bodegas() {
                     id="warehouse"
                     name = "warehouse"
                     select
-                    label="Bodegas activas"
+                    label="Seleccione la bodega"
                     className={classes.textExtra}
                     value={values.name}
                     onChange={handleChange('name')}
@@ -342,7 +342,7 @@ export default function Bodegas() {
                     name = "sides"
                     select
                     label="Lados"
-                    className={classes.textField}
+                    className={classes.textExtra}
                     value={values.sides}
                     onChange={handleChange('sides')}
                     SelectProps={{
@@ -350,7 +350,7 @@ export default function Bodegas() {
                         className: classes.menu,
                       },
                     }}
-                    helperText="Seleccione la cantidad de lados de la ubicación"
+                    helperText="Cantidad de lados"
                     margin="normal"
                     variant="outlined"
                 >
