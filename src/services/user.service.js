@@ -119,6 +119,10 @@ function handleResponse(response) {
                 const error =  data.message;
                 return Promise.reject(error);
             }
+            if (response.status === 422) {
+                const error =  data.message;
+                return Promise.reject(error);
+            }
         }
         return data;
     });

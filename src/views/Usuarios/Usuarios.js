@@ -21,7 +21,7 @@ import userService from "../../services/user.service";
 import history from "../../history";
 import SnackbarContent from "@material-ui/core/SnackbarContent/SnackbarContent";
 
-
+//Estilos
 const useStyles = makeStyles(theme => ({
     modal: {
         display: 'flex',
@@ -35,6 +35,8 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2, 4, 3),
     },
 }));
+
+// Fade del modal
 const Fade = React.forwardRef(function Fade(props, ref) {
     const { in: open, children, onEnter, onExited, ...other } = props;
     const style = useSpring({
@@ -60,21 +62,23 @@ const Fade = React.forwardRef(function Fade(props, ref) {
 
 export default function Usuarios() {
 
+    // Variables constanters
      const [state, setState] = React.useState({
         name : '',
         email : '',
-        password : '',
         address: '',
-        pws: '',
+        password: '',
         error: '',
      });
     const [open, setOpen] = React.useState(false);
 
-    
+    // Genera el password aleatorio
     const generatePws = () => {
         var pass = require("randomstring");
-        setState({ ...state, pws: pass.generate(7) });
+        setState({ ...state, password: pass.generate(7) });
     };
+
+    //Cacha los valores de los input y se los asigna a las constantes
     const handleNameChange = e => {
         setState({...state, name: e.target.value })
     };
@@ -84,10 +88,8 @@ export default function Usuarios() {
     const handleAddressChange = e => {
         setState({...state, address: e.target.value});
     };
-    const handlePassChange = e => {
-        setState({...state, password: e.target.value});
-    };
 
+    //Abre y cierra el modal setando status a constantes
     const handleOpen = () => {
         setOpen(true);
     };
@@ -95,18 +97,32 @@ export default function Usuarios() {
         setOpen(false);
     };
 
-
+    // Envia formulario a user.services
     const handleSubmit = e => {
         e.preventDefault();
 
         const { name, email, address, password } = state;
 
-        alert(`Your state values: \n 
-            name: ${name} \n 
-            pass: ${password} \n 
-            address: ${address} \n 
-            email: ${email}`);
+        // stop here if form is invalid
+        if (!(name && password && address && email)) {
+            return;
+        }
+
+        userService.addUser(name, email, password, address)
+            .then(
+                resutl => {
+                    if (resutl.status === 200) {
+                        const  from  = { from: { pathname: "/admin/usuarios" } };
+                        history.push(from);
+                        window.location.reload();
+                    }
+                },
+
+                error => setState({ ...state, error: error})
+            );
     };
+
+    // Declara cabeceras a las tablas
     const usuarios = [
         { "title": "id", "field": "id" },
         { "title": "Nombre", "field": "name" },
@@ -114,6 +130,8 @@ export default function Usuarios() {
         { "title": "Direccion", "field": "address"},
         { "title": "Creación", "field": "created_at" }
     ];
+
+    // Instancia los estilos
     const classes = useStyles();
     const paper = {
         marginTop: "8px",
@@ -140,6 +158,7 @@ export default function Usuarios() {
         marginBottom:"10px",
         backgroundColor: "#F27458"
     };
+
     return (
         <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
@@ -165,6 +184,14 @@ export default function Usuarios() {
                 >
                     <Fade in={open}>
                         <div className={classes.paper}>
+                            {state.error &&
+                            <div>
+                                <SnackbarContent
+                                    message={state.error}
+                                    style={snackbarWarning}
+                                />
+                            </div>
+                            }
                             <form className={classes.container} onSubmit={handleSubmit}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
@@ -223,12 +250,11 @@ export default function Usuarios() {
                                             margin="normal"
                                             fullWidth
                                             label="Password"
-                                            value={values.pws}
-                                            onChange={handlePassChange}
+                                            value={state.password}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start">
-                                                        <CopyToClipboard text={state.pws}>
+                                                        <CopyToClipboard text={state.password}>
                                                             <Button
                                                                 margin="normal"
                                                                 color="primary"
@@ -269,14 +295,6 @@ export default function Usuarios() {
                         </div>
                     </Fade>
                 </Modal>
-                {values.error &&
-                <div>
-                    <SnackbarContent
-                        message={values.error}
-                        style={snackbarWarning}
-                    />
-                </div>
-                }
                 <Card plain>
                     <RemoteTableUser title="Lista de usuarios" />
                 </Card>
