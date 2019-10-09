@@ -44,6 +44,7 @@ ReactDOM.render(
             <PrivateRoutes exact path="/admin/ubicaciones" component={Admin} />
             <PrivateRoutes exact path="/admin/inventario" component={Admin} />
             <PrivateRoutes exact path="/logout" component={Admin} />
+            <Redirect from="/" to="/admin/dashboard"/>
             <Route path="/login" component={Login} />
         </div>
     </Router>
