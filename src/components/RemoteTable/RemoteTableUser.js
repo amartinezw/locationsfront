@@ -8,25 +8,14 @@ import Grid from "@material-ui/core/Grid/Grid";
 import TextField from "@material-ui/core/TextField/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment/InputAdornment";
 import CopyToClipboard from "react-copy-to-clipboard";
-import FileCopyIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import Card from "components/Card/Card.js";
-import { useSpring, animated } from 'react-spring';
 import userService from "../../services/user.service";
-import history from "../../history";
-
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
-
-
-
-
+import history from "../../history";
 
 class RemoteTableUser extends Component{
 
