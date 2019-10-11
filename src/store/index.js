@@ -69,6 +69,24 @@ const fetchInventory = (store) => {
   })
 }
 
+const fetchRoles = () => {
+    return new Promise((resolve, reject) => {
+        let url = process.env.REACT_APP_API_LOCATION+'/roles/getall'
+        let headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
+        }
+        fetch(url, {
+            headers: headers,
+        })
+            .then(response => response.json())
+            .then(result => {
+                resolve(result)
+            })
+    })
+}
+
 const config = {
   initialState: {
     blocks: {
@@ -79,6 +97,9 @@ const config = {
     },
     inventory: {
       loading: false,
+    },
+    roles: {
+        loading: false,
     },
   },
   actionsCreators: {
@@ -93,6 +114,10 @@ const config = {
     getInventory: async (_, actions) => {      
       const data = await fetchInventory()      
       return { inventory: { loading: false, data: data } }
+    },
+    getRoles: async (_, actions) => {
+        const data = await fetchRoles()
+        return { roles: { loading: false, data: data } }
     },
   },
 }

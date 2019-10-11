@@ -47,7 +47,6 @@ ReactDOM.render(
             <PrivateRoutes exact path="/logout" component={Admin} />
             <PrivateRoutes exact path="/" component={null}/>
             <Route path="/login" component={Login} />
-
     </Router>
 </Provider>,
   document.getElementById("root")

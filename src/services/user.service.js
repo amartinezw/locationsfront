@@ -39,7 +39,7 @@ function login(username, password) {
         })
 }
 
-function addUser(name, email, password, address) {
+function addUser(name, email, password, address, rol) {
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -51,7 +51,9 @@ function addUser(name, email, password, address) {
             'name'      : name,
             'email'     : email,
             'password'  : password,
-            'address'   : address }),
+            'address'   : address,
+            'rol'       : rol
+        }),
     };
     return fetch(process.env.REACT_APP_API_LOCATION+"/user/create", requestOptions)
         .then(handleResponse)
