@@ -9,6 +9,11 @@ const renderDetail = (rowData) => {
 		{"title": 'Id', "field": "id"},
 		{"title": 'SKU', "field": "sku"},
 		{"title": 'Talla', "field": "name"},
+		{"title": 'Ubicacion(es)', "field": "locations", render: rowData => {
+			let locations_string = [];
+			rowData.locations.map(location => locations_string.push(location.warehouselocation.mapped_string));
+			return locations_string.join(', ');
+		}},
 	];
 	return <MaterialTable
 		  title={'Detalle de producto '+rowData.name}
@@ -21,7 +26,7 @@ const renderDetail = (rowData) => {
 	  />
 }
 
-const ItemsInBlock = ({ itemsInBlock }) => {	
+const LocatedInventory = ({ itemsInBlock }) => {	
 	if (itemsInBlock.data) {
 		let itemColumns = [
 		  { "title": "Imagen", "field": "firstimg.file", render: rowData => {
@@ -38,10 +43,9 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  { "title": "Producto", "field": "name" }, 		  
 		  { "title": "Ubicacion", "field": "mapped_string", render: () => {return itemsInBlock.data.mapped_string}}
 		];
-		return <React.Fragment>
-		<Barcode value={itemsInBlock.data.mapped_string} />
+		return <React.Fragment>			
 		<MaterialTable
-		  title="Productos en la ubicacion"
+		  title="Inventario"
 		  columns={itemColumns}
 		  data={itemsInBlock.data.data}        
 		  options={{
@@ -59,4 +63,4 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 	}
 }	
 
-export default connect(({ itemsInBlock }) => ({ itemsInBlock }))(ItemsInBlock)
+export default connect(({ itemsInBlock }) => ({ itemsInBlock }))(LocatedInventory)

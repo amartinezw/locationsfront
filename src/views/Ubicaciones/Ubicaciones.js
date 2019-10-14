@@ -38,6 +38,7 @@ const FETCH_OPTIONS = {
 };
 
 export default function Ubicaciones() {
+
   const classes = useStyles();
   const Error = () => (<p className="error">Something went wrong :-(</p>);
 

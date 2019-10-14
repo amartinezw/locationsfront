@@ -9,10 +9,10 @@ const fetchBlocks = (rack) => {
         "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
     }
 
-    url += '&per_page=' + '15'
-    url += '&order=' + 'asc'
-    url += '&column=' + 'id'
-    url += '&page=' + '1'
+    url += '&per_page=15'
+    url += '&order=asc'
+    url += '&column=id'
+    url += '&page=1'
     fetch(url, {            
       headers: headers,
     })
@@ -32,10 +32,10 @@ const fetchItemsInBlock = (block) => {
         "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
     }
 
-    url += '&per_page=' + '15'
-    url += '&order=' + 'asc'
-    url += '&column=' + 'id'
-    url += '&page=' + '1'
+    url += '&per_page=15'
+    url += '&order=asc'
+    url += '&column=id'
+    url += '&page=1'
     fetch(url, {            
       headers: headers,
     })
@@ -48,17 +48,17 @@ const fetchItemsInBlock = (block) => {
 
 const fetchInventory = (store) => {
   return new Promise((resolve, reject) => {                                    
-    let url = process.env.REACT_APP_API_LOCATION+'/locationvariation/getall'
+    let url = process.env.REACT_APP_API_LOCATION+'/locationvariation/getall?warehouse_id=1'
     let headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
         "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
     }
 
-    url += '?per_page=' + '15'
-    url += '&order=' + 'asc'
-    url += '&column=' + 'id'
-    url += '&page=' + '1'
+    url += '?per_page=15'
+    url += '&order=asc'
+    url += '&column=id'
+    url += '&page=1'
     fetch(url, {            
       headers: headers,
     })
@@ -92,7 +92,7 @@ const config = {
     },
     getInventory: async (_, actions) => {      
       const data = await fetchInventory()      
-      return { inventory: { loading: false, data: data } }
+      return { itemsInBlock: { loading: false, data: data } }
     },
   },
 }
