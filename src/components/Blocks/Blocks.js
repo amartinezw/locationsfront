@@ -11,7 +11,7 @@ const Blocks = ({ blocks }) => {
 		let maxBlocks = Math.max.apply(Math, blocks.data.map(function(o) { return o.block; }));		
 		let blockWidth = Math.round(12 / maxBlocks);
 		return blocks.data.map(block => {
-			if (block.side == 2 && sideB == false) {
+			if (block.side === 2 && sideB === false) {
 				sideB = true;				
 			    return <React.Fragment key={block.id}>
 			     <GridItem xs={12} sm={12} md={12}>

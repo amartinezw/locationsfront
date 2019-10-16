@@ -23,10 +23,12 @@ import DashboardPage from "views/Dashboard/Dashboard.js";
 import Bodegas from "views/Bodegas/Bodegas.js";
 import Ubicaciones from "views/Ubicaciones/Ubicaciones.js";
 import Inventario from "views/Inventario/Inventario.js";
+
 import Icons from "views/Icons/Icons.js";
 import Person from "@material-ui/icons/Person";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
+
 import Locations from "views/Racks/Racks";
 import Usuarios from "views/Usuarios/Usuarios"
 

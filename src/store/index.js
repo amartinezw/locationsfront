@@ -9,10 +9,10 @@ const fetchBlocks = (rack) => {
         "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
     }
 
-    url += '&per_page=' + '15'
-    url += '&order=' + 'asc'
-    url += '&column=' + 'id'
-    url += '&page=' + '1'
+    url += '&per_page=15'
+    url += '&order=asc'
+    url += '&column=id'
+    url += '&page=1'
     fetch(url, {            
       headers: headers,
     })
@@ -32,10 +32,10 @@ const fetchItemsInBlock = (block) => {
         "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
     }
 
-    url += '&per_page=' + '15'
-    url += '&order=' + 'asc'
-    url += '&column=' + 'id'
-    url += '&page=' + '1'
+    url += '&per_page=15'
+    url += '&order=asc'
+    url += '&column=id'
+    url += '&page=1'
     fetch(url, {            
       headers: headers,
     })
@@ -46,7 +46,7 @@ const fetchItemsInBlock = (block) => {
   })
 }
 
-const fetchInventory = (store) => {
+const fetchInventory = (filters) => {  
   return new Promise((resolve, reject) => {                                    
     let url = process.env.REACT_APP_API_LOCATION+'/locationvariation/getall'
     let headers = {
@@ -55,10 +55,16 @@ const fetchInventory = (store) => {
         "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
     }
 
-    url += '?per_page=' + '15'
-    url += '&order=' + 'asc'
-    url += '&column=' + 'id'
-    url += '&page=' + '1'
+    url += '?per_page=15'
+    url += '&order=asc'
+    url += '&column=id'
+    url += '&page=1'
+    if (filters.length > 0) {
+      filters.map(filter => {
+        url += '&'+filter.name+'='+filter.value
+      })      
+    }
+
     fetch(url, {            
       headers: headers,
     })
@@ -111,9 +117,9 @@ const config = {
       const data = await fetchItemsInBlock(block)      
       return { itemsInBlock: { loading: false, data: data } }
     },
-    getInventory: async (_, actions) => {      
-      const data = await fetchInventory()      
-      return { inventory: { loading: false, data: data } }
+    getInventory: async (_, actions, filters) => {      
+      const data = await fetchInventory(filters)      
+      return { itemsInBlock: { loading: false, data: data } }
     },
     getRoles: async (_, actions) => {
         const data = await fetchRoles()

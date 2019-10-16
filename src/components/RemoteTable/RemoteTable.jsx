@@ -1,10 +1,9 @@
 import React from "react";
 import MaterialTable from 'material-table'
-import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 
 export default function RemoteTable(props) {  
-  const { title, columns, urlfetch, ...rest} = props;
+  const { title, columns, urlfetch} = props;
   return (
     <MaterialTable
       title={title}
@@ -19,8 +18,8 @@ export default function RemoteTable(props) {
           }
 
           url += '&per_page=' + query.pageSize
-          url += '&order=' + 'asc'
-          url += '&column=' + 'id'
+          url += '&order=asc'
+          url += '&column=id'
           url += '&page=' + (query.page + 1)
           fetch(url, {            
             headers: headers,
