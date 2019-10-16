@@ -1,7 +1,6 @@
 import React from 'react';
-import GridItem from "components/Grid/GridItem.js";
 import MaterialTable from 'material-table';
-import { actions, connect } from 'store';
+import { connect } from 'store';
 var Barcode = require('react-barcode');
 
 const renderDetail = (rowData) => {
@@ -27,10 +26,13 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  { "title": "Imagen", "field": "firstimg.file", render: rowData => {
 		  	if (rowData.images.length > 0) {
 		  		return <img src={'https://dsnegsjxz63ti.cloudfront.net/images/pg/g_'+rowData.images[0].file}
-		  		 onError="this.onError=null; this.src='/images/Box_Empty.png'"
+		  		 onError={e => {
+		  		 	e.target.src = '/images/Box_Empty.png';
+		  		 }}
+		  		 alt=""
 		  		 style={{width: 100}}/>;
 		  	} else {
-		  		return <img src="/images/Box_Empty.png" style={{width: 100}}/>;
+		  		return <img src="/images/Box_Empty.png" alt="" style={{width: 100}}/>;
 		  	} 
 		  }},
 		  { "title": "Id", "field": "id" },
