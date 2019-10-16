@@ -36,17 +36,17 @@ Sentry.init({dsn: "https://5c2335fc39bc4bda9eec0cd4f890ac81@sentry.io/1732073"})
 ReactDOM.render(
 <Provider>
     <Router history={history}>
-        <div>
+
             <PrivateRoutes exact path="/admin/anaqueles" component={Admin} />
             <PrivateRoutes exact path="/admin/altabodegas" component={Admin} />
             <PrivateRoutes exact path="/admin/dashboard" component={Admin} />
             <PrivateRoutes exact path="/admin/bodegas" component={Admin} />
             <PrivateRoutes exact path="/admin/ubicaciones" component={Admin} />
             <PrivateRoutes exact path="/admin/inventario" component={Admin} />
+            <PrivateRoutes exact path="/admin/usuarios" component={Admin} />
             <PrivateRoutes exact path="/logout" component={Admin} />
-            <Redirect from="/" to="/admin/dashboard"/>
+            <PrivateRoutes exact path="/" component={null}/>
             <Route path="/login" component={Login} />
-        </div>
     </Router>
 </Provider>,
   document.getElementById("root")
