@@ -65,12 +65,11 @@ const useStyles = makeStyles(theme => ({
   }
 }) );
 
-
 export default function Bodegas() {
   const bodegasColumns = [
     { "title": "id", "field": "id" },
-    { "title": "Tienda", "field": "warehouse.store.name" }, 
-    { "title": "Bodega", "field": "warehouse.name" }, 
+    { "title": "Tienda", field: "warehouse.store.name", sorting: false },
+    { "title": "Bodega", field: "warehouse.name",sorting: false },
     { "title": "Rack", "field": "rack"},
     { "title": "Bloque", "field": "block" }, 
     { "title": "Nivel", "field": "level" }, 
@@ -117,6 +116,7 @@ export default function Bodegas() {
   };
 
   async function fetchData() {
+      console.log(process.env.REACT_APP_API_LOCATION);
     const params = {
       method: "GET",
       headers: headers

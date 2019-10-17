@@ -1,7 +1,7 @@
 import React from 'react';
-import GridItem from "components/Grid/GridItem.js";
+//import GridItem from "components/Grid/GridItem.js";
 import MaterialTable from 'material-table';
-import { actions, connect } from 'store';
+import { connect } from 'store';
 let Barcode = require('react-barcode');
 
 const ItemsInBlock = ({ itemsInBlock }) => {
