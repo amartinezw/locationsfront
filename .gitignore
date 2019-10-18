@@ -27,4 +27,3 @@ yarn-error.log*
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
-.env.development

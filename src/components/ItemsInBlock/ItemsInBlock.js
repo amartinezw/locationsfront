@@ -10,12 +10,14 @@ const renderDetail = (rowData) => {
 		{"title": 'Talla', "field": "name"},
 	];
 	return <MaterialTable
-		  title={'Detalle de producto '+rowData.name}
+		  title="hola"
 		  columns={columns}
 		  data={rowData.variations}    
 		  options={{
 		  	search: false,
-		  	paging: false
+		  	paging: false,
+		  	showTitle: false,
+		  	toolbar: false
 		  }}    		  		  
 	  />
 }
@@ -49,7 +51,9 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  options={{
 		    pageSize: 20,
 		    search: false,              
-		    debounceInterval: 500,            
+		    debounceInterval: 500, 
+		    headerStyle: { position: 'sticky', top: 0 }, 
+		    maxBodyHeight: '550px'            
 		  }}
 		  detailPanel={rowData => {
             return renderDetail(rowData);
