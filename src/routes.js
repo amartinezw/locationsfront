@@ -22,7 +22,16 @@ import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import Bodegas from "views/Bodegas/Bodegas.js";
 import Ubicaciones from "views/Ubicaciones/Ubicaciones.js";
+import Inventario from "views/Inventario/Inventario.js";
+
+import Icons from "views/Icons/Icons.js";
+import Person from "@material-ui/icons/Person";
+import Maps from "views/Maps/Maps.js";
+import NotificationsPage from "views/Notifications/Notifications.js";
+
 import Locations from "views/Racks/Racks";
+import Usuarios from "views/Usuarios/Usuarios"
+
 
 // core components/views for RTL layout
 import Warehouse from "views/Warehouse/Warehouse";
@@ -53,6 +62,13 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
+    path: "/inventario",
+    name: "Inventario",    
+    icon: LibraryBooks,
+    component: Inventario,
+    layout: "/admin"
+  },
+  {
     path: "/altabodegas",
     name: "Alta de Bodegas",
     icon: Storage,
@@ -65,6 +81,13 @@ const dashboardRoutes = [
     icon: LibraryBooks,
     component: Locations,
     layout: "/admin"
+  },
+  {
+      path: "/usuarios",
+      name: "Usuarios",
+      icon: Person,
+      component: Usuarios,
+      layout: "/admin"
   },
 ];
 
