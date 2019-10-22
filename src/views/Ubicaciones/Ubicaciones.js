@@ -47,7 +47,7 @@ export default function Ubicaciones() {
   return (
   <Card>
     <GridContainer>
-      <GridItem xs={12} sm={4} md={3}>
+      <GridItem xs={12} sm={4} md={3} style={{maxHeight: 450, overflow: 'auto'}}>
           <Fetch url={getUrlRacks} fetchOptions={FETCH_OPTIONS} fetchOnMount>
               {
                 ({ loading, error, data }) => {
@@ -83,7 +83,7 @@ export default function Ubicaciones() {
             </Fetch>
       </GridItem>
       <GridItem xs={12} sm={8} md={9}>
-        <GridContainer>
+        <GridContainer style={{maxHeight: 450, overflow: 'auto', padding: 10}}>
           <Blocks />
         </GridContainer>
       </GridItem>

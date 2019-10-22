@@ -37,7 +37,9 @@ export default function RemoteTable(props) {
       }        
 
       options={{
-        pageSize: 20,              
+        pageSize: 10,
+        maxBodyHeight: 400,
+        search: false,              
         debounceInterval: 500,            
       }}
     />

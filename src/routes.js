@@ -49,14 +49,14 @@ const dashboardRoutes = [
   },
   {
     path: "/bodegas",
-    name: "Bodegas",    
+    name: "Lista de ubicaciones",    
     icon: LibraryBooks,
     component: Bodegas,
     layout: "/admin"
   },
   {
     path: "/ubicaciones",
-    name: "Ubicaciones",    
+    name: "Mapa de ubicaciones",    
     icon: LibraryBooks,
     component: Ubicaciones,
     layout: "/admin"

@@ -48,12 +48,9 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  title="Productos en la ubicacion"
 		  columns={itemColumns}
 		  data={itemsInBlock.data.data}        
-		  options={{
-		    pageSize: 20,
-		    search: false,              
-		    debounceInterval: 500, 
-		    headerStyle: { position: 'sticky', top: 0 }, 
-		    maxBodyHeight: '550px'            
+		  options={{		    
+		    search: false,              		    		    
+		    maxBodyHeight: 500            
 		  }}
 		  detailPanel={rowData => {
             return renderDetail(rowData);
