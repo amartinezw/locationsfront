@@ -28,6 +28,8 @@ import WarningIcon from '@material-ui/icons/Warning';
 import PropTypes from 'prop-types';
 import Slide from '@material-ui/core/Slide';
 import Grow from '@material-ui/core/Grow';
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -109,6 +111,7 @@ export default function Bodegas() {
     warehouse:1,
     blocks:0,
     levels:0,
+    checkedA : false
   });
 
   const handleChange = name => event => {
@@ -255,8 +258,7 @@ export default function Bodegas() {
                     </IconButton>,
                 ]}
                 {...other}
-            />
-        );
+            />);
     }
 
   return (

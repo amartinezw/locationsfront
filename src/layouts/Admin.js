@@ -37,7 +37,6 @@ const switchRoutes = (
 );
 
 const useStyles = makeStyles(styles);
-
 export default function Admin({ ...rest }) {
   // styles
   const classes = useStyles();
@@ -79,7 +78,7 @@ export default function Admin({ ...rest }) {
     };
   }, [mainPanel]);
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.wrapper} >
       <Sidebar
         routes={routes}
         logoText={"CCP"}
