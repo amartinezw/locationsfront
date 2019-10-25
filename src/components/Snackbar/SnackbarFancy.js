@@ -1,15 +1,16 @@
-import CheckCircleIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import {makeStyles} from "@material-ui/core";
-import {amber, green} from "@material-ui/core/colors";
 import React from "react";
 import PropTypes from "prop-types";
-import SnackbarContent from "@material-ui/core/SnackbarContent";
 import clsx from "clsx";
+import {makeStyles} from "@material-ui/core";
+import {amber, green} from "@material-ui/core/colors";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
 import IconButton from "@material-ui/core/IconButton";
 import WarningIcon from '@material-ui/icons/Warning';
 import ErrorIcon from '@material-ui/icons/Error';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
+import Slide from "@material-ui/core/Slide";
 
 
 MySnackbarContentWrapper.propTypes = {
@@ -53,7 +54,7 @@ export default function MySnackbarContentWrapper(props) {
         },
     }));
     const classes = snackStyles();
-    const { className, message, onClose, variant, ...other } = props;
+    const { className, message, onClose, variant,contentProps,...other } = props;
     const Icon = variantIcon[variant];
 
     return (
@@ -62,9 +63,9 @@ export default function MySnackbarContentWrapper(props) {
             aria-describedby="client-snackbar"
             message={
                 <span id="client-snackbar" className={classes.message}>
-          <Icon className={clsx(classes.icon, classes.iconVariant)} />
+                    <Icon className={clsx(classes.icon, classes.iconVariant)} />
                     {message}
-        </span>
+                </span>
             }
             action={[
                 <IconButton key="close" aria-label="close" color="inherit" onClick={onClose}>

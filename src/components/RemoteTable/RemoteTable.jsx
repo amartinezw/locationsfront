@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import MaterialTable from 'material-table'
 //import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Snackbar from "@material-ui/core/Snackbar";
 import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
+import Slide from '@material-ui/core/Slide';
 //import Tooltip from "@material-ui/core/Tooltip";
 // import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
@@ -32,7 +33,7 @@ export default function RemoteTable(props) {
     };
 
     const [openSnack,setOpenSnack] = useState(false);
-    const [msg,setMsg] = useState({msg  :"",typeMsg : "info" });
+    const [msg,setMsg] = useState({msg  :"",typeMsg : "info"});
 
     const handleCloseSnack = () => {
         setOpenSnack(false);
@@ -71,6 +72,9 @@ export default function RemoteTable(props) {
                 });
         },350)
     }
+    function TransitionUp(props) {
+        return <Slide {...props} direction="up" />;
+    }
 
     return (
         <div>
@@ -104,13 +108,12 @@ export default function RemoteTable(props) {
                     })
                     .then(response => response.json())
                     .then(result => {
-                        let r = [false,true,false];
+                        let r = [false,true];
                         let temp=[];
                         let i=0;
-                        let obj = result.data.reduce((obj,item) => {
-                           temp["chk"+i]=r[(Math.floor(Math.random() * 2) + 1)];
-                           i++;
-                           return temp;
+                        let obj = result.data.reduce((object,item) => {
+                            temp["chk"+i++]=r[item.active];
+                            return temp;
                         },{});
                         setState(obj);
                     resolve({
@@ -148,9 +151,6 @@ export default function RemoteTable(props) {
                     open={openSnack}
                     autoHideDuration={1500}
                     onClose={handleCloseSnack}
-                    ContentProps={{
-                        'aria-describedby': 'message-id',
-                    }}
                 >
                     <MySnackbarContentWrapper
                         onClose={handleCloseSnack}

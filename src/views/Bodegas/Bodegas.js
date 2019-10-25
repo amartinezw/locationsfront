@@ -2,7 +2,6 @@
 import React, {useState ,useEffect} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import Hidden from "@material-ui/core/Hidden";
 // core components
 import GridItem from "../../components/Grid/GridItem.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
@@ -14,18 +13,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-
 import Snackbar from '@material-ui/core/Snackbar';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import { amber, green } from '@material-ui/core/colors';
-import clsx from 'clsx';
-import WarningIcon from '@material-ui/icons/Warning';
-import PropTypes from 'prop-types';
 import MySnackbarContentWrapper from "../../components/Snackbar/SnackbarFancy";
 
 const useStyles = makeStyles(theme => ({
