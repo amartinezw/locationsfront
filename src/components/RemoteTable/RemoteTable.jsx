@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import MaterialTable from 'material-table'
 //import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import Snackbar from "@material-ui/core/Snackbar";
+import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
 //import Tooltip from "@material-ui/core/Tooltip";
 // import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
@@ -9,7 +11,7 @@ import Switch from "@material-ui/core/Switch";
 export default function RemoteTable(props) {  
     const { title, columns, urlfetch} = props;
     const [state, setState] = useState({});
-    const [disabledState, setDisabledState] = useState({disabled1:false});
+    //const [disabledState, setDisabledState] = useState({disabled1:false});
     const loader = document.querySelector('.overlay');
 
     const showLoader = () =>{
@@ -29,8 +31,17 @@ export default function RemoteTable(props) {
 
     };
 
+    const [openSnack,setOpenSnack] = useState(false);
+    const [msg,setMsg] = useState({msg  :"",typeMsg : "info" });
+
+    const handleCloseSnack = () => {
+        setOpenSnack(false);
+    }
+    const handleOpenSnack = () => {
+        setOpenSnack(true);
+    }
+
     async function saveData(name, props,chk) {
-        console.log(name,props,chk);
         let url= process.env.REACT_APP_API_LOCATION+"/warehouselocations/editlocationactive?";
         const params = {
             method  : "POST",
@@ -47,19 +58,22 @@ export default function RemoteTable(props) {
             res
                 .json()
                 .then(res => {
-                    console.log(res);
                     hideLoader();
+                    setMsg({msg:"Datos actualizados",typeMsg: "success" });
+                    handleOpenSnack();
                     setState({ ...state, [name]: chk });
                 })
                 .catch(err => {
                     console.log(err);
+                    setMsg({ msg : "Ups! Hubo un error en la solicitud", typeMsg: "error"});
+                    handleOpenSnack();
                     hideLoader();
-                    setState({ ...state, [name]: chk });
                 });
         },350)
     }
 
     return (
+        <div>
         <MaterialTable
             title={title}
             columns={columns}
@@ -125,6 +139,27 @@ export default function RemoteTable(props) {
                 ),
             }}
     />
+            <div>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={openSnack}
+                    autoHideDuration={1500}
+                    onClose={handleCloseSnack}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                >
+                    <MySnackbarContentWrapper
+                        onClose={handleCloseSnack}
+                        variant={msg.typeMsg}
+                        message={msg.msg}
+                    />
+                </Snackbar>
+            </div>
+        </div>
   );
 }
 
