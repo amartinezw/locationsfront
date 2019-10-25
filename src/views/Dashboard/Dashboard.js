@@ -3,6 +3,7 @@ import React from 'react';
 // @material-ui/core
 import { withStyles } from '@material-ui/core/styles';
 import Icon from '@material-ui/core/Icon';
+import Button from '@material-ui/core/Button';
 // @material-ui/icons
 import Store from '@material-ui/icons/Store';
 import DateRange from '@material-ui/icons/DateRange';
@@ -63,6 +64,29 @@ class Dashboard extends React.Component {
     this.fetchData();
   }
 
+  downloadSticker = () => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json; charset=UTF-8',
+        Authorization: process.env.REACT_APP_API_TOKEN,
+      },
+    }
+    const url = process.env.REACT_APP_API_LOCATION + '/locationvariation/printsticker';
+    fetch(url, fetchOptions)
+      .then(response => {
+        response.blob().then(blob => {
+          let url = window.URL.createObjectURL(blob);
+          let a = document.createElement('a');
+          a.href = url;
+          a.download = 'sticker.pdf';
+          a.click();
+        });
+        
+    });
+  }
+    
   fetchData = async () => {
     const url = process.env.REACT_APP_API_LOCATION + '/locationvariation/getsummary?warehouse_id=1';
     const fetchOptions = {
@@ -88,6 +112,7 @@ class Dashboard extends React.Component {
   
   render() {
     const { classes } = this.props;
+    
     return (
       <div>
         <GridContainer>
@@ -189,6 +214,17 @@ class Dashboard extends React.Component {
             />
           </Card>
         </GridContainer>
+        <Card>
+          <Button
+            variant="contained"
+            className="button"            
+            onClick={
+              () => this.downloadSticker()
+            }
+          >
+            Descargar
+          </Button>
+        </Card>
       </div>
     );
   }
