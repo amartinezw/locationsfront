@@ -539,13 +539,13 @@ footer ul li a:hover {
 .overlay--hide {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s 0.7s, opacity 0.7s linear;
+  transition: visibility 0s 0.6s, opacity 0.5s linear;
 }
 
 .overlay--show{
   visibility: visible;
   opacity: 1;
-  transition: opacity 0.7s linear;
+  transition: opacity 0.5s linear;
 }
 
 

@@ -70,7 +70,7 @@ export default function RemoteTable(props) {
                     handleOpenSnack();
                     hideLoader();
                 });
-        },350)
+        },550)
     }
     function TransitionUp(props) {
         return <Slide {...props} direction="up" />;
