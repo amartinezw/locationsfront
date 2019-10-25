@@ -1,7 +1,7 @@
 {
-  "name": "material-dashboard-react",
+  "name": "ccp-locations-front",
   "version": "1.8.0",
-  "description": "Material Dashboard React. Coded by Creative Tim",
+  "description": "Modulo de ubicaciones CCP",
   "private": false,
   "main": "dist/index.js",
   "dependencies": {
@@ -10,6 +10,8 @@
     "@sentry/browser": "^5.6.3",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
+    "eslint-config-airbnb": "^18.0.1",
+    "express": "^4.17.1",
     "history": "4.9.0",
     "material-table": "^1.52.0",
     "perfect-scrollbar": "1.4.0",
@@ -32,6 +34,8 @@
     "start": "PORT=8000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "predeploy": "npm run build",
+    "deploy": "aws s3 sync build/ s3://locations-react",
     "eject": "react-scripts eject",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
     "lint:check": "eslint . --ext=js,jsx;  exit 0",
@@ -41,17 +45,7 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/creativetimofficial/material-dashboard-react.git"
-  },
   "keywords": [],
-  "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
-  },
-  "homepage": "https://creativetimofficial.github.io/material-dashboard-react/#/dashboard",
   "optionalDependencies": {
     "@types/googlemaps": "3.37.3",
     "@types/markerclustererplus": "2.1.33",

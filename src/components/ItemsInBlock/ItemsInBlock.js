@@ -15,8 +15,10 @@ const renderDetail = (rowData) => {
 		  data={rowData.variations}
 		  options={{
 		  	search: false,
-		  	paging: false
-		  }}
+		  	paging: false,
+		  	showTitle: false,
+		  	toolbar: false
+		  }}    		  		  
 	  />
 }
 
@@ -33,7 +35,7 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  		 style={{width: 100}}/>;
 		  	} else {
 		  		return <img src="/images/Box_Empty.png" alt="" style={{width: 100}}/>;
-		  	}
+		  	} 
 		  }},
 		  { "title": "Id", "field": "id" },
 		  { "title": "Estilo", "field": "internal_reference" },
@@ -48,8 +50,10 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  data={itemsInBlock.data.data}        
 		  options={{
 		    pageSize: 20,
-		    search: false,
-		    debounceInterval: 500,            
+		    search: false,              
+		    debounceInterval: 500,
+		    headerStyle: { position: 'sticky', top: 0 },
+		    maxBodyHeight: '550px'
 		  }}
 		  detailPanel={rowData => {
             return renderDetail(rowData);
