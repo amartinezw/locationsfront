@@ -53,7 +53,6 @@ export default function RemoteTable(props) {
             }
         }
         url +="id="+props.id+"&chk="+chk;
-        //url += "blocks="+data.get("blocks")+"&levels="+data.get("levels")+"&sides="+data.get("sides")+"&warehouse_id="+data.get("warehouse");
         const res = await fetch(url,params);
         setTimeout(function(){
             res
@@ -86,7 +85,7 @@ export default function RemoteTable(props) {
                     let url = urlfetch
                     let order = {
                         'column'    : 'warehouse_id',
-                        'direction' : 'asc'
+                        'order' : 'asc'
                     }
 
                     let headers = {
@@ -97,11 +96,11 @@ export default function RemoteTable(props) {
                     url += '&per_page=' + query.pageSize;
                     url += '&page=' + (query.page + 1);
                     if(query.orderBy!=undefined){
-                        order.direction = query.orderDirection;
+                        order.order = query.orderDirection;
                         order.column    = query.orderBy["field"];
                     }
 
-                    url +="&column="+order.column+"&direction="+order.direction+"&q="+query.search;
+                    url +="&column="+order.column+"&order="+order.order+"&q="+query.search;
 
                     fetch(url, {
                         headers: headers,
