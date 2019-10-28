@@ -49,11 +49,8 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  columns={itemColumns}
 		  data={itemsInBlock.data.data}        
 		  options={{
-		    pageSize: 20,
-		    search: false,              
-		    debounceInterval: 500,
-		    headerStyle: { position: 'sticky', top: 0 },
-		    maxBodyHeight: '550px'
+		    search: false,
+		    maxBodyHeight: 500
 		  }}
 		  detailPanel={rowData => {
             return renderDetail(rowData);

@@ -128,6 +128,7 @@ export default function RemoteTable(props) {
             options={{
                 pageSize: 20,
                 debounceInterval: 500,
+                maxBodyHeight: 400,
                 search: true,
                 actionsColumnIndex: -1
             }}
