@@ -80,6 +80,29 @@ export default function LocatedInventory() {
     filtersChanged: false,
   });
 
+  const downloadSticker = (product_id, format) => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json; charset=UTF-8',
+        Authorization: process.env.REACT_APP_API_TOKEN,
+      },
+    };
+    const url = process.env.REACT_APP_API_LOCATION + '/locationvariation/printsticker?product_id=' + product_id + '&format=' + format;
+    fetch(url, fetchOptions)
+      .then((response) => {
+        response.blob().then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'product '+product_id+'.pdf';
+          a.click();
+        });
+        
+    });
+  }
+
   const handleChangeCheckBox = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked });
   };
@@ -294,7 +317,20 @@ export default function LocatedInventory() {
           });
       })
     }
+        actions={[
+          {
+            icon: 'crop_original',
+            tooltip: 'Imprimir etiqueta vertical',
+            onClick: (event, rowData) => downloadSticker(rowData.id, "portrait")
+          },
+          {
+            icon: 'filter',
+            tooltip: 'Imprimir etiqueta horizontal',
+            onClick: (event, rowData) => downloadSticker(rowData.id, "landscape")
+          }
+        ]}
         options={{
+          actionsColumnIndex: -1,
           pageSize: 10,
           search: false,
           debounceInterval: 500,
