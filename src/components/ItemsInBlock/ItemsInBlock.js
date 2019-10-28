@@ -10,9 +10,9 @@ const renderDetail = (rowData) => {
 		{"title": 'Talla', "field": "name"},
 	];
 	return <MaterialTable
-		  title="hola"
+		  title={'Detalle de producto '+rowData.name}
 		  columns={columns}
-		  data={rowData.variations}    
+		  data={rowData.variations}
 		  options={{
 		  	search: false,
 		  	paging: false,
@@ -22,7 +22,7 @@ const renderDetail = (rowData) => {
 	  />
 }
 
-const ItemsInBlock = ({ itemsInBlock }) => {	
+const ItemsInBlock = ({ itemsInBlock }) => {
 	if (itemsInBlock.data) {
 		let itemColumns = [
 		  { "title": "Imagen", "field": "firstimg.file", render: rowData => {
@@ -39,7 +39,7 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  }},
 		  { "title": "Id", "field": "id" },
 		  { "title": "Estilo", "field": "internal_reference" },
-		  { "title": "Producto", "field": "name" }, 		  
+		  { "title": "Producto", "field": "name" },
 		  { "title": "Ubicacion", "field": "mapped_string", render: () => {return itemsInBlock.data.mapped_string}}
 		];
 		return <React.Fragment>
@@ -48,9 +48,9 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  title="Productos en la ubicacion"
 		  columns={itemColumns}
 		  data={itemsInBlock.data.data}        
-		  options={{		    
-		    search: false,              		    		    
-		    maxBodyHeight: 500            
+		  options={{
+		    search: false,
+		    maxBodyHeight: 500
 		  }}
 		  detailPanel={rowData => {
             return renderDetail(rowData);

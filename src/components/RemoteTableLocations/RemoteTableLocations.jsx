@@ -6,7 +6,7 @@ export default class RemoteTableLocations extends React.Component{
     constructor (props){
         super(props);
         this.methods = {
-            show    : process.env.REACT_APP_API_LOCATION+'/locationvariation/getall?',
+            show    : process.env.REACT_APP_API_LOCATION+'/locationvariation/getitemsinlocation?',
             add     : process.env.REACT_APP_API_LOCATION+'/warehouses/store?',
             delete  : process.env.REACT_APP_API_LOCATION+'/warehouses/destroy?',
             edit    : process.env.REACT_APP_API_LOCATION+'/warehouses/update?'
@@ -14,8 +14,8 @@ export default class RemoteTableLocations extends React.Component{
         this.query = "";
         this.state = {
             columns: [
-                { title: 'Anaquel',field : "warehouselocation.mapped_string" },
-                { title: 'Bodega',field : "warehouselocation.warehouse.name" },
+                { title: 'Anaquel',field : "data.variation.product.images.product_id" },
+                { title: 'Bodega',field : "" },
                 //{ title: 'Tienda',field : "warehouselocation.warehouse.store.name", type: "numeric" },
                 //{ title: 'Talla',field : "variation.name" },
                 //{ title: 'SKU',field : "variation.sku" },
@@ -37,15 +37,15 @@ export default class RemoteTableLocations extends React.Component{
             method  : "GET",
             headers : this.headers
         }
-
+        console.log($query);
         $return = new Promise((resolve, reject) => {
-            let $url = this.methods.show+"warehouse_id=1";
-            $url += "per_page="+this.query.pageSize+"&page="+(this.query.page+1);
+            let $url = this.methods.show+"warehouse_id=1&mapped_string=R1-A1-N1";
+            $url += "&per_page="+this.query.pageSize+"&page="+(this.query.page+1);
 
             fetch($url,$params)
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result);
+                    //console.log(result.data[0]);
                     resolve({
                         data: result.data,
                         page: (result.current_page-1),
@@ -172,7 +172,9 @@ export default class RemoteTableLocations extends React.Component{
                     }}
 
                     options={{
-                        pageSize: 10
+                        pageSize: 10,
+                        debounceInterval:750,
+                        search: true
                     }}
                 />
             </div>

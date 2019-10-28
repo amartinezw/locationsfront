@@ -52,7 +52,7 @@ const ultimosColumns = [
   ];
 
 class Dashboard extends React.Component {
-  
+
   state = {
     productsLocatedCount: '1',
     warehousesCount: '',
@@ -83,10 +83,10 @@ class Dashboard extends React.Component {
           a.download = 'sticker.pdf';
           a.click();
         });
-        
+
     });
   }
-    
+
   fetchData = async () => {
     const url = process.env.REACT_APP_API_LOCATION + '/locationvariation/getsummary?warehouse_id=1';
     const fetchOptions = {
@@ -98,7 +98,7 @@ class Dashboard extends React.Component {
       },
     };
     try {
-      const data = await (await fetch(url, fetchOptions)).json();      
+      const data = await (await fetch(url, fetchOptions)).json();
       this.setState({
         productsLocatedCount: data.productsLocatedCount,
         warehousesCount: data.warehousesCount,
@@ -109,16 +109,16 @@ class Dashboard extends React.Component {
       this.setState({ error });
     }
   };
-  
+
   render() {
     const { classes } = this.props;
-    
+
     return (
       <div>
         <GridContainer>
           <GridItem xs={12} sm={6} md={3}>
             <NavLink
-              to="/admin/altabodegas"             
+              to="/admin/altabodegas"
               activeClassName="active"
               key={1}
             >
@@ -160,7 +160,7 @@ class Dashboard extends React.Component {
           </GridItem>
           <GridItem xs={12} sm={6} md={3}>
             <NavLink
-              to="/admin/ubicaciones"             
+              to="/admin/ubicaciones"
               activeClassName="active"
               key={2}
             >
@@ -183,7 +183,7 @@ class Dashboard extends React.Component {
           </GridItem>
           <GridItem xs={12} sm={6} md={3}>
             <NavLink
-              to="/admin/inventario"             
+              to="/admin/inventario"
               activeClassName="active"
               key={3}
             >
@@ -217,7 +217,7 @@ class Dashboard extends React.Component {
         <Card>
           <Button
             variant="contained"
-            className="button"            
+            className="button"
             onClick={
               () => this.downloadSticker()
             }

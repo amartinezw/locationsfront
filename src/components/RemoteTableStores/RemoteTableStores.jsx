@@ -5,12 +5,11 @@ export default class RemoteTableStores extends React.Component{
 
     constructor (props){
         super(props);
-        this.serverApi = "http://ec2-34-219-142-13.us-west-2.compute.amazonaws.com/";
         this.methods = {
-            show    : this.serverApi+'api/v1/warehouses/getall?',
-            add     : this.serverApi+'api/v1/warehouses/store?',
-            delete  : this.serverApi+'api/v1/warehouses/destroy?',
-            edit    : this.serverApi+'api/v1/warehouses/update?'
+            show    : process.env.REACT_APP_API_LOCATION+'/warehouses/getall?',
+            add     : process.env.REACT_APP_API_LOCATION+'/warehouses/store?',
+            delete  : process.env.REACT_APP_API_LOCATION+'/warehouses/destroy?',
+            edit    : process.env.REACT_APP_API_LOCATION+'/warehouses/update?'
         }
         this.query = "";
         this.state = {
@@ -26,7 +25,7 @@ export default class RemoteTableStores extends React.Component{
         this.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": 'Bearer '+this.props.key_,
+            "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,//this.props.key_,
         }
     }
 
@@ -34,8 +33,12 @@ export default class RemoteTableStores extends React.Component{
         this.query = $query;
         let $return;
         $return = new Promise((resolve, reject) => {
+            console.log($query);
             let $url = this.methods.show;
             $url += "per_page="+this.query.pageSize+"&page="+(this.query.page+1);
+            if(!$query.search=="")
+                $url +="&q="+$query.search;
+
             let $params = {
                 method  : "get",
                 headers : this.headers
@@ -49,7 +52,6 @@ export default class RemoteTableStores extends React.Component{
                     page: (result.current_page-1),
                     totalCount:result.total
                 });
-                console.log("one Charge");
             });
         });
 
@@ -172,7 +174,8 @@ export default class RemoteTableStores extends React.Component{
                     }}
 
                     options={{
-                        pageSize: 10
+                        pageSize: 10,
+                        debounceInterval: 700,
                     }}
                 />
             </div>
