@@ -27,7 +27,7 @@ import history from 'history.js';
 // core components
 import Admin from "layouts/Admin.js";
 import Login from "views/Login/Login.js";
-import RTL from "layouts/RTL.js";
+//import RTL from "layouts/RTL.js";
 
 import "assets/css/material-dashboard-react.css?v=1.8.0";
 

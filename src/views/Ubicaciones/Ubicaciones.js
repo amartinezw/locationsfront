@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const getUrlRacks = process.env.REACT_APP_API_LOCATION+'/warehouselocations/getracks?warehouse_id=1';
 const getUrlBlocks = process.env.REACT_APP_API_LOCATION+'/warehouselocations/getblocks?warehouse_id=1&rack=1';
 
+
 const FETCH_OPTIONS = {
   method: 'GET',
   headers: {

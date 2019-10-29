@@ -12,9 +12,9 @@ const renderDetail = (rowData) => {
 		{ title: 'Precio', field: 'price' },
 	];
 	return <MaterialTable
-		  title="hola"
+		  title={'Detalle de producto '+rowData.name}
 		  columns={columns}
-		  data={rowData.variations}    
+		  data={rowData.variations}
 		  options={{
 		  	search: false,
 		  	paging: false,
@@ -23,6 +23,7 @@ const renderDetail = (rowData) => {
 		  }}    		  		  
 	  />
 }
+
 
 const downloadSticker = (product_id, format) => {
   const fetchOptions = {
@@ -47,7 +48,7 @@ const downloadSticker = (product_id, format) => {
   });
 }
 
-const ItemsInBlock = ({ itemsInBlock }) => {	
+const ItemsInBlock = ({ itemsInBlock }) => {
 	if (itemsInBlock.data) {
 		let itemColumns = [
 		  { "title": "Imagen", "field": "firstimg.file", render: rowData => {
@@ -66,8 +67,7 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  { title: 'Estilo', field: 'internal_reference' },
 		  { title: 'Proveedor', field: 'provider' },
 		  { title: 'Producto', field: 'name' },
-		  { title: 'Color', field: 'colors_es' },		  
-		  { "title": "Ubicacion", "field": "mapped_string", render: () => {return itemsInBlock.data.mapped_string}}
+		  { title: 'Color', field: 'colors_es' },		  		  
 		];
 		return <React.Fragment>
 		<Barcode value={itemsInBlock.data.mapped_string} />
@@ -90,7 +90,7 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  options={{
 		  	actionsColumnIndex: -1,		    
 		    search: false,              		    		    
-		    maxBodyHeight: 500            
+		    maxBodyHeight: 500
 		  }}
 		  detailPanel={rowData => {
             return renderDetail(rowData);
