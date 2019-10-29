@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import GridItem from "../../components/Grid/GridItem.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
 import Card from "../../components/Card/Card.js";
-import RemoteTable from "../../components/RemoteTable/RemoteTable.jsx";
+import RemoteTable from "../../components/RemoteTable/RemoteTableLocations.js";
 import Button from "../../components/CustomButtons/Button.js";
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
