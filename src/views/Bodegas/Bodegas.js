@@ -81,7 +81,6 @@ export default function Bodegas() {
   const [bodegas, setWarehouse] = useState([{value:1, label:""}])
   const [open, setOpen] = useState(false);
   const [hasError, setErrors] = useState(false);
-
   const classes = useStyles();
   const handleOpen = () => {
     setOpen(true);

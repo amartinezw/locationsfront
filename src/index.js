@@ -38,7 +38,7 @@ ReactDOM.render(
     <Router history={history}>
 
             <PrivateRoutes exact path="/admin/anaqueles" component={Admin} />
-            <PrivateRoutes exact path="/admin/altabodegas" component={Admin} />
+            <PrivateRoutes exact path="/admin/listaUbicaciones" component={Admin} />
             <PrivateRoutes exact path="/admin/dashboard" component={Admin} />
             <PrivateRoutes exact path="/admin/bodegas" component={Admin} />
             <PrivateRoutes exact path="/admin/ubicaciones" component={Admin} />

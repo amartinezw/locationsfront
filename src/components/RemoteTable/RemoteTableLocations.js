@@ -4,10 +4,6 @@ import MaterialTable from 'material-table';
 import Switch from "@material-ui/core/Switch";
 import Snackbar from "@material-ui/core/Snackbar";
 import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
-import Slide from '@material-ui/core/Slide';
-//import Tooltip from "@material-ui/core/Tooltip";
-// import { makeStyles } from "@material-ui/core/styles";
-// @material-ui/icons
 
 export default function RemoteTable(props) {
     const { title, columns, urlfetch} = props;
@@ -71,9 +67,6 @@ export default function RemoteTable(props) {
                 });
         },550)
     }
-    function TransitionUp(props) {
-        return <Slide {...props} direction="up" />;
-    }
 
     return (
         <div>
@@ -96,7 +89,7 @@ export default function RemoteTable(props) {
                         url += '&per_page=' + query.pageSize;
                         url += '&page=' + (query.page + 1);
                         if(query.orderBy!=undefined){
-                            order.order = query.orderDirection;
+                            order.order     = query.orderDirection;
                             order.column    = query.orderBy["field"];
                         }
 
