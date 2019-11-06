@@ -9,6 +9,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import Fetch from 'components/Fetch/Fetch.js';
 import Button from '@material-ui/core/Button';
+import Badge from '@material-ui/core/Badge';
 import SearchIcon from '@material-ui/icons/Search';
 import {
   TextField, MenuItem, Fab, FormControlLabel,
@@ -202,14 +203,16 @@ export default function Ubicaciones() {
 
                   if (data) {
                     return (
-                      <div className="items">
+                      <div className="items" style={{margin: 10}}>
                         {
                           data.map(
                             item => (
                               <GridItem key={item.rack} xs={12} sm={12} md={12}> 
-                                <Button fullWidth={true} variant="contained" className={classes.button} onClick={() => actions.getBlocks(item.rack)}>
-                                  {'RACK '+item.rack}
-                                </Button>
+                                <Badge color="secondary" style={{width: "100%"}} max={999} badgeContent={item.total_items}>                                  
+                                  <Button fullWidth={true} variant="contained" className={classes.button} onClick={() => actions.getBlocks(item.rack)}>
+                                    {'RACK '+item.rack}
+                                  </Button>
+                                </Badge>
                               </GridItem>
                             )
                           )

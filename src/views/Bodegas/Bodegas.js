@@ -107,7 +107,7 @@ export default function Bodegas() {
       method: "GET",
       headers: headers
     }
-    const res = await fetch(process.env.REACT_APP_API_LOCATION+"/warehouses/getall?store_id=1",params);
+    const res = await fetch(process.env.REACT_APP_API_LOCATION+"/warehouses/getall?store_id=30",params);
     res
         .json()
         .then(res => {

@@ -3,7 +3,6 @@ import React from 'react';
 // @material-ui/core
 import { withStyles } from '@material-ui/core/styles';
 import Icon from '@material-ui/core/Icon';
-import Button from '@material-ui/core/Button';
 // @material-ui/icons
 import Store from '@material-ui/icons/Store';
 import DateRange from '@material-ui/icons/DateRange';
@@ -213,18 +212,7 @@ class Dashboard extends React.Component {
               columns={ultimosColumns}
             />
           </Card>
-        </GridContainer>
-        <Card>
-          <Button
-            variant="contained"
-            className="button"
-            onClick={
-              () => this.downloadSticker()
-            }
-          >
-            Descargar
-          </Button>
-        </Card>
+        </GridContainer>        
       </div>
     );
   }

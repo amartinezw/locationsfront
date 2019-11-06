@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import GridItem from 'components/Grid/GridItem';
-import Typography from '@material-ui/core/Typography';
 import { actions, connect } from 'store';
 
 const Blocks = ({ blocks }) => {
