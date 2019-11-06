@@ -63,11 +63,12 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  		return <img src="/images/Box_Empty.png" alt="" style={{width: 100}}/>;
 		  	} 
 		  }},
-		  { title: 'Id', field: 'id' },
 		  { title: 'Estilo', field: 'internal_reference' },
 		  { title: 'Proveedor', field: 'provider' },
 		  { title: 'Producto', field: 'name' },
-		  { title: 'Color', field: 'colors_es' },		  		  
+		  { title: 'Depto', field: 'parent_name' },
+		  { title: 'Categoria', field: 'family' },
+		  { title: 'Color', field: 'colors_es' },	  		  
 		];
 		return <React.Fragment>
 		<Barcode value={itemsInBlock.data.mapped_string} />

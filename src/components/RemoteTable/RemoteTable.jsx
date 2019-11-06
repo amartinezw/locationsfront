@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import MaterialTable from 'material-table'
 //import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
@@ -71,9 +71,7 @@ export default function RemoteTable(props) {
                 });
         },550)
     }
-    function TransitionUp(props) {
-        return <Slide {...props} direction="up" />;
-    }
+    
 
     return (
         <div>
@@ -95,7 +93,7 @@ export default function RemoteTable(props) {
                     }
                     url += '&per_page=' + query.pageSize;
                     url += '&page=' + (query.page + 1);
-                    if(query.orderBy!=undefined){
+                    if(query.orderBy!==undefined){
                         order.order = query.orderDirection;
                         order.column    = query.orderBy["field"];
                     }

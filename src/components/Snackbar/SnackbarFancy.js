@@ -10,8 +10,6 @@ import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
-import Slide from "@material-ui/core/Slide";
-
 
 MySnackbarContentWrapper.propTypes = {
     className: PropTypes.string,

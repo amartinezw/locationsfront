@@ -228,12 +228,7 @@ class RemoteTableUser extends Component{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-        };
-        const avatar = {
-            margin: "1em",
-            backgroundColor: "white",
-            color: "red",
-        };
+        };        
         const submit = {
             margin: "0px",
             marginTop:"5px",
@@ -254,15 +249,14 @@ class RemoteTableUser extends Component{
                 <Button
                     variant="contained"
                     margin="normal"
-                    color="primary"
-                    style={genPws}
+                    color="primary"                    
                     onClick={this.handleClickOpen}
                     style={submit}
                 >
                     Crear usuario
                 </Button>
                 <Dialog maxWidth="lg" open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title" >
-                    <form  onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleSubmit}>
                     <DialogTitle id="form-dialog-title">Crear usuario</DialogTitle>
                     <DialogContent>
                         <DialogContentText>

@@ -1,6 +1,3 @@
-import authHeader from '../helpers/auth-header.js';
-import React from "react";
-
 const userService = {
     login,
     logout,

@@ -5,7 +5,7 @@ import {
   TextField, MenuItem, Fab, FormControlLabel, Checkbox,
 } from '@material-ui/core';
 import MaterialTable from 'material-table';
-
+import materialTableLocaleES from '../MaterialTableLocaleES';
 
 const renderDetail = (rowData) => {
   const columns = [
@@ -67,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LocatedInventory() {
   const classes = useStyles();
-
   const tableRef = React.createRef();
 
   const [state, setState] = React.useState({
@@ -149,11 +148,12 @@ export default function LocatedInventory() {
         }
         return <img src="/images/Box_Empty.png" alt="" style={{ width: 100 }} />;
       },
-    },
-    { title: 'Id', field: 'id' },
+    },    
     { title: 'Estilo', field: 'internal_reference' },
     { title: 'Proveedor', field: 'provider' },
     { title: 'Producto', field: 'name' },
+    { title: 'Depto', field: 'parent_name' },
+    { title: 'Categoria', field: 'family' },
     { title: 'Color', field: 'colors_es' },
     {
       title: 'Ubicacion',
@@ -161,10 +161,10 @@ export default function LocatedInventory() {
       render: (rowData) => {
         if (rowData.locations) {
           return rowData.locations.map((location) => (
-            <x>
+            <React.Fragment key={location.id}>
               {location.warehouselocation.mapped_string}
               <br />
-            </x>
+            </React.Fragment>
           ));
         }
         return '';
@@ -176,7 +176,7 @@ export default function LocatedInventory() {
   const urlfetch = `${process.env.REACT_APP_API_LOCATION}/locationvariation/getall`;
 
   return (
-    <x>
+    <React.Fragment>
       <form className={classes.container} noValidate autoComplete="off">
         <FormControlLabel
           control={(
@@ -281,6 +281,7 @@ export default function LocatedInventory() {
         title="Inventario"
         columns={itemColumns}
         tableRef={tableRef}
+        localization={materialTableLocaleES}
         data={
       (query) => new Promise((resolve) => {
         if (state.filtersChanged === true) {
@@ -339,6 +340,6 @@ export default function LocatedInventory() {
         }}
         detailPanel={(rowData) => renderDetail(rowData)}
       />
-    </x>
+    </React.Fragment>
   );
 }
