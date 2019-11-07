@@ -48,7 +48,7 @@ const styles = theme => ({
     },
 });
 
-const getUrlBlocks = process.env.REACT_APP_API_LOCATION+'/warehouselocations/getblocks?warehouse_id=1&rack=1';
+//const getUrlBlocks = process.env.REACT_APP_API_LOCATION+'/warehouselocations/getblocks?warehouse_id=1&rack=1';
 
 const FETCH_OPTIONS = {
     method: 'GET',
@@ -78,6 +78,7 @@ class Ubicaciones extends Component {
             subCategories:[],
             category:'',
             subCategory:'',
+            getUrlBlocks: this.serverApi+'/warehouselocations/getblocks?warehouse_id=1',
             getUrlRacks: this.serverApi+'/warehouselocations/getracks?warehouse_id=1',
             racks: [],
         };
@@ -160,8 +161,9 @@ class Ubicaciones extends Component {
         };
 
         let getUrlRacks = this.serverApi+'/warehouselocations/getracks?warehouse_id=1&active='+filters[0].value+'&product='+filters[1].value+'&sku='+filters[2].value+'&category='+(filters[3].value > 0 ? filters[3].value : '')+'&subcategory='+(filters[4].value > 0 ? filters[4].value : '');
-
+        let getUrlBlocks = this.serverApi+'/warehouselocations/getblocks?warehouse_id=1&active='+filters[0].value+'&product='+filters[1].value+'&sku='+filters[2].value+'&category='+(filters[3].value > 0 ? filters[3].value : '')+'&subcategory='+(filters[4].value > 0 ? filters[4].value : '');
         this.fetchRacks(getUrlRacks, $params);
+        this.setState({ getUrlBlocks: getUrlBlocks });
     };
 
     fetchRacks = (getUrlRacks, params)  => {
@@ -188,7 +190,9 @@ class Ubicaciones extends Component {
                             <Badge color="secondary" style={{width: "100%"}} max={999}
                                    badgeContent={item.total_items}>
                                 <Button fullWidth={true} variant="contained" className={classes.button} disabled={item.total_items > 0 ? false : true}
-                                        onClick={() => actions.getBlocks(item.rack)}>
+                                        onClick={() => {                                          
+                                          actions.getBlocks(item.rack, this.state.getUrlBlocks)}
+                                        }>
                                     {'RACK ' + item.rack}
                                 </Button>
                             </Badge>

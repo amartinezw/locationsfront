@@ -31,6 +31,7 @@ const Blocks = ({ blocks }) => {
                   variant="contained"
                   className="button"
                   style={{ fontSize }}
+                  disabled={block.items_count > 0 ? false : true}
                   onClick={
                   () => actions.getItemsInBlock(block.mapped_string)
                 }
@@ -52,6 +53,7 @@ const Blocks = ({ blocks }) => {
               variant="contained"
               className="button"
               style={{ fontSize }}
+              disabled={block.items_count > 0 ? false : true}
               onClick={
               () => actions.getItemsInBlock(block.mapped_string)
             }
