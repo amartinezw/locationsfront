@@ -66,6 +66,7 @@ class Ubicaciones extends Component {
     department: 'TODOS',
     active: 0,
     product: '',
+    getUrlBlocks: process.env.REACT_APP_API_LOCATION+'/warehouselocations/getracks?warehouse_id=1',
     sku: '',
     filters: [{ name: 'active', value: 0 }],
     filtersChanged: false,
@@ -92,7 +93,7 @@ class Ubicaciones extends Component {
     if (state.department !== 'TODOS') {
       filters.push({ name: 'department', value: this.state.department });
     }
-    setState({ ...state, filters, filtersChanged: true });
+    setState({ ...state, filters, filtersChanged: true });  
     return tableRef.current && tableRef.current.onQueryChange();
   };
 

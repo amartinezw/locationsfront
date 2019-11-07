@@ -1,5 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
+import materialTableLocaleES from '../MaterialTableLocaleES';
 
 export default class RemoteTableStores extends React.Component{
 
@@ -167,6 +168,7 @@ export default class RemoteTableStores extends React.Component{
                     title={this.props.title}
                     columns={ this.state.columns }
                     data={ $query => this.show($query)}
+                    localization={materialTableLocaleES}
                     editable={{
                         onRowAdd: newData => this.add(newData),
                         onRowUpdate: (newData, oldData) => this.edit(newData,oldData),

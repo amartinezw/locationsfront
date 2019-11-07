@@ -41,8 +41,7 @@ import Storage from "@material-ui/icons/Storage";
 const dashboardRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
-    rtlName: "لوحة القيادة",
+    name: "Dashboard",    
     icon: Dashboard,
     component: DashboardPage,
     layout: "/admin"
@@ -73,13 +72,6 @@ const dashboardRoutes = [
     name: "Alta de Bodegas",
     icon: Storage,
     component: Warehouse,
-    layout: "/admin"
-  },
-  {
-    path: "/anaqueles",
-    name: "Lista de Anaqueles",
-    icon: LibraryBooks,
-    component: Locations,
     layout: "/admin"
   },
   {
