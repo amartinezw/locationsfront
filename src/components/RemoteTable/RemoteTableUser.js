@@ -97,7 +97,7 @@ class RemoteTableUser extends Component{
 
     //Cacha los valores de los input y se los asigna a las constantes
     handleNameChange = (e) => {
-        this.setState({name: e.target.value })
+            this.setState({name: e.target.value })
     };
     handleEmailChange = (e) => {
         this.setState({email: e.target.value});
