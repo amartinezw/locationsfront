@@ -48,15 +48,6 @@ const styles = theme => ({
     },
 });
 
-const FETCH_OPTIONS = {
-    method: 'GET',
-    headers: {
-        "Accept": "application/json",
-        "Content-type": "application/json; charset=UTF-8",
-        "Authorization": process.env.REACT_APP_API_TOKEN,
-    }
-};
-
 class Ubicaciones extends Component {
     constructor (props){
         super(props);
@@ -74,8 +65,8 @@ class Ubicaciones extends Component {
             filtersChanged: false,
             categories:[],
             subCategories:[],
-            category:'null',
-            subCategory:'null',
+            category:'0',
+            subCategory:'0',
             getUrlBlocks: this.serverApi+'/warehouselocations/getblocks?warehouse_id=1',
             getUrlRacks: this.serverApi+'/warehouselocations/getracks?warehouse_id=1',
             racks: [],
@@ -106,12 +97,11 @@ class Ubicaciones extends Component {
             );
             this.setState({
                 categories : categories,
+                subCategory: 0,
             });
         });
         this.fetchRacks(this.state.getUrlRacks, this.params);
     }
-
-
 
     handleChange = (name) => (event) => {
         this.setState({[name]: event.target.value })
@@ -119,6 +109,7 @@ class Ubicaciones extends Component {
 
     handleChangeCategory = (name) => (event) => {
         this.setState({[name]: event.target.value });
+        this.setState({subCategory : 0 });
         this.getSubcategory(event.target.value);
     };
 
@@ -208,7 +199,7 @@ class Ubicaciones extends Component {
                         margin="normal"
                         variant="outlined"
                     >
-                        <MenuItem key="" value="null">
+                        <MenuItem key="" value="0">
                             Todos
                         </MenuItem>
                         {this.state.categories.map(option => (
@@ -232,7 +223,7 @@ class Ubicaciones extends Component {
                         margin="normal"
                         variant="outlined"
                     >
-                        <MenuItem key="" value="null">
+                        <MenuItem key="" value="0">
                             Todos
                         </MenuItem>
                         {this.state.subCategories.map(option => (
