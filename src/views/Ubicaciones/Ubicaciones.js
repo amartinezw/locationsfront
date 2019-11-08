@@ -114,21 +114,30 @@ class Ubicaciones extends Component {
     };
 
     getSubcategory = (category) => {
-        let $url = this.methods.getSubCategories+''+category;
+        console.log(category);
         let subC = [];
-        fetch($url,this.params)
-            .then(response => {
-                return response.json();
-            }).then(result => {
-            subC = result;
-            let objectRol = {};
-            subC.map((item, key) =>
-                objectRol[item.id] = item.name,
-            );
+        if (category > 0) {
+            let $url = this.methods.getSubCategories+''+category;
+            fetch($url,this.params)
+                .then(response => {
+                    return response.json();
+                }).then(result => {
+                subC = result;
+                let objectRol = {};
+                subC.map((item, key) =>
+                    objectRol[item.id] = item.name,
+                );
+                this.setState({
+                    subCategories : subC,
+                });
+            });
+        } else {
             this.setState({
                 subCategories : subC,
             });
-        });
+        }
+
+
 
     };
 
