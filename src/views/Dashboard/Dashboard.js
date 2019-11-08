@@ -1,170 +1,221 @@
-import React from "react";
-// react plugin for creating charts
-import ChartistGraph from "react-chartist";
+import React from 'react';
+
 // @material-ui/core
-import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
+import { withStyles } from '@material-ui/core/styles';
+import Icon from '@material-ui/core/Icon';
 // @material-ui/icons
-import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
-import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
+import Store from '@material-ui/icons/Store';
+import DateRange from '@material-ui/icons/DateRange';
+import LocalOffer from '@material-ui/icons/LocalOffer';
+import { NavLink } from "react-router-dom";
+
 // core components
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
-import Tasks from "components/Tasks/Tasks.js";
-import CustomTabs from "components/CustomTabs/CustomTabs.js";
-import Danger from "components/Typography/Danger.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardIcon from "components/Card/CardIcon.js";
-import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
+import GridItem from 'components/Grid/GridItem';
+import GridContainer from 'components/Grid/GridContainer';
 
-import { bugs, website, server } from "variables/general.js";
-import RemoteTable from "components/RemoteTable/RemoteTable.jsx";
-import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart
-} from "variables/charts.js";
+import Card from 'components/Card/Card';
+import CardHeader from 'components/Card/CardHeader';
+import CardIcon from 'components/Card/CardIcon';
 
-import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import CardFooter from 'components/Card/CardFooter';
+import RemoteTable from '../../components/RemoteTable/RemoteTable';
 
-const useStyles = makeStyles(styles);
+import styles from 'assets/jss/material-dashboard-react/views/dashboardStyle.js';
 
-export default function Dashboard() {
-  const classes = useStyles();
-  return (
-    <div>
-      <GridContainer>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="warning" stats icon>
-              <CardIcon color="warning">
-                <Icon>business</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Bodegas</p>
-              <h3 className={classes.cardTitle}>
-                3 
-              </h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>                
-                <Icon>business</Icon>
-                  3 total                
-              </div>
-            </CardFooter>
+
+const ultimosColumns = [
+    { title: 'Estilo', field: 'internal_reference' },
+    { title: 'Proveedor', field: 'provider' },
+    { title: 'Producto', field: 'name' },
+    { title: 'Color', field: 'colors_es' },
+    {
+      title: 'Fecha',
+      field: 'updated_at',
+      render: (rowData) => rowData.variations[0].locations[0].updated_at,
+    },
+    {
+      title: 'Ubicacion',
+      field: 'mapped_string',
+      render: (rowData) => {
+        if (rowData.locations) {
+          return rowData.locations.map((location) => (
+            <React.Fragment key={location.id}>
+              {location.warehouselocation.mapped_string}
+              <br />
+            </React.Fragment>
+          ));
+        }
+        return '';
+      },
+    },
+  ];
+
+class Dashboard extends React.Component {
+
+  state = {
+    productsLocatedCount: '1',
+    warehousesCount: '',
+    storesCount: '',
+    warehouseLocationsCount: '',
+  };
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  downloadSticker = () => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json; charset=UTF-8',
+        Authorization: process.env.REACT_APP_API_TOKEN,
+      },
+    }
+    const url = process.env.REACT_APP_API_LOCATION + '/locationvariation/printsticker';
+    fetch(url, fetchOptions)
+      .then(response => {
+        response.blob().then(blob => {
+          let url = window.URL.createObjectURL(blob);
+          let a = document.createElement('a');
+          a.href = url;
+          a.download = 'sticker.pdf';
+          a.click();
+        });
+
+    });
+  }
+
+  fetchData = async () => {
+    const url = process.env.REACT_APP_API_LOCATION + '/locationvariation/getsummary?warehouse_id=1';
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json; charset=UTF-8',
+        Authorization: process.env.REACT_APP_API_TOKEN,
+      },
+    };
+    try {
+      const data = await (await fetch(url, fetchOptions)).json();
+      this.setState({
+        productsLocatedCount: data.productsLocatedCount,
+        warehousesCount: data.warehousesCount,
+        storesCount: data.storesCount,
+        warehouseLocationsCount: data.warehouseLocationsCount,
+      });
+    } catch (error) {
+      this.setState({ error });
+    }
+  };
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <div>
+        <GridContainer>
+          <GridItem xs={12} sm={6} md={3}>
+            <NavLink
+              to="/admin/altabodegas"
+              activeClassName="active"
+              key={1}
+            >
+              <Card>
+                <CardHeader color="warning" stats icon>
+                  <CardIcon color="warning">
+                    <Icon>business</Icon>
+                  </CardIcon>
+                  <p className={classes.cardCategory}>Bodegas</p>
+                  <h3 className={classes.cardTitle}>
+                    {this.state.warehousesCount}
+                  </h3>
+                </CardHeader>
+                <CardFooter stats>
+                  <div className={classes.stats}>
+                    <Icon>business</Icon>
+                      Total de bodegas
+                  </div>
+                </CardFooter>
+              </Card>
+            </NavLink>
+          </GridItem>
+          <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="success" stats icon>
+                <CardIcon color="success">
+                  <Store />
+                </CardIcon>
+                <p className={classes.cardCategory}>Tiendas</p>
+                <h3 className={classes.cardTitle}>{this.state.storesCount}</h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  <DateRange />
+                  Total de tiendas
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={6} md={3}>
+            <NavLink
+              to="/admin/ubicaciones"
+              activeClassName="active"
+              key={2}
+            >
+              <Card>
+                <CardHeader color="danger" stats icon>
+                  <CardIcon color="danger">
+                    <Icon>info_outline</Icon>
+                  </CardIcon>
+                  <p className={classes.cardCategory}>Ubicaciones</p>
+                  <h3 className={classes.cardTitle}>{this.state.warehouseLocationsCount}</h3>
+                </CardHeader>
+                <CardFooter stats>
+                  <div className={classes.stats}>
+                    <LocalOffer />
+                    Mapeo y consulta
+                  </div>
+                </CardFooter>
+              </Card>
+            </NavLink>
+          </GridItem>
+          <GridItem xs={12} sm={6} md={3}>
+            <NavLink
+              to="/admin/inventario"
+              activeClassName="active"
+              key={3}
+            >
+              <Card>
+                <CardHeader color="primary" stats icon>
+                  <CardIcon color="primary">
+                    <Icon>assessment</Icon>
+                  </CardIcon>
+                  <p className={classes.cardCategory}>Productos ubicados</p>
+                  <h3 className={classes.cardTitle}>
+                    {this.state.productsLocatedCount}
+                  </h3>
+                </CardHeader>
+                <CardFooter stats>
+                  <div className={classes.stats}>
+                    <Icon>assessment</Icon>
+                      Total de productos ubicados
+                  </div>
+                </CardFooter>
+              </Card>
+            </NavLink>
+          </GridItem>
+          <Card plain>
+            <RemoteTable
+              title="Ultimos productos ubicados"
+              urlfetch={`${process.env.REACT_APP_API_LOCATION}/locationvariation/getlatest?warehouse_id=1`}
+              columns={ultimosColumns}
+            />
           </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="success" stats icon>
-              <CardIcon color="success">
-                <Store />
-              </CardIcon>
-              <p className={classes.cardCategory}>Tiendas</p>
-              <h3 className={classes.cardTitle}>1000+</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <DateRange />
-                Ultimas 24 horas
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="danger" stats icon>
-              <CardIcon color="danger">
-                <Icon>info_outline</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Ubicaciones</p>
-              <h3 className={classes.cardTitle}>1000+</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <LocalOffer />
-                Mapeo y consulta
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
-          <CustomTabs
-            title="Tasks:"
-            headerColor="primary"
-            tabs={[
-              {
-                tabName: "Bugs",
-                tabIcon: BugReport,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 3]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={bugs}
-                  />
-                )
-              },
-              {
-                tabName: "Website",
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
-                )
-              },
-              {
-                tabName: "Server",
-                tabIcon: Cloud,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[1]}
-                    tasksIndexes={[0, 1, 2]}
-                    tasks={server}
-                  />
-                )
-              }
-            ]}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
-          <Card>
-            <CardHeader color="warning">
-              <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
-              <p className={classes.cardCategoryWhite}>
-                New employees on 15th September, 2016
-              </p>
-            </CardHeader>
-            <CardBody>
-              <Table
-                tableHeaderColor="warning"
-                tableHead={["ID", "Name", "Salary", "Country"]}
-                tableData={[
-                  ["1", "Dakota Rice", "$36,738", "Niger"],
-                  ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                  ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                  ["4", "Philip Chaney", "$38,735", "Korea, South"]
-                ]}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
-    </div>
-  );
+        </GridContainer>        
+      </div>
+    );
+  }
 }
+
+export default withStyles(styles)(Dashboard);

@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import PinDrop from '@material-ui/icons/PinDrop';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
@@ -55,7 +55,7 @@ class LoginPage extends React.Component {
         e.preventDefault();
 
         this.setState({ submitted: true });
-        const { username, password, returnUrl } = this.state;
+        const { username, password } = this.state;
 
         // stop here if form is invalid
         if (!(username && password)) {
@@ -66,8 +66,7 @@ class LoginPage extends React.Component {
         userService.login(username, password)
             .then(
                 resutl => {
-                    if (resutl.status === 'success') {
-                        const  from  = { from: { pathname: "/admin/dashboard" } };
+                    if (resutl.status === 'success') {                        
                         history.push("/admin/dashboard");
                          window.location.reload();
                     }
@@ -79,7 +78,7 @@ class LoginPage extends React.Component {
     }
 
     render() {
-        const { username, password, submitted, loading, error } = this.state;
+        const { error } = this.state;
         const paper = {
             marginTop: "8px",
             display: 'flex',
@@ -113,10 +112,10 @@ class LoginPage extends React.Component {
                 <CssBaseline />
                 <div style={paper}>
                     <Avatar style={avatar}>
-                        <LockOutlinedIcon />
+                        <PinDrop />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Login
+                        Iniciar Sesión - CCP Ubicaciones
                     </Typography>
                     <form style={form} onSubmit={this.handleSubmit}>
                         <TextField
@@ -136,7 +135,6 @@ class LoginPage extends React.Component {
                             required
                             variant="outlined"
                             margin="normal"
-                            required
                             fullWidth
                             name="password"
                             label="Password"

@@ -17,50 +17,69 @@
 */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
-import Unarchive from "@material-ui/icons/Unarchive";
-import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
-import UserProfile from "views/UserProfile/UserProfile.js";
-import TableList from "views/TableList/TableList.js";
-import Typography from "views/Typography/Typography.js";
 import Bodegas from "views/Bodegas/Bodegas.js";
 import Ubicaciones from "views/Ubicaciones/Ubicaciones.js";
-import Icons from "views/Icons/Icons.js";
-import Maps from "views/Maps/Maps.js";
-import NotificationsPage from "views/Notifications/Notifications.js";
+import Inventario from "views/Inventario/Inventario.js";
+
+//import Icons from "views/Icons/Icons.js";
+import Person from "@material-ui/icons/Person";
+//import Maps from "views/Maps/Maps.js";
+//import NotificationsPage from "views/Notifications/Notifications.js";
+
+import Locations from "views/Racks/Racks";
+import Usuarios from "views/Usuarios/Usuarios"
+
 
 // core components/views for RTL layout
-import RTLPage from "views/RTLPage/RTLPage.js";
+import Warehouse from "views/Warehouse/Warehouse";
+import Storage from "@material-ui/icons/Storage";
 
 
 const dashboardRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
-    rtlName: "لوحة القيادة",
+    name: "Dashboard",    
     icon: Dashboard,
     component: DashboardPage,
     layout: "/admin"
   },
   {
     path: "/bodegas",
-    name: "Bodegas",    
+    name: "Lista de ubicaciones",
     icon: LibraryBooks,
     component: Bodegas,
     layout: "/admin"
   },
   {
     path: "/ubicaciones",
-    name: "Ubicaciones",    
+    name: "Mapa de ubicaciones",
     icon: LibraryBooks,
     component: Ubicaciones,
     layout: "/admin"
+  },
+  {
+    path: "/inventario",
+    name: "Inventario",    
+    icon: LibraryBooks,
+    component: Inventario,
+    layout: "/admin"
+  },
+  {
+    path: "/altabodegas",
+    name: "Alta de Bodegas",
+    icon: Storage,
+    component: Warehouse,
+    layout: "/admin"
+  },
+  {
+      path: "/usuarios",
+      name: "Usuarios",
+      icon: Person,
+      component: Usuarios,
+      layout: "/admin"
   },
 ];
 
