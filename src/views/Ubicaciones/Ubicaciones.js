@@ -48,8 +48,6 @@ const styles = theme => ({
     },
 });
 
-//const getUrlBlocks = process.env.REACT_APP_API_LOCATION+'/warehouselocations/getblocks?warehouse_id=1&rack=1';
-
 const FETCH_OPTIONS = {
     method: 'GET',
     headers: {
@@ -69,15 +67,15 @@ class Ubicaciones extends Component {
         };
         this.query = "";
         this.state = {
-            active: 0,
+            active: -1,
             product: '',
             sku: '',
             filters: [{ name: 'active', value: 0 }],
             filtersChanged: false,
             categories:[],
             subCategories:[],
-            category:'',
-            subCategory:'',
+            category:'null',
+            subCategory:'null',
             getUrlBlocks: this.serverApi+'/warehouselocations/getblocks?warehouse_id=1',
             getUrlRacks: this.serverApi+'/warehouselocations/getracks?warehouse_id=1',
             racks: [],
@@ -87,18 +85,17 @@ class Ubicaciones extends Component {
             "Content-Type": "application/json",
             "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
         };
-
+        this.params = {
+            method  : "get",
+            headers : this.headers
+        }
     }
 
     componentDidMount() {
         const { classes } = this.props;
         let categories = [];
-        let $params = {
-            method  : "get",
-            headers : this.headers
-        };
         let $url = this.methods.getCategories;
-        fetch($url,$params)
+        fetch($url,this.params)
             .then(response => {
                 return response.json();
             }).then(result => {
@@ -111,7 +108,7 @@ class Ubicaciones extends Component {
                 categories : categories,
             });
         });
-        this.fetchRacks(this.state.getUrlRacks, $params);
+        this.fetchRacks(this.state.getUrlRacks, this.params);
     }
 
 
@@ -127,12 +124,8 @@ class Ubicaciones extends Component {
 
     getSubcategory = (category) => {
         let $url = this.methods.getSubCategories+''+category;
-        let $params = {
-            method  : "get",
-            headers : this.headers
-        };
-        let subC = []
-        fetch($url,$params)
+        let subC = [];
+        fetch($url,this.params)
             .then(response => {
                 return response.json();
             }).then(result => {
@@ -155,14 +148,10 @@ class Ubicaciones extends Component {
         filters.push({ name: 'sku', value: this.state.sku });
         filters.push({ name: 'category', value: this.state.category });
         filters.push({ name: 'subcategory', value: this.state.subCategory });
-        let $params = {
-            method  : "get",
-            headers : this.headers
-        };
 
-        let getUrlRacks = this.serverApi+'/warehouselocations/getracks?warehouse_id=1&active='+filters[0].value+'&product='+filters[1].value+'&sku='+filters[2].value+'&category='+(filters[3].value > 0 ? filters[3].value : '')+'&subcategory='+(filters[4].value > 0 ? filters[4].value : '');
-        let getUrlBlocks = this.serverApi+'/warehouselocations/getblocks?warehouse_id=1&active='+filters[0].value+'&product='+filters[1].value+'&sku='+filters[2].value+'&category='+(filters[3].value > 0 ? filters[3].value : '')+'&subcategory='+(filters[4].value > 0 ? filters[4].value : '');
-        this.fetchRacks(getUrlRacks, $params);
+        let getUrlRacks = this.serverApi+'/warehouselocations/getracks?warehouse_id=1&active='+filters[0].value+'&product='+filters[1].value+'&sku='+filters[2].value+'&category='+filters[3].value+'&subcategory='+filters[4].value;
+        let getUrlBlocks = this.serverApi+'/warehouselocations/getblocks?warehouse_id=1&active='+filters[0].value+'&product='+filters[1].value+'&sku='+filters[2].value+'&category='+filters[3].value+'&subcategory='+filters[4].value;
+        this.fetchRacks(getUrlRacks, this.params);
         this.setState({ getUrlBlocks: getUrlBlocks });
     };
 
@@ -200,7 +189,6 @@ class Ubicaciones extends Component {
                     </div>
                 )
             })
-
         };
         return (
             <Card>
@@ -220,7 +208,7 @@ class Ubicaciones extends Component {
                         margin="normal"
                         variant="outlined"
                     >
-                        <MenuItem key="" value="">
+                        <MenuItem key="" value="null">
                             Todos
                         </MenuItem>
                         {this.state.categories.map(option => (
@@ -244,7 +232,7 @@ class Ubicaciones extends Component {
                         margin="normal"
                         variant="outlined"
                     >
-                        <MenuItem key="" value="">
+                        <MenuItem key="" value="null">
                             Todos
                         </MenuItem>
                         {this.state.subCategories.map(option => (
@@ -286,11 +274,13 @@ class Ubicaciones extends Component {
                         margin="normal"
                         variant="outlined"
                     >
-
-                        <MenuItem key="1" value="0">
+                        <MenuItem key="1" value="-1">
+                            Selecciona
+                        </MenuItem>
+                        <MenuItem key="2" value="0">
                             Activo
                         </MenuItem>
-                        <MenuItem key="2" value="1">
+                        <MenuItem key="3" value="1">
                             Inactivo
                         </MenuItem>
                     </TextField>
