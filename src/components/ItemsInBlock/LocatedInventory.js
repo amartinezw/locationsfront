@@ -117,8 +117,7 @@ export default function LocatedInventory() {
       }
     };
     const res = await fetch(url,params);
-    let values = [];
-    values[0] = {id:-1,name:"Todas"};
+    let values = [{id:-1,name:"Todas"}];
     res
         .json()
         .then(res => {
@@ -128,7 +127,7 @@ export default function LocatedInventory() {
           setState({ ...state,select: values});
         })
         .catch(err => {
-
+          console.log(err);
         });
   }
 
@@ -153,7 +152,7 @@ export default function LocatedInventory() {
             setState({ ...state,subSelect: values});
           })
           .catch(err => {
-
+            console.log(err);
           });
   }
 
@@ -185,17 +184,11 @@ export default function LocatedInventory() {
     if (state.sku !== '') {
       filters.push({ name: 'sku', value: state.sku });
     }
-    if (state.department !== -1) {
-      console.log(state.select);
-      let fetchas = state.select.reduce((result,option)=>{
-        console.log(result,option,option.id,department,(option.id==department));
-        if(option.id==department){
-          return option.name;
-        }
-        return result;
-      });
-      console.log(fetchas);
-      filters.push({ name: 'department', value: fetchas});
+    if (state.subSelect !== '-1') {
+      filters.push({ name: 'subcategory', value: subCategory});
+    }
+    if (state.department !== '-1') {
+      filters.push({ name: 'department', value: department });
     }
     setState({ ...state, filters, filtersChanged: true });
     return tableRef.current && tableRef.current.onQueryChange();
