@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import MaterialTable from 'material-table';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -112,7 +112,7 @@ export default class RemoteTableStores extends React.Component{
             body: JSON.stringify($newData)
         };
         //let $result = new Promise(resolve => resolve());
-        console.log($newData,this.selectValue);
+        console.log(Object.keys($newData).length,this.selectValue);
         let $result = new Promise(resolve => {
             setTimeout(() => {
                 if(String(this.state.selectValue.id)==="undefined"){

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import {
@@ -69,15 +69,19 @@ export default function LocatedInventory() {
   const classes = useStyles();
   const tableRef = React.createRef();
 
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     notLocated: false,
-    department: 'TODOS',
     active: 0,
     product: '',
     sku: '',
     filters: [{ name: 'active', value: 0 }],
     filtersChanged: false,
+    select : [{id:-1,name:"Todas"}],
+    subSelect : [{id:-1,name:"Todas"}]
   });
+
+  const[department,setDepartment] = useState(-1);
+  const[subCategory,setSubCategory] = useState(-1);
 
   const downloadSticker = (product_id, format) => {
     const fetchOptions = {
@@ -102,12 +106,71 @@ export default function LocatedInventory() {
     });
   }
 
+  async function getParent(){
+    let url = process.env.REACT_APP_API_LOCATION+"/categories/parent";
+    const params = {
+      method  : "GET",
+      headers : {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN
+      }
+    };
+    const res = await fetch(url,params);
+    let values = [];
+    values[0] = {id:-1,name:"Todas"};
+    res
+        .json()
+        .then(res => {
+          res.map((item,i)=>{
+            values.push({id:item.id,name:item.name});
+          });
+          setState({ ...state,select: values});
+        })
+        .catch(err => {
+
+        });
+  }
+
+  async function getChildren(parent) {
+    let url = process.env.REACT_APP_API_LOCATION+"/categories/child/"+parent;
+    const params = {
+      method  : "GET",
+      headers : {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN
+      }
+    };
+    const res = await fetch(url,params);
+      res
+          .json()
+          .then(res => {
+            let values = [{id:-1,name:"Todas"}];
+            res.map((item,i)=>{
+              values.push({id:item.id,name:item.name});
+            });
+            setState({ ...state,subSelect: values});
+          })
+          .catch(err => {
+
+          });
+  }
+
   const handleChangeCheckBox = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked });
   };
 
   const handleChange = (name) => (event) => {
-    setState({ ...state, [name]: event.target.value });
+    if(name==="department"){
+      setSubCategory(-1);
+      setDepartment(event.target.value);
+      getChildren(event.target.value);
+    }else if(name==="subCategory"){
+      setSubCategory(event.target.value);
+    }else{
+      setState({ ...state, [name]: event.target.value });
+    }
   };
 
   const handleSearch = () => {
@@ -122,8 +185,17 @@ export default function LocatedInventory() {
     if (state.sku !== '') {
       filters.push({ name: 'sku', value: state.sku });
     }
-    if (state.department !== 'TODOS') {
-      filters.push({ name: 'department', value: state.department });
+    if (state.department !== -1) {
+      console.log(state.select);
+      let fetchas = state.select.reduce((result,option)=>{
+        console.log(result,option,option.id,department,(option.id==department));
+        if(option.id==department){
+          return option.name;
+        }
+        return result;
+      });
+      console.log(fetchas);
+      filters.push({ name: 'department', value: fetchas});
     }
     setState({ ...state, filters, filtersChanged: true });
     return tableRef.current && tableRef.current.onQueryChange();
@@ -193,43 +265,38 @@ export default function LocatedInventory() {
         <TextField
           id="outlined-select-currency"
           select
-          label="Categoria"
+          label="Categorias"
           className={classes.textField}
           SelectProps={{
             MenuProps: {
               className: classes.menu,
             },
           }}
-          value={state.department}
+          value={department}
           onChange={handleChange('department')}
           helperText="Seleccione una categoria"
           margin="normal"
           variant="outlined"
         >
-          <MenuItem key="0" value="TODOS">
-          TODOS
-          </MenuItem>
-          <MenuItem key="1" value="DAMAS">
-          Hombre
-          </MenuItem>
-          <MenuItem key="2" value="CABALLEROS">
-          Kids
-          </MenuItem>
-          <MenuItem key="3" value="DAMAS  COLLEGE">
-          Kids niña
-          </MenuItem>
-          <MenuItem key="4" value="DAMAS  URBAN">
-          Kids niño
-          </MenuItem>
-          <MenuItem key="5" value="DAMAS JR">
-          Lencería
-          </MenuItem>
-          <MenuItem key="6" value="ZAPATERIA CABALLEROS">
-          Lencería y pijamas
-          </MenuItem>
-          <MenuItem key="7" value="ZAPATERIA DAMAS">
-          Mujer
-          </MenuItem>
+          {state.select.map(item =>(<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>))}
+        </TextField>
+        <TextField
+            id="outlined-select-subcategory"
+            select
+            label="Sub-Categorias"
+            className={classes.textField}
+            SelectProps={{
+              MenuProps: {
+                className: classes.menu,
+              },
+            }}
+            value={subCategory}
+            onChange={handleChange('subCategory')}
+            helperText="Seleccione la subcategoria"
+            margin="normal"
+            variant="outlined"
+        >
+          {state.subSelect.map(item =>(<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>))}
         </TextField>
         <TextField
           id="outlined"
@@ -264,7 +331,6 @@ export default function LocatedInventory() {
           margin="normal"
           variant="outlined"
         >
-
           <MenuItem key="1" value="0">
            Activo
           </MenuItem>
@@ -315,6 +381,7 @@ export default function LocatedInventory() {
               page: result.current_page - 1,
               totalCount: result.total,
             });
+            getParent();
           });
       })
     }

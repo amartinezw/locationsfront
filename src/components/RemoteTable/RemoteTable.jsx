@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import MaterialTable from 'material-table'
 
 export default function RemoteTable(props) {  
