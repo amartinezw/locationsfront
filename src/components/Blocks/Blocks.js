@@ -14,6 +14,8 @@ const Blocks = ({ blocks }) => {
       blockWidth = 'auto';
     }
     let fontSize = 13;
+    let color = 'black';
+    let disabled = false;
     return blocks.data.map((block) => {
       if (block.block > 9 && block.rack > 9) {
         fontSize = 10.5;
@@ -21,6 +23,17 @@ const Blocks = ({ blocks }) => {
         if (block.block > 9 || block.rack > 9) {
           fontSize = 11.5;
         }   
+      }
+      if (block.items_count < 1 || block.active === 0) {
+        if (block.active === 0) {
+          color = 'red';
+        } else {
+          color = 'grey';
+        }
+        disabled = true;
+      } else {
+        color = 'black';
+        disabled = false;
       }
       if (maxLevels < 7 && block.level === maxLevels && maxLevels % 2 !== 0) {
         return (
@@ -30,8 +43,8 @@ const Blocks = ({ blocks }) => {
                 <Button
                   variant="contained"
                   className="button"
-                  style={{ fontSize }}
-                  disabled={block.items_count > 0 ? false : true}
+                  style={{ fontSize,color }}
+                  disabled={disabled}
                   onClick={
                   () => actions.getItemsInBlock(block.mapped_string)
                 }
@@ -52,8 +65,8 @@ const Blocks = ({ blocks }) => {
             <Button
               variant="contained"
               className="button"
-              style={{ fontSize }}
-              disabled={block.items_count > 0 ? false : true}
+              style={{ fontSize, color }}
+              disabled={block.items_count < 1 || block.active === 0 ? true : false}
               onClick={
               () => actions.getItemsInBlock(block.mapped_string)
             }

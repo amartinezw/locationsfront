@@ -15,6 +15,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
+import materialTableLocaleES from '../MaterialTableLocaleES';
 import history from "../../history";
 
 class RemoteTableUser extends Component{
@@ -416,15 +417,7 @@ class RemoteTableUser extends Component{
                             backgroundColor: '#EEE',
                         }
                     }}
-                    localization={{
-                        body: {
-                            editRow: {
-                                deleteText : "¿Realmente desea eliminar el registro?",
-                                cancelTooltip : "Cancelar",
-                                saveTooltip: "Proceder"
-                            },
-                        }
-                    }}
+                    localization={materialTableLocaleES}
                 />
             </div>
         );
