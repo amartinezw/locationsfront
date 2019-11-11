@@ -1,8 +1,8 @@
 import createStore from 'react-waterfall'
 
-const fetchBlocks = (rack) => {
-  return new Promise((resolve, reject) => {                                    
-    let url = process.env.REACT_APP_API_LOCATION+'/warehouselocations/getblocks?warehouse_id=1&rack='+rack
+const fetchBlocks = (rack, urlBlocks) => {
+  return new Promise((resolve, reject) => {           
+    let url = urlBlocks+'&rack='+rack;
     let headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
@@ -109,8 +109,8 @@ const config = {
     },
   },
   actionsCreators: {
-    getBlocks: async (_, actions, rack) => {      
-      const data = await fetchBlocks(rack)
+    getBlocks: async (_, actions, rack, url) => {      
+      const data = await fetchBlocks(rack, url)
       return { blocks: { loading: false, data: data } }
     },
     getItemsInBlock: async (_, actions, block) => {      

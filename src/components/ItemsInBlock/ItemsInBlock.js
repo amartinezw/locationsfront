@@ -1,6 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import { connect } from 'store';
+import materialTableLocaleES from '../MaterialTableLocaleES';
 var Barcode = require('react-barcode');
 
 const renderDetail = (rowData) => {
@@ -14,6 +15,7 @@ const renderDetail = (rowData) => {
 	return <MaterialTable
 		  title={'Detalle de producto '+rowData.name}
 		  columns={columns}
+		  localization={materialTableLocaleES}
 		  data={rowData.variations}
 		  options={{
 		  	search: false,
