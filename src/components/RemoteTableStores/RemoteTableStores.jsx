@@ -32,7 +32,7 @@ export default class RemoteTableStores extends React.Component{
                             options={this.stores}
                             getOptionLabel={option => option.name}
                             onChange={(event, newValue) => {
-                                this.setState({selectValue:newValue})
+                                this.setState({selectValue:{id:props.id,value:newValue}})
                             }}
                             renderInput={
                                 params => (<TextField {...params} label="Tienda" variant="outlined" fullWidth />)
@@ -113,32 +113,31 @@ export default class RemoteTableStores extends React.Component{
         };
         //let $result = new Promise(resolve => resolve());
         console.log(Object.keys($newData).length,this.selectValue);
+        let $url = this.methods.add+'store_id='+this.state.selectValue.id;
         let $result = new Promise(resolve => {
             setTimeout(() => {
                 if(String(this.state.selectValue.id)==="undefined"){
-                    console.log("undefined");
                     this.handleOpenSnack({msg:"Debe seleccionar la tienda correspondiente los datos no se almacenaron.", typeMsg: "warning"});
+                    resolve();
                 }else{
-                    console.log("Sent",this.state.selectValue.id);
+                    console.log(this.state.selectValue);
+                    /*fetch($url,$params)
+                        .then(response => {
+                            if(response.ok){
+                                response.json().then(result => {
+                                    this.handleOpenSnack({msg:"Nueva bodega creada con éxito", typeMsg: "success"});
+                                })
+                            }else{
+                                this.handleOpenSnack({msg:"No fue posible almacenar los datos intentelo nuevamente.", typeMsg: "error"});
+                            }
+                            resolve();
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            resolve();
+                        });*/
+                    resolve();
                 }
-                /*let $url = this.methods.add+'store_id='+this.state.selectValue.id;
-                fetch($url,$params)
-                    .then(response => {
-                        if(response.ok){
-                            response.json().then(result => {
-                                this.handleOpenSnack({msg:"Nueva bodega creada con éxito", typeMsg: "success"});
-                            })
-                        }else{
-                            this.handleOpenSnack({msg:"No fue posible almacenar los datos intentelo nuevamente.", typeMsg: "error"});
-                        }
-                        resolve();
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        resolve();
-                    });
-                 */
-                resolve();
             }, 600);
         });
 

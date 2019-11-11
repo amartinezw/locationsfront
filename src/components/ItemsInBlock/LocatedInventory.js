@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect,useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import {
@@ -68,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
 export default function LocatedInventory() {
   const classes = useStyles();
   const tableRef = React.createRef();
-
   const [state, setState] = useState({
     notLocated: false,
     active: 0,
@@ -155,6 +154,9 @@ export default function LocatedInventory() {
             console.log(err);
           });
   }
+  useEffect(()=>{
+    getParent();
+  },[]);
 
   const handleChangeCheckBox = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked });
@@ -175,6 +177,7 @@ export default function LocatedInventory() {
   const handleSearch = () => {
     const filters = [];
     filters.push({ name: 'active', value: state.active });
+
     if (state.notLocated === true) {
       filters.push({ name: 'notLocated', value: state.notLocated });
     }
@@ -190,6 +193,7 @@ export default function LocatedInventory() {
     if (state.department !== '-1') {
       filters.push({ name: 'department', value: department });
     }
+
     setState({ ...state, filters, filtersChanged: true });
     return tableRef.current && tableRef.current.onQueryChange();
   };
@@ -324,6 +328,9 @@ export default function LocatedInventory() {
           margin="normal"
           variant="outlined"
         >
+          <MenuItem key="0" value="-1">
+            Ambos
+          </MenuItem>
           <MenuItem key="1" value="0">
            Activo
           </MenuItem>
@@ -374,7 +381,6 @@ export default function LocatedInventory() {
               page: result.current_page - 1,
               totalCount: result.total,
             });
-            getParent();
           });
       })
     }
