@@ -4,6 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from "@material-ui/core/Snackbar";
 import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
+import materialTableLocaleES from '../MaterialTableLocaleES';
 
 export default class RemoteTableStores extends React.Component{
 
@@ -232,6 +233,7 @@ export default class RemoteTableStores extends React.Component{
                     title={this.props.title}
                     columns={ this.state.columns }
                     data={ $query => this.show($query)}
+                    localization={materialTableLocaleES}
                     editable={{
                         onRowAdd: newData => this.add(newData),
                         onRowUpdate: (newData, oldData) => this.edit(newData,oldData),

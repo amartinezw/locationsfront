@@ -1,5 +1,14 @@
 import React from "react";
 import MaterialTable from 'material-table'
+//import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
+import Snackbar from "@material-ui/core/Snackbar";
+import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
+import Slide from '@material-ui/core/Slide';
+import materialTableLocaleES from '../MaterialTableLocaleES';
+//import Tooltip from "@material-ui/core/Tooltip";
+// import { makeStyles } from "@material-ui/core/styles";
+// @material-ui/icons
 
 export default function RemoteTable(props) {  
     const { title, columns, urlfetch} = props;
@@ -9,6 +18,7 @@ export default function RemoteTable(props) {
         <MaterialTable
             title={title}
             columns={columns}
+            localization={materialTableLocaleES}
             data={(query) =>
                 new Promise((resolve, reject) => {
                     let url = urlfetch
@@ -26,7 +36,7 @@ export default function RemoteTable(props) {
                     url += '&page=' + (query.page + 1);
                     if(query.orderBy!==undefined){
                         order.order = query.orderDirection;
-                        order.column    = query.orderBy["field"];
+                        order.column = query.orderBy["field"];
                     }
 
                     url +="&column="+order.column+"&order="+order.order+"&q="+query.search;
@@ -48,7 +58,7 @@ export default function RemoteTable(props) {
             options={{
                 pageSize: 20,
                 debounceInterval: 500,
-                maxBodyHeight: 400,
+                maxBodyHeight: 600,
                 search: true,
                 actionsColumnIndex: -1
             }}
