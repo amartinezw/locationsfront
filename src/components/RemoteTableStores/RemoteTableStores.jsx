@@ -33,6 +33,7 @@ export default class RemoteTableStores extends React.Component{
                             options={this.stores}
                             getOptionLabel={option => option.name}
                             onChange={(event, newValue) => {
+                                console.log(props);
                                 this.setState({selectValue:{id:props.id,value:newValue}})
                             }}
                             renderInput={
@@ -113,16 +114,16 @@ export default class RemoteTableStores extends React.Component{
             body: JSON.stringify($newData)
         };
         //let $result = new Promise(resolve => resolve());
-        console.log(Object.keys($newData).length,this.selectValue);
-        let $url = this.methods.add+'store_id='+this.state.selectValue.id;
+        //console.log(Object.keys($newData).length,this.state.selectValue);
+        let $url = this.methods.add+'store_id='+this.state.selectValue.value.id;
         let $result = new Promise(resolve => {
             setTimeout(() => {
-                if(String(this.state.selectValue.id)==="undefined"){
+                if(String(this.state.selectValue.value.id)==="undefined"){
                     this.handleOpenSnack({msg:"Debe seleccionar la tienda correspondiente los datos no se almacenaron.", typeMsg: "warning"});
                     resolve();
                 }else{
                     console.log(this.state.selectValue);
-                    /*fetch($url,$params)
+                    fetch($url,$params)
                         .then(response => {
                             if(response.ok){
                                 response.json().then(result => {
@@ -136,8 +137,7 @@ export default class RemoteTableStores extends React.Component{
                         .catch(error => {
                             console.log(error);
                             resolve();
-                        });*/
-                    resolve();
+                        });
                 }
             }, 600);
         });
@@ -161,16 +161,6 @@ export default class RemoteTableStores extends React.Component{
                     .then(response => {
                         if(response.ok){
                             response.json().then(result => {
-                                /*if(result.success){
-                                    this.cache = {
-                                        data: result.data[0].data,
-                                        page: result.data[0].current_page-1,
-                                        totalCount: result.data[0].total
-                                    }
-                                }else{
-
-                                }
-                                */
                                 console.log(result);
                             })
                             this.handleOpenSnack({msg:"La bodega se ha eliminado con éxito", typeMsg: "success"});
