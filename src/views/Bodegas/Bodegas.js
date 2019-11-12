@@ -15,6 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Snackbar from '@material-ui/core/Snackbar';
 import MySnackbarContentWrapper from "../../components/Snackbar/SnackbarFancy";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -179,7 +180,8 @@ export default function Bodegas() {
 
 
   return (
-    <GridContainer>
+      <GridContainer>
+          <Box m={2.5}></Box>
       <GridItem xs={12} sm={12} md={12}>
         <Button variant="contained" type="button" color="primary" onClick={handleOpen}>Agregar un nuevo estante</Button>
         <Card plain>
@@ -298,7 +300,7 @@ export default function Bodegas() {
                     horizontal: 'left',
                 }}
                 open={openSnack}
-                autoHideDuration={6000}
+                autoHideDuration={5000}
                 onClose={handleCloseSnack}
                 ContentProps={{
                     'aria-describedby': 'message-id',

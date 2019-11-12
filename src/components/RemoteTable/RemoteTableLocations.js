@@ -4,6 +4,7 @@ import MaterialTable from 'material-table';
 import Switch from "@material-ui/core/Switch";
 import Snackbar from "@material-ui/core/Snackbar";
 import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export default function RemoteTable(props) {
     const { title, columns, urlfetch} = props;
@@ -118,9 +119,9 @@ export default function RemoteTable(props) {
                     })
                 }
                 options={{
-                    pageSize: 20,
-                    debounceInterval: 500,
-                    maxBodyHeight: 400,
+                    pageSize: 10,
+                    debounceInterval: 350,
+                    //maxBodyHeight: 400,
                     search: true,
                     actionsColumnIndex: -1
                 }}
@@ -131,7 +132,9 @@ export default function RemoteTable(props) {
                 ]}
                 components={{
                     Action: props => (
+                        <Tooltip title="Desactivar/Activar ubicación">
                         <Switch checked={state["chk"+props.data.tableData.id]||false} onClick={handleChange(props.data)} value={"checked"+props.data.tableData.id} />
+                        </Tooltip>
                     ),
                 }}
             />

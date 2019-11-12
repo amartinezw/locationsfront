@@ -182,8 +182,9 @@ export default class RemoteTableStores extends React.Component{
     edit(newData,oldData){
         let $return;
         let $params = {};
-        if(String(this.state.selectValue.name)!==undefined){
-            newData.store_id    = this.state.selectValue.id;
+        console.log(this.state.selectValue);
+        if(String(this.state.selectValue.value.name)!==undefined){
+            newData.store_id    = this.state.selectValue.value.id;
         }
         $params = {
             method: "POST",
