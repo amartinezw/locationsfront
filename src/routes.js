@@ -47,7 +47,7 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/bodegas",
+    path: "/listaUbicaciones",
     name: "Lista de ubicaciones",
     icon: LibraryBooks,
     component: Bodegas,
@@ -68,8 +68,8 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/altabodegas",
-    name: "Alta de Bodegas",
+    path: "/bodegas",
+    name: "Lista de Bodegas",
     icon: Storage,
     component: Warehouse,
     layout: "/admin"

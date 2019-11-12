@@ -117,7 +117,7 @@ class Dashboard extends React.Component {
         <GridContainer>
           <GridItem xs={12} sm={6} md={3}>
             <NavLink
-              to="/admin/altabodegas"
+              to="/admin/bodegas"
               activeClassName="active"
               key={1}
             >

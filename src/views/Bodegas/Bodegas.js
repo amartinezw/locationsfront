@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import GridItem from "../../components/Grid/GridItem.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
 import Card from "../../components/Card/Card.js";
-import RemoteTable from "../../components/RemoteTable/RemoteTable.jsx";
+import RemoteTable from "../../components/RemoteTable/RemoteTableLocations.js";
 import Button from "../../components/CustomButtons/Button.js";
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
@@ -15,6 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Snackbar from '@material-ui/core/Snackbar';
 import MySnackbarContentWrapper from "../../components/Snackbar/SnackbarFancy";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -81,7 +82,6 @@ export default function Bodegas() {
   const [bodegas, setWarehouse] = useState([{value:1, label:""}])
   const [open, setOpen] = useState(false);
   const [hasError, setErrors] = useState(false);
-
   const classes = useStyles();
   const handleOpen = () => {
     setOpen(true);
@@ -180,7 +180,8 @@ export default function Bodegas() {
 
 
   return (
-    <GridContainer>
+      <GridContainer>
+          <Box m={2.5}></Box>
       <GridItem xs={12} sm={12} md={12}>
         <Button variant="contained" type="button" color="primary" onClick={handleOpen}>Agregar un nuevo estante</Button>
         <Card plain>
@@ -299,7 +300,7 @@ export default function Bodegas() {
                     horizontal: 'left',
                 }}
                 open={openSnack}
-                autoHideDuration={6000}
+                autoHideDuration={5000}
                 onClose={handleCloseSnack}
                 ContentProps={{
                     'aria-describedby': 'message-id',
