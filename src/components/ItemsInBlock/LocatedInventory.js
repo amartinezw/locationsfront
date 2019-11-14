@@ -57,8 +57,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   fab: {
-    marginLeft: theme.spacing(2),
-    marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(2),    
     marginBottom: theme.spacing(2),
   },
   menu: {
@@ -248,19 +247,7 @@ export default function LocatedInventory() {
 
   return (
     <React.Fragment>
-      <form className={classes.container} noValidate autoComplete="off">
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={state.notLocated}
-              onChange={handleChangeCheckBox('notLocated')}
-              value="notLocated"
-              color="primary"
-            />
-          )}
-          className={classes.FormControlLabel}
-          label="Productos sin ubicar"
-        />
+      <form className={classes.container} noValidate autoComplete="off">        
         <TextField
           id="outlined-select-currency"
           select
@@ -274,7 +261,7 @@ export default function LocatedInventory() {
           value={department}
           onChange={handleChange('department')}
           helperText="Seleccione una categoria"
-          margin="normal"
+          margin="dense"
           variant="outlined"
         >
           {state.select.map(item =>(<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>))}
@@ -292,7 +279,7 @@ export default function LocatedInventory() {
             value={subCategory}
             onChange={handleChange('subCategory')}
             helperText="Seleccione la subcategoria"
-            margin="normal"
+            margin="dense"
             variant="outlined"
         >
           {state.subSelect.map(item =>(<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>))}
@@ -303,7 +290,7 @@ export default function LocatedInventory() {
           value={state.product}
           onChange={handleChange('product')}
           className={classes.textField}
-          margin="normal"
+          margin="dense"
           variant="outlined"
         />
         <TextField
@@ -312,10 +299,10 @@ export default function LocatedInventory() {
           value={state.sku}
           onChange={handleChange('sku')}
           className={classes.textField}
-          margin="normal"
+          margin="dense"
           variant="outlined"
         />
-        <GridItem xs={12} sm={12} md={5}>
+       
         <TextField
           id="outlined-select-currency"
           select
@@ -328,10 +315,10 @@ export default function LocatedInventory() {
           }}
           value={state.active}
           onChange={handleChange('active')}
-          margin="normal"
+          margin="dense"
           variant="outlined"
         >
-          <MenuItem key="0" value="-1">npm
+          <MenuItem key="0" value="-1">
             Ambos
           </MenuItem>
           <MenuItem key="1" value="0">
@@ -345,7 +332,18 @@ export default function LocatedInventory() {
           <SearchIcon className={classes.extendedIcon} />
          Buscar
         </Fab>
-        </GridItem>
+        <FormControlLabel
+          control={(
+            <Checkbox
+              checked={state.notLocated}
+              onChange={handleChangeCheckBox('notLocated')}
+              value="notLocated"
+              color="primary"
+            />
+          )}
+          className={classes.FormControlLabel}
+          label="Productos sin ubicar"
+        />
       </form>
       <MaterialTable
         title="Inventario"
@@ -404,6 +402,7 @@ export default function LocatedInventory() {
           actionsColumnIndex: -1,
           pageSize: 10,
           search: false,
+          toolbar: false,
           debounceInterval: 500,
           headerStyle: { position: 'sticky', top: 0 },
           maxBodyHeight: '550px',

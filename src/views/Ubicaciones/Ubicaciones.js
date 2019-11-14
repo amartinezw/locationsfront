@@ -40,8 +40,7 @@ const styles = theme => ({
         marginTop: theme.spacing(2),
     },
     fab: {
-        marginLeft: theme.spacing(2),
-        marginTop: theme.spacing(2),
+        marginLeft: theme.spacing(2),        
     },
     input: {
         display: 'none',
@@ -205,7 +204,7 @@ class Ubicaciones extends Component {
                         value={this.state.category}
                         onChange={this.handleChangeCategory('category')}
                         helperText="Seleccione una categoria"
-                        margin="normal"
+                        margin="dense"
                         variant="outlined"
                     >
                         <MenuItem key="" value="0">
@@ -229,7 +228,7 @@ class Ubicaciones extends Component {
                         value={this.state.subCategory}
                         onChange={this.handleChange('subCategory')}
                         helperText="Seleccione una subcategoria"
-                        margin="normal"
+                        margin="dense"
                         variant="outlined"
                     >
                         <MenuItem key="" value="0">
@@ -247,7 +246,7 @@ class Ubicaciones extends Component {
                         value={this.state.product}
                         onChange={this.handleChange('product')}
                         className={classes.textField}
-                        margin="normal"
+                        margin="dense"
                         variant="outlined"
                     />
                     <TextField
@@ -256,7 +255,7 @@ class Ubicaciones extends Component {
                         value={this.state.sku}
                         onChange={this.handleChange('sku')}
                         className={classes.textField}
-                        margin="normal"
+                        margin="dense"
                         variant="outlined"
                     />
                     <TextField
@@ -271,7 +270,7 @@ class Ubicaciones extends Component {
                         }}
                         value={this.state.active}
                         onChange={this.handleChange('active')}
-                        margin="normal"
+                        margin="dense"
                         variant="outlined"
                     >
                         <MenuItem key="1" value="-1">

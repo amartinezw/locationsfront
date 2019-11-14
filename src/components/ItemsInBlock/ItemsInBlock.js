@@ -93,7 +93,8 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  options={{
 		  	actionsColumnIndex: -1,		    
 		    search: false,              		    		    
-		    maxBodyHeight: 500
+		    maxBodyHeight: 500,
+		    toolbar: false
 		  }}
 		  detailPanel={rowData => {
             return renderDetail(rowData);
