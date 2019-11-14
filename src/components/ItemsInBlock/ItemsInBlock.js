@@ -14,8 +14,7 @@ const renderDetail = (rowData) => {
 	];
 	return <MaterialTable
 		  title={'Detalle de producto '+rowData.name}
-		  columns={columns}
-		  localization={materialTableLocaleES}
+		  columns={columns}		  
 		  data={rowData.variations}
 		  options={{
 		  	search: false,
@@ -77,7 +76,8 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		<MaterialTable
 		  title="Productos en la ubicacion"
 		  columns={itemColumns}
-		  data={itemsInBlock.data.data}  
+		  data={itemsInBlock.data.data}
+		  localization={materialTableLocaleES}  
 		  actions={[
 		    {
 		      icon: 'crop_original',

@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
   fab: {
     marginLeft: theme.spacing(2),
     marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
   menu: {
     width: 200,
