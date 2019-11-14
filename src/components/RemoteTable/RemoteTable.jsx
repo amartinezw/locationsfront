@@ -1,10 +1,10 @@
 import React from "react";
 import MaterialTable from 'material-table'
 //import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
+/*import Switch from "@material-ui/core/Switch";
 import Snackbar from "@material-ui/core/Snackbar";
 import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
-import Slide from '@material-ui/core/Slide';
+import Slide from '@material-ui/core/Slide';*/
 import materialTableLocaleES from '../MaterialTableLocaleES';
 //import Tooltip from "@material-ui/core/Tooltip";
 // import { makeStyles } from "@material-ui/core/styles";

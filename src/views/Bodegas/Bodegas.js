@@ -181,7 +181,7 @@ export default function Bodegas() {
 
   return (
       <GridContainer>
-          <Box m={2.5}></Box>
+          <Box m={1.5}></Box>
       <GridItem xs={12} sm={12} md={12}>
         <Button variant="contained" type="button" color="primary" onClick={handleOpen}>Agregar un nuevo estante</Button>
         <Card plain>
