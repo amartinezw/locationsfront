@@ -5,6 +5,7 @@ import Switch from "@material-ui/core/Switch";
 import Snackbar from "@material-ui/core/Snackbar";
 import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
 import Tooltip from "@material-ui/core/Tooltip";
+import materialTableLocaleES from "../MaterialTableLocaleES";
 
 export default function RemoteTable(props) {
     const { title, columns, urlfetch} = props;
@@ -74,6 +75,7 @@ export default function RemoteTable(props) {
             <MaterialTable
                 title={title}
                 columns={columns}
+                localization={materialTableLocaleES}
                 data={(query) =>
                     new Promise((resolve, reject) => {
                         let url = urlfetch

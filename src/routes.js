@@ -47,7 +47,7 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/listaUbicaciones",
+    path: "/listaubicaciones",
     name: "Lista de ubicaciones",
     icon: LibraryBooks,
     component: Bodegas,
