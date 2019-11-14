@@ -1,15 +1,16 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import MaterialTable from 'material-table';
 //import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Snackbar from "@material-ui/core/Snackbar";
 import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
 import Tooltip from "@material-ui/core/Tooltip";
+import materialTableLocaleES from "../MaterialTableLocaleES";
 
 export default function RemoteTable(props) {
     const { title, columns, urlfetch} = props;
-    const [state, setState] = useState({});
-    //const [disabledState, setDisabledState] = useState({disabled1:false});
+    const [sliders, setSliders] = useState({});
+    const [pageLength,setPageLength] = useState(10);
     const loader = document.querySelector('.overlay');
 
     const showLoader = () =>{
@@ -26,7 +27,6 @@ export default function RemoteTable(props) {
         let chk = event.target.checked;
         saveData(name,props,chk);
         showLoader();
-
     };
 
     const [openSnack,setOpenSnack] = useState(false);
@@ -58,7 +58,7 @@ export default function RemoteTable(props) {
                     hideLoader();
                     setMsg({msg:"Datos actualizados",typeMsg: "success" });
                     handleOpenSnack();
-                    setState({ ...state, [name]: chk });
+                    setSliders({ ...sliders, [name]: chk });
                 })
                 .catch(err => {
                     console.log(err);
@@ -74,14 +74,14 @@ export default function RemoteTable(props) {
             <MaterialTable
                 title={title}
                 columns={columns}
+                localization={materialTableLocaleES}
                 data={(query) =>
                     new Promise((resolve, reject) => {
                         let url = urlfetch
                         let order = {
-                            'column'    : 'warehouse_id',
-                            'order' : 'asc'
+                            'column': 'warehouse_id',
+                            'order': 'asc'
                         }
-
                         let headers = {
                             "Accept": "application/json",
                             "Content-Type": "application/json",
@@ -108,7 +108,8 @@ export default function RemoteTable(props) {
                                     temp["chk"+i++]=r[item.active];
                                     return temp;
                                 },{});
-                                setState(obj);
+                                setSliders(obj);
+                                setPageLength(result.per_page);
                                 resolve({
                                     pageSize: result.per_page,
                                     data: result.data,
@@ -119,7 +120,7 @@ export default function RemoteTable(props) {
                     })
                 }
                 options={{
-                    pageSize: 10,
+                    pageSize: pageLength ,
                     debounceInterval: 350,
                     //maxBodyHeight: 400,
                     search: true,
@@ -133,7 +134,7 @@ export default function RemoteTable(props) {
                 components={{
                     Action: props => (
                         <Tooltip title="Desactivar/Activar ubicación">
-                        <Switch checked={state["chk"+props.data.tableData.id]||false} onClick={handleChange(props.data)} value={"checked"+props.data.tableData.id} />
+                        <Switch checked={sliders["chk"+props.data.tableData.id]||false} onClick={handleChange(props.data)} value={"checked"+props.data.tableData.id} />
                         </Tooltip>
                     ),
                 }}

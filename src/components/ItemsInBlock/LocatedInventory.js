@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import materialTableLocaleES from '../MaterialTableLocaleES';
+import GridItem from "../Grid/GridItem";
 
 const renderDetail = (rowData) => {
   const columns = [
@@ -314,6 +315,7 @@ export default function LocatedInventory() {
           margin="normal"
           variant="outlined"
         />
+        <GridItem xs={12} sm={12} md={5}>
         <TextField
           id="outlined-select-currency"
           select
@@ -329,7 +331,7 @@ export default function LocatedInventory() {
           margin="normal"
           variant="outlined"
         >
-          <MenuItem key="0" value="-1">
+          <MenuItem key="0" value="-1">npm
             Ambos
           </MenuItem>
           <MenuItem key="1" value="0">
@@ -343,6 +345,7 @@ export default function LocatedInventory() {
           <SearchIcon className={classes.extendedIcon} />
          Buscar
         </Fab>
+        </GridItem>
       </form>
       <MaterialTable
         title="Inventario"
