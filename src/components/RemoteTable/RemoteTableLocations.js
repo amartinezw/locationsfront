@@ -124,6 +124,7 @@ export default function RemoteTable(props) {
                     debounceInterval: 350,
                     //maxBodyHeight: 400,
                     search: true,
+                    padding: 'dense',
                     actionsColumnIndex: -1
                 }}
                 actions={[

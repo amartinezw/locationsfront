@@ -20,6 +20,7 @@ const renderDetail = (rowData) => {
 		  	search: false,
 		  	paging: false,
 		  	showTitle: false,
+		  	padding: 'dense',
 		  	toolbar: false
 		  }}    		  		  
 	  />
@@ -93,7 +94,8 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  options={{
 		  	actionsColumnIndex: -1,		    
 		    search: false,              		    		    
-		    maxBodyHeight: 500,
+		    maxBodyHeight: '50vh',
+		    padding: 'dense',
 		    toolbar: false
 		  }}
 		  detailPanel={rowData => {

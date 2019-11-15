@@ -42,6 +42,7 @@ const Blocks = ({ blocks }) => {
               <Badge color="primary" badgeContent={block.items_count}>
                 <Button
                   variant="contained"
+                  size="small"
                   className="button"
                   style={{ fontSize,color }}
                   disabled={disabled}
@@ -65,8 +66,9 @@ const Blocks = ({ blocks }) => {
             <Button
               variant="contained"
               className="button"
+              size="small"
               style={{ fontSize, color }}
-              disabled={block.items_count < 1 || block.active === 0 ? true : false}
+              disabled={disabled}
               onClick={
               () => actions.getItemsInBlock(block.mapped_string)
             }

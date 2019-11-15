@@ -34,6 +34,7 @@ const renderDetail = (rowData) => {
       options={{
         search: false,
         paging: false,
+        padding: 'dense',
         toolbar: false,
       }}
     />
@@ -403,9 +404,10 @@ export default function LocatedInventory() {
           pageSize: 10,
           search: false,
           toolbar: false,
+          padding: 'dense',          
           debounceInterval: 500,
           headerStyle: { position: 'sticky', top: 0 },
-          maxBodyHeight: '550px',
+          maxBodyHeight: '70vh',
         }}
         detailPanel={(rowData) => renderDetail(rowData)}
       />

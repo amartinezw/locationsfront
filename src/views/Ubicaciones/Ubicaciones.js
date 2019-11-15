@@ -177,7 +177,7 @@ class Ubicaciones extends Component {
                         <GridItem  xs={12} sm={12} md={12}>
                             <Badge color="secondary" style={{width: "100%"}} max={999}
                                    badgeContent={item.total_items}>
-                                <Button fullWidth={true} variant="contained" className={classes.button} disabled={item.total_items > 0 ? false : true}
+                                <Button fullWidth={true} size="small" variant="contained" className={classes.button} disabled={item.total_items > 0 ? false : true}
                                         onClick={() => {                                          
                                           actions.getBlocks(item.rack, this.state.getUrlBlocks)}
                                         }>
@@ -289,11 +289,11 @@ class Ubicaciones extends Component {
                     </Fab>
                 </form>
                 <GridContainer>
-                    <GridItem xs={12} sm={4} md={3} style={{maxHeight: 450, overflow: 'auto'}}>
+                    <GridItem xs={12} sm={4} md={3} style={{maxHeight: '50vh', overflow: 'auto'}}>
                         {renderRacks(this.state.racks)}
                     </GridItem>
                     <GridItem xs={12} sm={8} md={9}>
-                        <GridContainer style={{maxHeight: 450, overflow: 'auto', padding: 10}}>
+                        <GridContainer style={{maxHeight: '50vh', overflow: 'auto', padding: 10}}>
                             <Blocks />
                         </GridContainer>
                     </GridItem>
