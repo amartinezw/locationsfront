@@ -40,7 +40,8 @@ const styles = theme => ({
         marginTop: theme.spacing(2),
     },
     fab: {
-        marginLeft: theme.spacing(2),        
+        marginLeft: theme.spacing(2),
+        marginTop: theme.spacing(1),        
     },
     input: {
         display: 'none',
@@ -283,7 +284,7 @@ class Ubicaciones extends Component {
                             Inactivo
                         </MenuItem>
                     </TextField>
-                    <Fab variant="extended" aria-label="delete" className={classes.fab} onClick={() => this.handleSearch()}>
+                    <Fab variant="extended" size="small" aria-label="delete" className={classes.fab} onClick={() => this.handleSearch()}>
                         <SearchIcon className={classes.extendedIcon} />
                         Buscar
                     </Fab>

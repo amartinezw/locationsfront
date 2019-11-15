@@ -53,13 +53,15 @@ const useStyles = makeStyles((theme) => ({
   },
   FormControlLabel: {
     marginLeft: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
   dense: {
     marginTop: theme.spacing(2),
   },
   fab: {
-    marginLeft: theme.spacing(2),    
-    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+    marginTop: theme.spacing(1),    
+    marginBottom: theme.spacing(1),
   },
   menu: {
     width: 200,
@@ -329,7 +331,7 @@ export default function LocatedInventory() {
            Inactivo
           </MenuItem>
         </TextField>
-        <Fab variant="extended" aria-label="delete" className={classes.fab} onClick={() => handleSearch()}>
+        <Fab variant="extended" size="small" aria-label="delete" className={classes.fab} onClick={() => handleSearch()}>
           <SearchIcon className={classes.extendedIcon} />
          Buscar
         </Fab>
