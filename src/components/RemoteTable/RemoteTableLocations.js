@@ -29,6 +29,37 @@ export default function RemoteTable(props) {
         showLoader();
     };
 
+    const downloadSticker = (context_id, allRack) => {
+      const fetchOptions = {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-type': 'application/json; charset=UTF-8',
+          Authorization: process.env.REACT_APP_API_TOKEN,
+        },
+      };
+      let props, filename;
+      if (allRack === true) {
+        props = '?rack_id='+context_id;
+        filename = 'rack '+context_id+'.pdf';
+      } else {
+        props = '?warehouselocation_id='+context_id;
+        filename = 'ubicacion '+context_id+'.pdf';
+      }
+      const url = process.env.REACT_APP_API_LOCATION + '/warehouselocations/printsticker'+props;
+      fetch(url, fetchOptions)
+        .then((response) => {
+          response.blob().then((blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+          });
+          
+      });
+    }
+
     const [openSnack,setOpenSnack] = useState(false);
     const [msg,setMsg] = useState({msg  :"",typeMsg : "info"});
 
@@ -128,17 +159,18 @@ export default function RemoteTable(props) {
                     actionsColumnIndex: -1
                 }}
                 actions={[
-                    rowData => ({
-                        tooltip:"Desactivar ubicación",
-                    })
+                  {
+                    icon: 'crop_original',
+                    tooltip: 'Imprimir etiqueta',
+                    onClick: (event, rowData) => downloadSticker(rowData.id, false)
+                  }, 
+                  {
+                    icon: 'crop_original',
+                    tooltip: 'Imprimir etiquetas de todo el rack',
+                    onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
+                  },                  
                 ]}
-                components={{
-                    Action: props => (
-                        <Tooltip title="Desactivar/Activar ubicación">
-                        <Switch checked={sliders["chk"+props.data.tableData.id]||false} onClick={handleChange(props.data)} value={"checked"+props.data.tableData.id} />
-                        </Tooltip>
-                    ),
-                }}
+                
             />
             <div>
                 <Snackbar

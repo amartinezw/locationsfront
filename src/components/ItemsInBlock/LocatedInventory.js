@@ -298,7 +298,7 @@ export default function LocatedInventory() {
         />
         <TextField
           id="outlined"
-          label="SKU"
+          label="SKU/Estilo"
           value={state.sku}
           onChange={handleChange('sku')}
           className={classes.textField}

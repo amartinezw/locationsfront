@@ -252,7 +252,7 @@ class Ubicaciones extends Component {
                     />
                     <TextField
                         id="outlined"
-                        label="SKU"
+                        label="SKU/Estilo"
                         value={this.state.sku}
                         onChange={this.handleChange('sku')}
                         className={classes.textField}
