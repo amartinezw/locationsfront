@@ -11,6 +11,7 @@ const renderDetail = (rowData) => {
 		{ title: 'Talla', field: 'name' },
 		{ title: 'Inventario', field: 'stock' },
 		{ title: 'Precio', field: 'price' },
+		{ title: 'Color', field: 'color.name' },
 	];
 	return <MaterialTable
 		  title={'Detalle de producto '+rowData.name}
