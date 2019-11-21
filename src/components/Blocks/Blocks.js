@@ -13,17 +13,10 @@ const Blocks = ({ blocks }) => {
     } else {
       blockWidth = 'auto';
     }
-    let fontSize = 13;
+    let fontSize = 10.5;
     let color = 'black';
     let disabled = false;    
-    return blocks.data.map((block) => {
-      if (block.block > 9 && block.rack > 9) {
-        fontSize = 10.5;
-      } else {
-        if (block.block > 9 || block.rack > 9) {
-          fontSize = 11.5;
-        }   
-      }
+    return blocks.data.map((block) => {      
       if (block.items_count < 1 || block.active === 0) {
         if (block.active === 0) {
           color = 'red';
