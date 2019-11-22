@@ -14,6 +14,7 @@ const renderDetail = (rowData) => {
     { title: 'Talla', field: 'name' },
     { title: 'Inventario', field: 'stock' },
     { title: 'Precio', field: 'price' },
+    { title: 'Color', field: 'color.name' },
     {
       title: 'Ubicacion(es)',
       field: 'locations',
@@ -34,6 +35,7 @@ const renderDetail = (rowData) => {
       options={{
         search: false,
         paging: false,
+        padding: 'dense',
         toolbar: false,
       }}
     />
@@ -52,13 +54,15 @@ const useStyles = makeStyles((theme) => ({
   },
   FormControlLabel: {
     marginLeft: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
   dense: {
     marginTop: theme.spacing(2),
   },
   fab: {
     marginLeft: theme.spacing(2),
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),    
+    marginBottom: theme.spacing(1),
   },
   menu: {
     width: 200,
@@ -247,19 +251,7 @@ export default function LocatedInventory() {
 
   return (
     <React.Fragment>
-      <form className={classes.container} noValidate autoComplete="off">
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={state.notLocated}
-              onChange={handleChangeCheckBox('notLocated')}
-              value="notLocated"
-              color="primary"
-            />
-          )}
-          className={classes.FormControlLabel}
-          label="Productos sin ubicar"
-        />
+      <form className={classes.container} noValidate autoComplete="off">        
         <TextField
           id="outlined-select-currency"
           select
@@ -273,7 +265,7 @@ export default function LocatedInventory() {
           value={department}
           onChange={handleChange('department')}
           helperText="Seleccione una categoria"
-          margin="normal"
+          margin="dense"
           variant="outlined"
         >
           {state.select.map(item =>(<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>))}
@@ -291,7 +283,7 @@ export default function LocatedInventory() {
             value={subCategory}
             onChange={handleChange('subCategory')}
             helperText="Seleccione la subcategoria"
-            margin="normal"
+            margin="dense"
             variant="outlined"
         >
           {state.subSelect.map(item =>(<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>))}
@@ -302,19 +294,19 @@ export default function LocatedInventory() {
           value={state.product}
           onChange={handleChange('product')}
           className={classes.textField}
-          margin="normal"
+          margin="dense"
           variant="outlined"
         />
         <TextField
           id="outlined"
-          label="SKU"
+          label="SKU/Estilo"
           value={state.sku}
           onChange={handleChange('sku')}
           className={classes.textField}
-          margin="normal"
+          margin="dense"
           variant="outlined"
         />
-        <GridItem xs={12} sm={12} md={5}>
+       
         <TextField
           id="outlined-select-currency"
           select
@@ -327,10 +319,10 @@ export default function LocatedInventory() {
           }}
           value={state.active}
           onChange={handleChange('active')}
-          margin="normal"
+          margin="dense"
           variant="outlined"
         >
-          <MenuItem key="0" value="-1">npm
+          <MenuItem key="0" value="-1">
             Ambos
           </MenuItem>
           <MenuItem key="1" value="0">
@@ -340,11 +332,22 @@ export default function LocatedInventory() {
            Inactivo
           </MenuItem>
         </TextField>
-        <Fab variant="extended" aria-label="delete" className={classes.fab} onClick={() => handleSearch()}>
+        <Fab variant="extended" size="small" aria-label="delete" className={classes.fab} onClick={() => handleSearch()}>
           <SearchIcon className={classes.extendedIcon} />
          Buscar
         </Fab>
-        </GridItem>
+        <FormControlLabel
+          control={(
+            <Checkbox
+              checked={state.notLocated}
+              onChange={handleChangeCheckBox('notLocated')}
+              value="notLocated"
+              color="primary"
+            />
+          )}
+          className={classes.FormControlLabel}
+          label="Productos sin ubicar"
+        />
       </form>
       <MaterialTable
         title="Inventario"
@@ -403,9 +406,11 @@ export default function LocatedInventory() {
           actionsColumnIndex: -1,
           pageSize: 10,
           search: false,
+          toolbar: false,
+          padding: 'dense',          
           debounceInterval: 500,
           headerStyle: { position: 'sticky', top: 0 },
-          maxBodyHeight: '550px',
+          maxBodyHeight: '70vh',
         }}
         detailPanel={(rowData) => renderDetail(rowData)}
       />

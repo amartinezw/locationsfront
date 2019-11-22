@@ -11,16 +11,17 @@ const renderDetail = (rowData) => {
 		{ title: 'Talla', field: 'name' },
 		{ title: 'Inventario', field: 'stock' },
 		{ title: 'Precio', field: 'price' },
+		{ title: 'Color', field: 'color.name' },
 	];
 	return <MaterialTable
 		  title={'Detalle de producto '+rowData.name}
-		  columns={columns}
-		  localization={materialTableLocaleES}
+		  columns={columns}		  
 		  data={rowData.variations}
 		  options={{
 		  	search: false,
 		  	paging: false,
 		  	showTitle: false,
+		  	padding: 'dense',
 		  	toolbar: false
 		  }}    		  		  
 	  />
@@ -77,7 +78,8 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		<MaterialTable
 		  title="Productos en la ubicacion"
 		  columns={itemColumns}
-		  data={itemsInBlock.data.data}  
+		  data={itemsInBlock.data.data}
+		  localization={materialTableLocaleES}  
 		  actions={[
 		    {
 		      icon: 'crop_original',
@@ -93,7 +95,9 @@ const ItemsInBlock = ({ itemsInBlock }) => {
 		  options={{
 		  	actionsColumnIndex: -1,		    
 		    search: false,              		    		    
-		    maxBodyHeight: 500
+		    maxBodyHeight: '50vh',
+		    padding: 'dense',
+		    toolbar: false
 		  }}
 		  detailPanel={rowData => {
             return renderDetail(rowData);

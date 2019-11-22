@@ -412,10 +412,8 @@ class RemoteTableUser extends Component{
                         debounceInterval: 500,
                         search: true,
                         sorting: true,
+                        padding: 'dense',
                         actionsColumnIndex: -1,
-                        rowStyle: {
-                            backgroundColor: '#EEE',
-                        }
                     }}
                     localization={materialTableLocaleES}
                 />

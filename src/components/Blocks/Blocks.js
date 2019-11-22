@@ -20,17 +20,10 @@ const Blocks = ({ blocks }) => {
     } else {
       blockWidth = 'auto';
     }
-    let fontSize = 13;
+    let fontSize = 10.5;
     let color = 'black';
-    let disabled = false;
-    return blocks.data.map((block) => {
-      if (block.block > 9 && block.rack > 9) {
-        fontSize = 10.5;
-      } else {
-        if (block.block > 9 || block.rack > 9) {
-          fontSize = 11.5;
-        }   
-      }
+    let disabled = false;    
+    return blocks.data.map((block) => {      
       if (block.items_count < 1 || block.active === 0) {
         if (block.active === 0) {
           color = 'red';
@@ -45,12 +38,13 @@ const Blocks = ({ blocks }) => {
       if (maxLevels < 7 && block.level === maxLevels && maxLevels % 2 !== 0) {
         return (
           <React.Fragment key={block.id}>
-            <GridItem xs={blockWidth} sm={blockWidth} md={blockWidth} style={{ marginTop: 5}}>
+            <GridItem xs={blockWidth} sm={blockWidth} md={blockWidth} style={{ marginTop: 5 }}>
               <Badge color="primary" badgeContent={block.items_count}>
                 <Button
                   variant="contained"
+                  size="small"
                   className="button"
-                  style={{ fontSize,color }}
+                  style={{ fontSize, color }}
                   disabled={disabled}
                   onClick={
                   () => actions.getItemsInBlock(block.mapped_string)
@@ -60,20 +54,20 @@ const Blocks = ({ blocks }) => {
                 </Button>
               </Badge>
             </GridItem>
-            <GridItem xs={blockWidth} sm={blockWidth} md={blockWidth} style={{ marginTop: 5}}>
-            </GridItem>
+            <GridItem xs={blockWidth} sm={blockWidth} md={blockWidth} style={{ marginTop: 5 }} />
           </React.Fragment>
         );
       }
 
       return (
-        <GridItem key={block.id} xs={blockWidth} sm={blockWidth} md={blockWidth} style={{ marginTop: 5}}>
+        <GridItem key={block.id} xs={blockWidth} sm={blockWidth} md={blockWidth} style={{ marginTop: 5 }}>
           <Badge color="primary" badgeContent={block.items_count}>
             <Button
               variant="contained"
               className="button"
+              size="small"
               style={{ fontSize, color }}
-              disabled={block.items_count < 1 || block.active === 0 ? true : false}
+              disabled={disabled}
               onClick={
               () => {
                 showLoader();
