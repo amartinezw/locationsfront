@@ -7,7 +7,6 @@ import Hidden from "@material-ui/core/Hidden";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
-import Fetch from 'components/Fetch/Fetch.js';
 import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import SearchIcon from '@material-ui/icons/Search';
@@ -16,9 +15,8 @@ import {
 } from '@material-ui/core';
 import Blocks from "components/Blocks/Blocks.js";
 import ItemsInBlock from "components/ItemsInBlock/ItemsInBlock.js";
-import Typography from '@material-ui/core/Typography';
 import { actions, connect } from 'store';
-import Grid from "@material-ui/core/Grid/Grid";
+import * as overlay from '../../components/loader';
 
 const styles = theme => ({
     button: {
@@ -58,6 +56,7 @@ class Ubicaciones extends Component {
         };
         this.query = "";
         this.state = {
+            selected: [],
             active: -1,
             product: '',
             sku: '',
@@ -114,7 +113,6 @@ class Ubicaciones extends Component {
     };
 
     getSubcategory = (category) => {
-        console.log(category);
         let subC = [];
         if (category > 0) {
             let $url = this.methods.getSubCategories+''+category;
@@ -178,9 +176,16 @@ class Ubicaciones extends Component {
                         <GridItem  xs={12} sm={12} md={12}>
                             <Badge color="secondary" style={{width: "100%"}} max={999}
                                    badgeContent={item.total_items}>
-                                <Button fullWidth={true} variant="contained" className={classes.button} disabled={item.total_items > 0 ? false : true}
-                                        onClick={() => {                                          
-                                          actions.getBlocks(item.rack, this.state.getUrlBlocks)}
+                                <Button fullWidth={true} size="small" color={this.state.selected[item.id]?"primary":"default"} variant="contained" className={classes.button} disabled={item.total_items > 0 ? false : true}
+                                        onClick={(e) => {
+                                            this.state.selected = this.state.selected.map((i,data)=>{
+                                                return false;
+                                            });
+                                            overlay.showLoader();
+                                            this.state.selected[item.id]=true;
+                                            this.setState({selected:this.state.selected});
+                                            actions.getBlocks(item.rack, this.state.getUrlBlocks);
+                                        }
                                         }>
                                     {'RACK ' + item.rack}
                                 </Button>
@@ -205,7 +210,7 @@ class Ubicaciones extends Component {
                         value={this.state.category}
                         onChange={this.handleChangeCategory('category')}
                         helperText="Seleccione una categoria"
-                        margin="normal"
+                        margin="dense"
                         variant="outlined"
                     >
                         <MenuItem key="" value="0">
@@ -229,7 +234,7 @@ class Ubicaciones extends Component {
                         value={this.state.subCategory}
                         onChange={this.handleChange('subCategory')}
                         helperText="Seleccione una subcategoria"
-                        margin="normal"
+                        margin="dense"
                         variant="outlined"
                     >
                         <MenuItem key="" value="0">
@@ -247,7 +252,7 @@ class Ubicaciones extends Component {
                         value={this.state.product}
                         onChange={this.handleChange('product')}
                         className={classes.textField}
-                        margin="normal"
+                        margin="dense"
                         variant="outlined"
                     />
                     <TextField
@@ -256,7 +261,7 @@ class Ubicaciones extends Component {
                         value={this.state.sku}
                         onChange={this.handleChange('sku')}
                         className={classes.textField}
-                        margin="normal"
+                        margin="dense"
                         variant="outlined"
                     />
                     <TextField
@@ -271,7 +276,7 @@ class Ubicaciones extends Component {
                         }}
                         value={this.state.active}
                         onChange={this.handleChange('active')}
-                        margin="normal"
+                        margin="dense"
                         variant="outlined"
                     >
                         <MenuItem key="1" value="-1">
@@ -290,11 +295,11 @@ class Ubicaciones extends Component {
                     </Fab>
                 </form>
                 <GridContainer>
-                    <GridItem xs={12} sm={4} md={3} style={{maxHeight: 450, overflow: 'auto'}}>
+                    <GridItem xs={12} sm={4} md={3} style={{maxHeight: '50vh', overflow: 'auto'}}>
                         {renderRacks(this.state.racks)}
                     </GridItem>
                     <GridItem xs={12} sm={8} md={9}>
-                        <GridContainer style={{maxHeight: 450, overflow: 'auto', padding: 10}}>
+                        <GridContainer style={{maxHeight: '50vh', overflow: 'auto', padding: 10}}>
                             <Blocks />
                         </GridContainer>
                     </GridItem>

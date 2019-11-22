@@ -5,6 +5,13 @@ import GridItem from 'components/Grid/GridItem';
 import { actions, connect } from 'store';
 
 const Blocks = ({ blocks }) => {
+  const loader = document.querySelector('.overlay');
+
+  const showLoader = () =>{
+    loader.classList.remove('overlay--hide');
+    loader.classList.add('overlay--show');
+  }
+
   if (blocks.data) {
     const maxLevels = Math.max.apply(Math, blocks.data.map((o) => o.level));
     let blockWidth;
@@ -68,7 +75,10 @@ const Blocks = ({ blocks }) => {
               style={{ fontSize, color }}
               disabled={block.items_count < 1 || block.active === 0 ? true : false}
               onClick={
-              () => actions.getItemsInBlock(block.mapped_string)
+              () => {
+                showLoader();
+                actions.getItemsInBlock(block.mapped_string)
+              }
             }
             >
               {block.mapped_string}

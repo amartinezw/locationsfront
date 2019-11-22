@@ -1,26 +1,31 @@
-import createStore from 'react-waterfall'
+import createStore from 'react-waterfall';
+import * as overlay from '../components/loader'
 
 const fetchBlocks = (rack, urlBlocks) => {
-  return new Promise((resolve, reject) => {           
-    let url = urlBlocks+'&rack='+rack;
-    let headers = {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
-    }
+    let promise = new Promise((resolve, reject) => {
+        let url = urlBlocks+'&rack='+rack;
+        let headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
+        }
 
-    url += '&per_page=15'
-    url += '&order=asc'
-    url += '&column=id'
-    url += '&page=1'
-    fetch(url, {            
-      headers: headers,
-    })
-      .then(response => response.json())
-      .then(result => {
-        resolve(result)
-      })
-  })
+        url += '&per_page=15'
+        url += '&order=asc'
+        url += '&column=id'
+        url += '&page=1'
+        fetch(url, {
+            headers: headers,
+        })
+            .then(response => response.json())
+            .then(result => {
+                setTimeout(()=>{
+                    overlay.hideLoader();
+                },450);
+                resolve(result);
+            })
+    });
+  return promise;
 }
 
 const fetchItemsInBlock = (block) => {
@@ -41,6 +46,9 @@ const fetchItemsInBlock = (block) => {
     })
       .then(response => response.json())
       .then(result => {
+          setTimeout(()=>{
+              overlay.hideLoader();
+          },350);
         resolve(result)
       })
   })
@@ -109,8 +117,8 @@ const config = {
     },
   },
   actionsCreators: {
-    getBlocks: async (_, actions, rack, url) => {      
-      const data = await fetchBlocks(rack, url)
+    getBlocks: async (_, actions, rack, url) => {
+      const data = await fetchBlocks(rack, url);
       return { blocks: { loading: false, data: data } }
     },
     getItemsInBlock: async (_, actions, block) => {      
