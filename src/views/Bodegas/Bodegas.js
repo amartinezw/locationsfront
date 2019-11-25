@@ -185,7 +185,7 @@ export default function Bodegas() {
       <GridItem xs={12} sm={12} md={12}>
         <Button variant="contained" type="button" color="primary" onClick={handleOpen}>Agregar un nuevo estante</Button>
         <Card plain>
-            <RemoteTable rows={100} title="Lista de ubicaciones" urlfetch={process.env.REACT_APP_API_LOCATION+"/warehouselocations/getall?warehouse_id=1"}
+            <RemoteTable title="Lista de ubicaciones" urlfetch={process.env.REACT_APP_API_LOCATION+"/warehouselocations/getall?warehouse_id=1"}
               columns={bodegasColumns} />
         </Card>
       </GridItem>

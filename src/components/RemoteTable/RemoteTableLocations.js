@@ -108,6 +108,7 @@ export default function RemoteTable(props) {
                             "Content-Type": "application/json",
                             "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
                         }
+                        console.log(query);
                         url += '&per_page=' + query.pageSize;
                         url += '&page=' + (query.page + 1);
                         if(String(query.orderBy)!=="undefined"){
@@ -130,7 +131,7 @@ export default function RemoteTable(props) {
                                     return temp;
                                 },{});
                                 setSliders(obj);
-                                setPageLength(result.per_page);
+                                setPageLength(Number(result.per_page));
                                 resolve({
                                     pageSize: result.per_page,
                                     data: result.data,
@@ -161,13 +162,14 @@ export default function RemoteTable(props) {
                     onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
                   },
                 ]}
+                /*
                 components={{
                     Action: props => (
                         <Tooltip title="Desactivar/Activar ubicación">
                         <Switch checked={sliders["chk"+props.data.tableData.id]||false} onClick={handleChange(props.data)} value={"checked"+props.data.tableData.id} />
                         </Tooltip>
                     ),
-                }}
+                }}*/
             />
             <div>
                 <Snackbar
