@@ -19,9 +19,7 @@ const fetchBlocks = (rack, urlBlocks) => {
         })
             .then(response => response.json())
             .then(result => {
-                setTimeout(()=>{
-                    overlay.hideLoader();
-                },450);
+                overlay.hideLoader();
                 resolve(result);
             })
     });
@@ -46,10 +44,8 @@ const fetchItemsInBlock = (block) => {
     })
       .then(response => response.json())
       .then(result => {
-          setTimeout(()=>{
-              overlay.hideLoader();
-          },350);
-        resolve(result)
+          overlay.hideLoader();
+          resolve(result)
       })
   })
 }
