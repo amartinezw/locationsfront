@@ -122,7 +122,7 @@ const ItemsInBlock = ({ itemsInBlock }) => {
                 style={{marginBottom: '15px'}} 
                 onClick={() => {downloadSticker('warehouselocation_id', itemsInBlock.data.warehouselocation_id, 'portrait')}}
               >
-                Imprimir etiquetas H
+                Imprimir etiquetas V
               </Button>
               <Button 
                 variant="contained"
@@ -130,7 +130,7 @@ const ItemsInBlock = ({ itemsInBlock }) => {
                 color="secondary"
                 onClick={() => {downloadSticker('warehouselocation_id', itemsInBlock.data.warehouselocation_id, 'landscape')}}
               >
-                Imprimir etiquetas V
+                Imprimir etiquetas H
               </Button>
             </React.Fragment>
           ) : '' 
