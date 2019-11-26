@@ -6,27 +6,17 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
 import Tooltip from "@material-ui/core/Tooltip";
 import materialTableLocaleES from "../MaterialTableLocaleES";
+import * as overlay from '../loader';
 
 export default function RemoteTable(props) {
     const { title, columns, urlfetch} = props;
     const [sliders, setSliders] = useState({});
-    const [pageLength,setPageLength] = useState(10);
-    const loader = document.querySelector('.overlay');
-
-    const showLoader = () =>{
-        loader.classList.remove('overlay--hide');
-        loader.classList.add('overlay--show');
-    }
-    const hideLoader = () => {
-        loader.classList.remove('overlay--show');
-        loader.classList.add('overlay--hide');
-    }
-
+    const [pageLength,setPageLength] = useState(100);
     const handleChange = (props) => event => {
         let name = "chk"+props.tableData.id;
         let chk = event.target.checked;
         saveData(name,props,chk);
-        showLoader();
+        overlay.showLoader();
     };
 
     const downloadSticker = (context_id, allRack) => {
@@ -56,7 +46,7 @@ export default function RemoteTable(props) {
             a.download = filename;
             a.click();
           });
-          
+
       });
     }
 
@@ -86,7 +76,7 @@ export default function RemoteTable(props) {
             res
                 .json()
                 .then(res => {
-                    hideLoader();
+                    overlay.hideLoader();
                     setMsg({msg:"Datos actualizados",typeMsg: "success" });
                     handleOpenSnack();
                     setSliders({ ...sliders, [name]: chk });
@@ -95,9 +85,9 @@ export default function RemoteTable(props) {
                     console.log(err);
                     setMsg({ msg : "Ups! Hubo un error en la solicitud", typeMsg: "error"});
                     handleOpenSnack();
-                    hideLoader();
+                    overlay.hideLoader();
                 });
-        },550)
+        },550);
     }
 
     return (
@@ -118,6 +108,7 @@ export default function RemoteTable(props) {
                             "Content-Type": "application/json",
                             "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
                         }
+                        console.log(query);
                         url += '&per_page=' + query.pageSize;
                         url += '&page=' + (query.page + 1);
                         if(String(query.orderBy)!=="undefined"){
@@ -140,7 +131,7 @@ export default function RemoteTable(props) {
                                     return temp;
                                 },{});
                                 setSliders(obj);
-                                setPageLength(result.per_page);
+                                setPageLength(Number(result.per_page));
                                 resolve({
                                     pageSize: result.per_page,
                                     data: result.data,
@@ -153,24 +144,32 @@ export default function RemoteTable(props) {
                 options={{
                     pageSize: pageLength ,
                     debounceInterval: 350,
-                    //maxBodyHeight: 400,
+                    maxBodyHeight: 600,
                     search: true,
                     padding: 'dense',
-                    actionsColumnIndex: -1
+                    actionsColumnIndex: -1,
+                    pageSizeOptions: [5,10,20,50,100]
                 }}
                 actions={[
                   {
                     icon: 'crop_original',
                     tooltip: 'Imprimir etiqueta',
                     onClick: (event, rowData) => downloadSticker(rowData.id, false)
-                  }, 
+                  },
                   {
                     icon: 'crop_original',
                     tooltip: 'Imprimir etiquetas de todo el rack',
                     onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
-                  },                  
+                  },
                 ]}
-                
+                /*
+                components={{
+                    Action: props => (
+                        <Tooltip title="Desactivar/Activar ubicación">
+                        <Switch checked={sliders["chk"+props.data.tableData.id]||false} onClick={handleChange(props.data)} value={"checked"+props.data.tableData.id} />
+                        </Tooltip>
+                    ),
+                }}*/
             />
             <div>
                 <Snackbar

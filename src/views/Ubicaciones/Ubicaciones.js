@@ -7,7 +7,6 @@ import Hidden from "@material-ui/core/Hidden";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
-import Fetch from 'components/Fetch/Fetch.js';
 import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import SearchIcon from '@material-ui/icons/Search';
@@ -16,9 +15,8 @@ import {
 } from '@material-ui/core';
 import Blocks from "components/Blocks/Blocks.js";
 import ItemsInBlock from "components/ItemsInBlock/ItemsInBlock.js";
-import Typography from '@material-ui/core/Typography';
 import { actions, connect } from 'store';
-import Grid from "@material-ui/core/Grid/Grid";
+import * as overlay from '../../components/loader';
 
 const styles = theme => ({
     button: {
@@ -41,7 +39,7 @@ const styles = theme => ({
     },
     fab: {
         marginLeft: theme.spacing(2),
-        marginTop: theme.spacing(1),        
+        marginTop: theme.spacing(1),
     },
     input: {
         display: 'none',
@@ -58,6 +56,7 @@ class Ubicaciones extends Component {
         };
         this.query = "";
         this.state = {
+            selected: [],
             active: -1,
             product: '',
             sku: '',
@@ -114,7 +113,6 @@ class Ubicaciones extends Component {
     };
 
     getSubcategory = (category) => {
-        console.log(category);
         let subC = [];
         if (category > 0) {
             let $url = this.methods.getSubCategories+''+category;
@@ -178,9 +176,16 @@ class Ubicaciones extends Component {
                         <GridItem  xs={12} sm={12} md={12}>
                             <Badge color="secondary" style={{width: "100%"}} max={999}
                                    badgeContent={item.total_items}>
-                                <Button fullWidth={true} size="small" variant="contained" className={classes.button} disabled={item.total_items > 0 ? false : true}
-                                        onClick={() => {                                          
-                                          actions.getBlocks(item.rack, this.state.getUrlBlocks)}
+                                <Button fullWidth={true} size="small" color={this.state.selected[item.id]?"primary":"default"} variant="contained" className={classes.button} disabled={item.total_items > 0 ? false : true}
+                                        onClick={(e) => {
+                                            this.state.selected = this.state.selected.map((i,data)=>{
+                                                return false;
+                                            });
+                                            overlay.showLoader();
+                                            this.state.selected[item.id]=true;
+                                            this.setState({selected:this.state.selected});
+                                            actions.getBlocks(item.rack, this.state.getUrlBlocks);
+                                        }
                                         }>
                                     {'RACK ' + item.rack}
                                 </Button>
