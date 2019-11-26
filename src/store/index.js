@@ -117,6 +117,9 @@ const config = {
       const data = await fetchItemsInBlock(block)      
       return { itemsInBlock: { loading: false, data: data } }
     },
+    clearItemsInBlock: async (_, actions) => {            
+      return { itemsInBlock: { loading: false, data: null } }
+    },
     getInventory: async (_, actions, filters) => {
       const data = await fetchInventory(filters)
       return { itemsInBlock: { loading: false, data: data } }

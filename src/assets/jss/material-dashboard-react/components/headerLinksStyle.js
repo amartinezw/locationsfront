@@ -104,7 +104,7 @@ const headerLinksStyle = theme => ({
   searchWrapper: {
     [theme.breakpoints.down("sm")]: {
       width: "-webkit-fill-available",
-      margin: "10px 15px 0"
+      margin: "10px 15px 20px"
     },
     display: "inline-block"
   }

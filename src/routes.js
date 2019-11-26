@@ -35,7 +35,9 @@ import Usuarios from "views/Usuarios/Usuarios"
 
 // core components/views for RTL layout
 import Warehouse from "views/Warehouse/Warehouse";
+import SearchView from "views/Buscar/SearchView";
 import Storage from "@material-ui/icons/Storage";
+import SearchIcon from "@material-ui/icons/Search";
 
 
 const dashboardRoutes = [
@@ -75,11 +77,18 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-      path: "/usuarios",
-      name: "Usuarios",
-      icon: Person,
-      component: Usuarios,
-      layout: "/admin"
+    path: "/usuarios",
+    name: "Usuarios",
+    icon: Person,
+    component: Usuarios,
+    layout: "/admin"
+  },
+  {
+    path: "/buscar",
+    name: "Busqueda",
+    icon: SearchIcon,
+    component: SearchView,
+    layout: "/admin"
   },
 ];
 

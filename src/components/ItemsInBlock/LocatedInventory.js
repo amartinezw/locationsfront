@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import {
@@ -6,7 +6,6 @@ import {
 } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import materialTableLocaleES from '../MaterialTableLocaleES';
-import GridItem from "../Grid/GridItem";
 
 const renderDetail = (rowData) => {
   const columns = [
@@ -61,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
   fab: {
     marginLeft: theme.spacing(2),
-    marginTop: theme.spacing(1),    
+    marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
   menu: {
@@ -80,12 +79,12 @@ export default function LocatedInventory() {
     sku: '',
     filters: [{ name: 'active', value: 0 }],
     filtersChanged: false,
-    select : [{id:-1,name:"Todas"}],
-    subSelect : [{id:-1,name:"Todas"}]
+    select: [{ id: -1, name: 'Todas' }],
+    subSelect: [{ id: -1, name: 'Todas' }],
   });
 
-  const[department,setDepartment] = useState(-1);
-  const[subCategory,setSubCategory] = useState(-1);
+  const [department, setDepartment] = useState(-1);
+  const [subCategory, setSubCategory] = useState(-1);
 
   const downloadSticker = (product_id, format) => {
     const fetchOptions = {
@@ -96,85 +95,84 @@ export default function LocatedInventory() {
         Authorization: process.env.REACT_APP_API_TOKEN,
       },
     };
-    const url = process.env.REACT_APP_API_LOCATION + '/locationvariation/printsticker?product_id=' + product_id + '&format=' + format;
+    const url = `${process.env.REACT_APP_API_LOCATION}/locationvariation/printsticker?product_id=${product_id}&format=${format}`;
     fetch(url, fetchOptions)
       .then((response) => {
         response.blob().then((blob) => {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
-          a.download = 'product '+product_id+'.pdf';
+          a.download = `product ${product_id}.pdf`;
           a.click();
         });
-        
-    });
-  }
+      });
+  };
 
-  async function getParent(){
-    let url = process.env.REACT_APP_API_LOCATION+"/categories/parent";
+  async function getParent() {
+    const url = `${process.env.REACT_APP_API_LOCATION}/categories/parent`;
     const params = {
-      method  : "GET",
-      headers : {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN
-      }
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+      },
     };
-    const res = await fetch(url,params);
-    let values = [{id:-1,name:"Todas"}];
+    const res = await fetch(url, params);
+    const values = [{ id: -1, name: 'Todas' }];
     res
-        .json()
-        .then(res => {
-          res.map((item,i)=>{
-            values.push({id:item.id,name:item.name});
-          });
-          setState({ ...state,select: values});
-        })
-        .catch(err => {
-          console.log(err);
+      .json()
+      .then((res) => {
+        res.map((item, i) => {
+          values.push({ id: item.id, name: item.name });
         });
+        setState({ ...state, select: values });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   async function getChildren(parent) {
-    let url = process.env.REACT_APP_API_LOCATION+"/categories/child/"+parent;
+    const url = `${process.env.REACT_APP_API_LOCATION}/categories/child/${parent}`;
     const params = {
-      method  : "GET",
-      headers : {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN
-      }
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+      },
     };
-    const res = await fetch(url,params);
-      res
-          .json()
-          .then(res => {
-            let values = [{id:-1,name:"Todas"}];
-            res.map((item,i)=>{
-              values.push({id:item.id,name:item.name});
-            });
-            setState({ ...state,subSelect: values});
-          })
-          .catch(err => {
-            console.log(err);
-          });
+    const res = await fetch(url, params);
+    res
+      .json()
+      .then((res) => {
+        const values = [{ id: -1, name: 'Todas' }];
+        res.map((item, i) => {
+          values.push({ id: item.id, name: item.name });
+        });
+        setState({ ...state, subSelect: values });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-  useEffect(()=>{
+  useEffect(() => {
     getParent();
-  },[]);
+  }, []);
 
   const handleChangeCheckBox = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked });
   };
 
   const handleChange = (name) => (event) => {
-    if(name==="department"){
+    if (name === 'department') {
       setSubCategory(-1);
       setDepartment(event.target.value);
       getChildren(event.target.value);
-    }else if(name==="subCategory"){
+    } else if (name === 'subCategory') {
       setSubCategory(event.target.value);
-    }else{
+    } else {
       setState({ ...state, [name]: event.target.value });
     }
   };
@@ -193,7 +191,7 @@ export default function LocatedInventory() {
       filters.push({ name: 'sku', value: state.sku });
     }
     if (state.subSelect !== '-1') {
-      filters.push({ name: 'subcategory', value: subCategory});
+      filters.push({ name: 'subcategory', value: subCategory });
     }
     if (state.department !== '-1') {
       filters.push({ name: 'department', value: department });
@@ -222,7 +220,7 @@ export default function LocatedInventory() {
         }
         return <img src="/images/Box_Empty.png" alt="" style={{ width: 100 }} />;
       },
-    },    
+    },
     { title: 'Estilo', field: 'internal_reference' },
     { title: 'Proveedor', field: 'provider' },
     { title: 'Producto', field: 'name' },
@@ -250,8 +248,8 @@ export default function LocatedInventory() {
   const urlfetch = `${process.env.REACT_APP_API_LOCATION}/locationvariation/getall`;
 
   return (
-    <React.Fragment>
-      <form className={classes.container} noValidate autoComplete="off">        
+    <>
+      <form className={classes.container} noValidate autoComplete="off">
         <TextField
           id="outlined-select-currency"
           select
@@ -268,25 +266,25 @@ export default function LocatedInventory() {
           margin="dense"
           variant="outlined"
         >
-          {state.select.map(item =>(<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>))}
+          {state.select.map((item) => (<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>))}
         </TextField>
         <TextField
-            id="outlined-select-subcategory"
-            select
-            label="Sub-Categorias"
-            className={classes.textField}
-            SelectProps={{
-              MenuProps: {
-                className: classes.menu,
-              },
-            }}
-            value={subCategory}
-            onChange={handleChange('subCategory')}
-            helperText="Seleccione la subcategoria"
-            margin="dense"
-            variant="outlined"
+          id="outlined-select-subcategory"
+          select
+          label="Sub-Categorias"
+          className={classes.textField}
+          SelectProps={{
+            MenuProps: {
+              className: classes.menu,
+            },
+          }}
+          value={subCategory}
+          onChange={handleChange('subCategory')}
+          helperText="Seleccione la subcategoria"
+          margin="dense"
+          variant="outlined"
         >
-          {state.subSelect.map(item =>(<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>))}
+          {state.subSelect.map((item) => (<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>))}
         </TextField>
         <TextField
           id="outlined"
@@ -306,7 +304,7 @@ export default function LocatedInventory() {
           margin="dense"
           variant="outlined"
         />
-       
+
         <TextField
           id="outlined-select-currency"
           select
@@ -394,26 +392,26 @@ export default function LocatedInventory() {
           {
             icon: 'crop_original',
             tooltip: 'Imprimir etiqueta vertical',
-            onClick: (event, rowData) => downloadSticker(rowData.id, "portrait")
+            onClick: (event, rowData) => downloadSticker(rowData.id, 'portrait'),
           },
           {
             icon: 'filter',
             tooltip: 'Imprimir etiqueta horizontal',
-            onClick: (event, rowData) => downloadSticker(rowData.id, "landscape")
-          }
+            onClick: (event, rowData) => downloadSticker(rowData.id, 'landscape'),
+          },
         ]}
         options={{
           actionsColumnIndex: -1,
           pageSize: 10,
           search: false,
           toolbar: false,
-          padding: 'dense',          
+          padding: 'dense',
           debounceInterval: 500,
           headerStyle: { position: 'sticky', top: 0 },
           maxBodyHeight: '70vh',
         }}
         detailPanel={(rowData) => renderDetail(rowData)}
       />
-    </React.Fragment>
+    </>
   );
 }
