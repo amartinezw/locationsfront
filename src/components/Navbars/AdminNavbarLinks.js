@@ -50,7 +50,7 @@ export default function AdminNavbarLinks() {
       if (!Number(searchTerm) && searchTerm.length < 12) {
         actions.getItemsInBlock(searchTerm);
       } else if (Number(searchTerm)) {
-        actions.getInventory([{name: 'sku', value: searchTerm}, {name: 'active', value: -1}]);  
+        actions.getInventory([{name: 'sku', value: searchTerm}, {name: 'active', value: -1}, {name: 'notLocated', value: true}]);  
       }
     } 
     
