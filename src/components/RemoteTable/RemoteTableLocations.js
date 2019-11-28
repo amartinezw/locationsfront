@@ -15,11 +15,12 @@ export default function RemoteTable(props) {
     const handleChange = (props) => event => {
         let name = "chk"+props.tableData.id;
         let chk = event.target.checked;
-        saveData(name,props,chk);
         overlay.showLoader();
+        saveData(name,props,chk);
     };
 
     const downloadSticker = (context_id, allRack) => {
+        overlay.showLoader();
       const fetchOptions = {
         method: 'GET',
         headers: {
@@ -45,6 +46,7 @@ export default function RemoteTable(props) {
             a.href = url;
             a.download = filename;
             a.click();
+              overlay.hideLoader();
           });
 
       });
@@ -108,7 +110,6 @@ export default function RemoteTable(props) {
                             "Content-Type": "application/json",
                             "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
                         }
-                        console.log(query);
                         url += '&per_page=' + query.pageSize;
                         url += '&page=' + (query.page + 1);
                         if(String(query.orderBy)!=="undefined"){
@@ -160,7 +161,11 @@ export default function RemoteTable(props) {
                     icon: 'crop_original',
                     tooltip: 'Imprimir etiquetas de todo el rack',
                     onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
-                  },
+                  },{
+                        icon: 'toggle_on',
+                        tooltip: 'Imprimir etiquetas de todo el rack',
+                        onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
+                    }
                 ]}
                 /*
                 components={{

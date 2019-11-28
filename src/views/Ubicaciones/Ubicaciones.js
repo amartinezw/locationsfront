@@ -14,7 +14,7 @@ import {
     TextField, MenuItem, Fab, FormControlLabel,
 } from '@material-ui/core';
 import Blocks from "components/Blocks/Blocks.js";
-import ItemsInBlock from "components/ItemsInBlock/ItemsInBlock.js";
+import ItemsInBlock from "../../components/ItemsInBlock/ItemsInBlock.js";
 import { actions, connect } from 'store';
 import * as overlay from '../../components/loader';
 
