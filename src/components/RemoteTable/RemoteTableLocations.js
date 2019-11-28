@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
 import MaterialTable from 'material-table';
-//import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Snackbar from "@material-ui/core/Snackbar";
 import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
 import Tooltip from "@material-ui/core/Tooltip";
 import materialTableLocaleES from "../MaterialTableLocaleES";
 import * as overlay from '../loader';
+import IconButton from "@material-ui/core/IconButton";
+import FilterIcon from '@material-ui/icons/Filter';
+import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 
 export default function RemoteTable(props) {
     const { title, columns, urlfetch} = props;
@@ -18,6 +20,10 @@ export default function RemoteTable(props) {
         overlay.showLoader();
         saveData(name,props,chk);
     };
+
+    useEffect(()=>{
+       console.log("events");
+    });
 
     const downloadSticker = (context_id, allRack) => {
         overlay.showLoader();
@@ -151,6 +157,7 @@ export default function RemoteTable(props) {
                     actionsColumnIndex: -1,
                     pageSizeOptions: [5,10,20,50,100]
                 }}
+
                 actions={[
                   {
                     icon: 'crop_original',
@@ -158,23 +165,50 @@ export default function RemoteTable(props) {
                     onClick: (event, rowData) => downloadSticker(rowData.id, false)
                   },
                   {
-                    icon: 'crop_original',
+                    icon: 'filter',
                     tooltip: 'Imprimir etiquetas de todo el rack',
                     onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
-                  },{
-                        icon: 'toggle_on',
-                        tooltip: 'Imprimir etiquetas de todo el rack',
-                        onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
+                  },
+                    {
+                        icon: 'toggle_off'
                     }
                 ]}
-                /*
+
                 components={{
-                    Action: props => (
-                        <Tooltip title="Desactivar/Activar ubicación">
-                        <Switch checked={sliders["chk"+props.data.tableData.id]||false} onClick={handleChange(props.data)} value={"checked"+props.data.tableData.id} />
-                        </Tooltip>
-                    ),
-                }}*/
+                    Action: props => {
+                        console.log(props);
+                        switch (props.action.icon) {
+                            case "toggle_off":
+                                return (
+                                    <Tooltip title={props.action.tooltip}>
+                                        <Switch checked={sliders["chk" + props.data.tableData.id] || false}
+                                                onClick={handleChange(props.data)} value={"checked" + props.data.tableData.id}/>
+                                    </Tooltip>
+                                )
+                                break;
+
+                            case "crop_original":
+                                return(
+                                    <Tooltip title={props.action.tooltip}>
+                                        <IconButton aria-label="crop_original" onClick={(event) => props.action.onClick(event, props.data)} >
+                                            <CropOriginalIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )
+                                break;
+
+                            case "filter":
+                                return(
+                                    <Tooltip title={props.action.tooltip}>
+                                        <IconButton aria-label="filter" onClick={(event) => props.action.onClick(event, props.data)} >
+                                            <FilterIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )
+                                break;
+                        }
+                    }
+                }}
             />
             <div>
                 <Snackbar
