@@ -69,7 +69,7 @@ class Dashboard extends React.Component {
       headers: {
         Accept: 'application/json',
         'Content-type': 'application/json; charset=UTF-8',
-        Authorization: process.env.REACT_APP_API_TOKEN,
+        Authorization: 'Bearer '+localStorage.getItem('token'),
       },
     }
     const url = process.env.REACT_APP_API_LOCATION + '/locationvariation/printsticker';
@@ -93,7 +93,7 @@ class Dashboard extends React.Component {
       headers: {
         Accept: 'application/json',
         'Content-type': 'application/json; charset=UTF-8',
-        Authorization: process.env.REACT_APP_API_TOKEN,
+        Authorization: 'Bearer '+localStorage.getItem('token'),
       },
     };
     try {

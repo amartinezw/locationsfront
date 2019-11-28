@@ -1,3 +1,5 @@
+import { actions } from 'store';
+
 const userService = {
     login,
     logout,
@@ -17,22 +19,21 @@ function login(username, password) {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+process.env.REACT_APP_API_TOKEN
+            'Content-Type': 'application/json',            
         },
         body: JSON.stringify({
-            'email' : username,
-            'password' : password }),
+            'grant_type': 'password',
+            'client_id': 2,
+            'client_secret': 'avVHCSJ6PQ9gJ5Uylw2xVTzR4qZbSlDfTxU44UaC',
+            'username' : username,
+            'password' : password,
+             }),
     };
-    return fetch(process.env.REACT_APP_API_LOCATION+"/user/authenticate", requestOptions)
+    return fetch(process.env.REACT_APP_BASE_LOCATION+"/oauth/token", requestOptions)
         .then(handleResponse)
-        .then(result => {
-            if (result.status === "success") {
-                result.user = window.btoa(username + ':' + password);
-                localStorage.setItem('user', JSON.stringify(result));
-                return result;
-            }
-
+        .then(result => {            
+            localStorage.setItem('token', result.access_token);            
+            return result;        
         })
 }
 
@@ -42,7 +43,7 @@ function addUser(name, email, password, address, rol) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+process.env.REACT_APP_API_TOKEN
+            'Authorization': 'Bearer '+localStorage.getItem('token')
         },
         body: JSON.stringify({
             'name'      : name,
@@ -80,7 +81,7 @@ function getAll() {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+process.env.REACT_APP_API_TOKEN
+            'Authorization': 'Bearer '+localStorage.getItem('token'),
         },
     };
 
@@ -93,7 +94,7 @@ function delUsusario(id) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+process.env.REACT_APP_API_TOKEN
+            'Authorization': 'Bearer '+localStorage.getItem('token')
         }
     };
     return fetch(process.env.REACT_APP_API_LOCATION+"/user/delete/"+id, requestOptions)

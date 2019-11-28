@@ -49,7 +49,7 @@ export default class RemoteTableStores extends React.Component{
         this.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,//this.props.key_,
+            "Authorization": 'Bearer '+localStorage.getItem('token'),//this.props.key_,
         }
     }
 

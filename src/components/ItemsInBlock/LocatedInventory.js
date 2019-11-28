@@ -92,7 +92,7 @@ export default function LocatedInventory() {
       headers: {
         Accept: 'application/json',
         'Content-type': 'application/json; charset=UTF-8',
-        Authorization: process.env.REACT_APP_API_TOKEN,
+        Authorization: localStorage.getItem('token'),
       },
     };
     const url = `${process.env.REACT_APP_API_LOCATION}/locationvariation/printsticker?product_id=${product_id}&format=${format}`;
@@ -115,7 +115,7 @@ export default function LocatedInventory() {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     };
     const res = await fetch(url, params);
@@ -140,7 +140,7 @@ export default function LocatedInventory() {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     };
     const res = await fetch(url, params);
@@ -362,7 +362,7 @@ export default function LocatedInventory() {
         const headers = {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         };
         url += `?per_page=${query.pageSize}`;
         url += '&order=asc';

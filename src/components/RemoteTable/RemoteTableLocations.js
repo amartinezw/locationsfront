@@ -25,7 +25,7 @@ export default function RemoteTable(props) {
         headers: {
           Accept: 'application/json',
           'Content-type': 'application/json; charset=UTF-8',
-          Authorization: process.env.REACT_APP_API_TOKEN,
+          Authorization: localStorage.getItem('token'),
         },
       };
       let props, filename;
@@ -67,7 +67,7 @@ export default function RemoteTable(props) {
             headers : {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN
+                "Authorization": 'Bearer '+localStorage.getItem('token')
             }
         }
         url +="id="+props.id+"&chk="+chk;
@@ -106,7 +106,7 @@ export default function RemoteTable(props) {
                         let headers = {
                             "Accept": "application/json",
                             "Content-Type": "application/json",
-                            "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
+                            "Authorization": 'Bearer '+localStorage.getItem('token'),
                         }
                         console.log(query);
                         url += '&per_page=' + query.pageSize;

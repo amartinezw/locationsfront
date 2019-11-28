@@ -66,11 +66,9 @@ class LoginPage extends React.Component {
         userService.login(username, password)
             .then(
                 resutl => {
-                    if (resutl.status === 'success') {                        
-                        history.push("/admin/dashboard");
-                         window.location.reload();
-                    }
-
+                    
+                    history.push("/admin/dashboard");
+                    window.location.reload();                
                 },
 
                 error => this.setState({ error})

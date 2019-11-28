@@ -7,7 +7,7 @@ const fetchBlocks = (rack, urlBlocks) => {
         let headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
+            "Authorization": 'Bearer '+localStorage.getItem('token'),
         }
 
         url += '&per_page=15'
@@ -32,7 +32,7 @@ const fetchItemsInBlock = (block) => {
     let headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
+        "Authorization": 'Bearer '+localStorage.getItem('token'),
     }
 
     url += '&per_page=15'
@@ -56,7 +56,7 @@ const fetchInventory = (filters) => {
     let headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
+        "Authorization": 'Bearer '+localStorage.getItem('token'),
     }
 
     url += '?per_page=15'
@@ -85,7 +85,7 @@ const fetchRoles = () => {
         let headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
+            "Authorization": 'Bearer '+localStorage.getItem('token'),
         }
         fetch(url, {
             headers: headers,
@@ -99,6 +99,9 @@ const fetchRoles = () => {
 
 const config = {
   initialState: {
+    token: {
+      access_token: '',
+    },
     blocks: {
       loading: false,
     },
@@ -116,6 +119,9 @@ const config = {
     getBlocks: async (_, actions, rack, url) => {
       const data = await fetchBlocks(rack, url);
       return { blocks: { loading: false, data: data } }
+    },
+    setToken: async (_, actions, token) => {
+      return { token: { access_token: token } }
     },
     getItemsInBlock: async (_, actions, block) => {      
       const data = await fetchItemsInBlock(block)      

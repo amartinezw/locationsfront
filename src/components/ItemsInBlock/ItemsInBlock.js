@@ -50,7 +50,7 @@ const downloadSticker = (context, identifier, format) => {
     headers: {
       Accept: 'application/json',
       'Content-type': 'application/json; charset=UTF-8',
-      Authorization: process.env.REACT_APP_API_TOKEN,
+      Authorization: localStorage.getItem('token'),
     },
   };
   const url = `${process.env.REACT_APP_API_LOCATION}/locationvariation/printsticker?${context}=${identifier}&format=${format}`;

@@ -23,14 +23,14 @@ export default function RemoteTable(props) {
                 new Promise((resolve, reject) => {
                     let url = urlfetch
                     let order = {
-                        'column'    : 'warehouse_id',
-                        'order' : 'asc'
+                        'column' : 'warehouse_id',
+                        'order'  : 'asc'
                     }
 
                     let headers = {
                         "Accept": "application/json",
                         "Content-Type": "application/json",
-                        "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
+                        "Authorization": 'Bearer '+localStorage.getItem('token'),
                     }
                     url += '&per_page=' + query.pageSize;
                     url += '&page=' + (query.page + 1);

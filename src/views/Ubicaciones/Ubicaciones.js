@@ -73,7 +73,7 @@ class Ubicaciones extends Component {
         this.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN,
+            "Authorization": 'Bearer '+localStorage.getItem('token'),
         };
         this.params = {
             method  : "get",
