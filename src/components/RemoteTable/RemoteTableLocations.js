@@ -25,7 +25,7 @@ export default function RemoteTable(props) {
         headers: {
           Accept: 'application/json',
           'Content-type': 'application/json; charset=UTF-8',
-          Authorization: localStorage.getItem('token'),
+          Authorization: 'Bearer '+localStorage.getItem('token'),
         },
       };
       let props, filename;
