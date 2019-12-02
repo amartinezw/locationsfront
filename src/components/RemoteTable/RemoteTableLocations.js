@@ -13,17 +13,13 @@ import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 export default function RemoteTable(props) {
     const { title, columns, urlfetch} = props;
     const [sliders, setSliders] = useState({});
-    const [pageLength,setPageLength] = useState(100);
+    const [pageLength,setPageLength] = useState(50);
     const handleChange = (props) => event => {
         let name = "chk"+props.tableData.id;
         let chk = event.target.checked;
         overlay.showLoader();
         saveData(name,props,chk);
     };
-
-    useEffect(()=>{
-       console.log("events");
-    });
 
     const downloadSticker = (context_id, allRack) => {
         overlay.showLoader();
@@ -56,17 +52,18 @@ export default function RemoteTable(props) {
           });
 
       });
-    }
+    };
 
     const [openSnack,setOpenSnack] = useState(false);
     const [msg,setMsg] = useState({msg  :"",typeMsg : "info"});
 
     const handleCloseSnack = () => {
         setOpenSnack(false);
-    }
+    };
+
     const handleOpenSnack = () => {
         setOpenSnack(true);
-    }
+    };
 
     async function saveData(name, props,chk) {
         let url= process.env.REACT_APP_API_LOCATION+"/warehouselocations/editlocationactive?";
@@ -77,7 +74,7 @@ export default function RemoteTable(props) {
                 "Content-Type": "application/json",
                 "Authorization": 'Bearer '+process.env.REACT_APP_API_TOKEN
             }
-        }
+        };
         url +="id="+props.id+"&chk="+chk;
         const res = await fetch(url,params);
         setTimeout(function(){
@@ -170,13 +167,14 @@ export default function RemoteTable(props) {
                     onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
                   },
                     {
-                        icon: 'toggle_off'
+                        icon: 'toggle_off',
+                        tooltip: 'Estado del Rack',
+                        onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
                     }
                 ]}
 
                 components={{
                     Action: props => {
-                        console.log(props);
                         switch (props.action.icon) {
                             case "toggle_off":
                                 return (
@@ -190,7 +188,7 @@ export default function RemoteTable(props) {
                             case "crop_original":
                                 return(
                                     <Tooltip title={props.action.tooltip}>
-                                        <IconButton aria-label="crop_original" onClick={(event) => props.action.onClick(event, props.data)} >
+                                        <IconButton size={props.size} aria-label="crop_original" onClick={(event) => props.action.onClick(event, props.data)} >
                                             <CropOriginalIcon />
                                         </IconButton>
                                     </Tooltip>
@@ -200,7 +198,7 @@ export default function RemoteTable(props) {
                             case "filter":
                                 return(
                                     <Tooltip title={props.action.tooltip}>
-                                        <IconButton aria-label="filter" onClick={(event) => props.action.onClick(event, props.data)} >
+                                        <IconButton size={props.size} aria-label="filter" onClick={(event) => props.action.onClick(event, props.data)} >
                                             <FilterIcon />
                                         </IconButton>
                                     </Tooltip>
@@ -230,4 +228,3 @@ export default function RemoteTable(props) {
         </div>
     );
 }
-
