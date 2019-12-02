@@ -1,25 +1,28 @@
 import React, {useEffect, useState} from "react";
 import MaterialTable from 'material-table';
-//import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Snackbar from "@material-ui/core/Snackbar";
 import MySnackbarContentWrapper from "../Snackbar/SnackbarFancy";
 import Tooltip from "@material-ui/core/Tooltip";
 import materialTableLocaleES from "../MaterialTableLocaleES";
 import * as overlay from '../loader';
+import IconButton from "@material-ui/core/IconButton";
+import FilterIcon from '@material-ui/icons/Filter';
+import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 
 export default function RemoteTable(props) {
     const { title, columns, urlfetch} = props;
     const [sliders, setSliders] = useState({});
-    const [pageLength,setPageLength] = useState(100);
+    const [pageLength,setPageLength] = useState(50);
     const handleChange = (props) => event => {
         let name = "chk"+props.tableData.id;
         let chk = event.target.checked;
-        saveData(name,props,chk);
         overlay.showLoader();
+        saveData(name,props,chk);
     };
 
     const downloadSticker = (context_id, allRack) => {
+        overlay.showLoader();
       const fetchOptions = {
         method: 'GET',
         headers: {
@@ -45,20 +48,22 @@ export default function RemoteTable(props) {
             a.href = url;
             a.download = filename;
             a.click();
+              overlay.hideLoader();
           });
 
       });
-    }
+    };
 
     const [openSnack,setOpenSnack] = useState(false);
     const [msg,setMsg] = useState({msg  :"",typeMsg : "info"});
 
     const handleCloseSnack = () => {
         setOpenSnack(false);
-    }
+    };
+
     const handleOpenSnack = () => {
         setOpenSnack(true);
-    }
+    };
 
     async function saveData(name, props,chk) {
         let url= process.env.REACT_APP_API_LOCATION+"/warehouselocations/editlocationactive?";
@@ -69,7 +74,7 @@ export default function RemoteTable(props) {
                 "Content-Type": "application/json",
                 "Authorization": 'Bearer '+localStorage.getItem('token')
             }
-        }
+        };
         url +="id="+props.id+"&chk="+chk;
         const res = await fetch(url,params);
         setTimeout(function(){
@@ -108,7 +113,6 @@ export default function RemoteTable(props) {
                             "Content-Type": "application/json",
                             "Authorization": 'Bearer '+localStorage.getItem('token'),
                         }
-                        console.log(query);
                         url += '&per_page=' + query.pageSize;
                         url += '&page=' + (query.page + 1);
                         if(String(query.orderBy)!=="undefined"){
@@ -150,6 +154,7 @@ export default function RemoteTable(props) {
                     actionsColumnIndex: -1,
                     pageSizeOptions: [5,10,20,50,100]
                 }}
+
                 actions={[
                   {
                     icon: 'crop_original',
@@ -157,19 +162,51 @@ export default function RemoteTable(props) {
                     onClick: (event, rowData) => downloadSticker(rowData.id, false)
                   },
                   {
-                    icon: 'crop_original',
+                    icon: 'filter',
                     tooltip: 'Imprimir etiquetas de todo el rack',
                     onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
                   },
+                    {
+                        icon: 'toggle_off',
+                        tooltip: 'Estado del Rack',
+                        onClick: (event, rowData) => downloadSticker(rowData.rack_id, true)
+                    }
                 ]}
-                /*
+
                 components={{
-                    Action: props => (
-                        <Tooltip title="Desactivar/Activar ubicación">
-                        <Switch checked={sliders["chk"+props.data.tableData.id]||false} onClick={handleChange(props.data)} value={"checked"+props.data.tableData.id} />
-                        </Tooltip>
-                    ),
-                }}*/
+                    Action: props => {
+                        switch (props.action.icon) {
+                            case "toggle_off":
+                                return (
+                                    <Tooltip title={props.action.tooltip}>
+                                        <Switch checked={sliders["chk" + props.data.tableData.id] || false}
+                                                onClick={handleChange(props.data)} value={"checked" + props.data.tableData.id}/>
+                                    </Tooltip>
+                                )
+                                break;
+
+                            case "crop_original":
+                                return(
+                                    <Tooltip title={props.action.tooltip}>
+                                        <IconButton size={props.size} aria-label="crop_original" onClick={(event) => props.action.onClick(event, props.data)} >
+                                            <CropOriginalIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )
+                                break;
+
+                            case "filter":
+                                return(
+                                    <Tooltip title={props.action.tooltip}>
+                                        <IconButton size={props.size} aria-label="filter" onClick={(event) => props.action.onClick(event, props.data)} >
+                                            <FilterIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )
+                                break;
+                        }
+                    }
+                }}
             />
             <div>
                 <Snackbar
@@ -191,4 +228,3 @@ export default function RemoteTable(props) {
         </div>
     );
 }
-

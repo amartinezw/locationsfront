@@ -33,7 +33,6 @@ export default class RemoteTableStores extends React.Component{
                             options={this.stores}
                             getOptionLabel={option => option.name}
                             onChange={(event, newValue) => {
-                                console.log(props);
                                 this.setState({selectValue:{id:props.id,value:newValue}})
                             }}
                             renderInput={
@@ -122,7 +121,7 @@ export default class RemoteTableStores extends React.Component{
                     this.handleOpenSnack({msg:"Debe seleccionar la tienda correspondiente los datos no se almacenaron.", typeMsg: "warning"});
                     resolve();
                 }else{
-                    console.log(this.state.selectValue);
+                    //console.log(this.state.selectValue);
                     fetch($url,$params)
                         .then(response => {
                             if(response.ok){
@@ -173,7 +172,7 @@ export default class RemoteTableStores extends React.Component{
                         console.log(error);
                         resolve();
                     });
-            }, 600);
+            }, 350);
         })
 
         return $return;
@@ -212,7 +211,7 @@ export default class RemoteTableStores extends React.Component{
                         console.log(error);
                         resolve();
                     });
-            }, 600);
+            }, 350);
         });
         return $return;
     }

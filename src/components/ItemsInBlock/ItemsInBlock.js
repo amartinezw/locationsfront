@@ -3,6 +3,7 @@ import MaterialTable from 'material-table';
 import { connect } from 'store';
 import materialTableLocaleES from '../MaterialTableLocaleES';
 import Button from '@material-ui/core/Button';
+import * as overlay from '../../components/loader';
 
 const Barcode = require('react-barcode');
 
@@ -45,6 +46,7 @@ const renderDetail = (rowData) => {
 
 
 const downloadSticker = (context, identifier, format) => {
+  overlay.showLoader();
   const fetchOptions = {
     method: 'GET',
     headers: {
@@ -62,6 +64,7 @@ const downloadSticker = (context, identifier, format) => {
         a.href = url;
         a.download = `${context} ${identifier}.pdf`;
         a.click();
+        overlay.hideLoader();
       });
     });
 };
@@ -120,7 +123,10 @@ const ItemsInBlock = ({ itemsInBlock }) => {
               <Button 
                 variant="contained" 
                 style={{marginBottom: '15px'}} 
-                onClick={() => {downloadSticker('warehouselocation_id', itemsInBlock.data.warehouselocation_id, 'portrait')}}
+                onClick={() => {
+                    downloadSticker('warehouselocation_id', itemsInBlock.data.warehouselocation_id, 'portrait')
+                  }
+                }
               >
                 Imprimir etiquetas V
               </Button>
@@ -128,7 +134,10 @@ const ItemsInBlock = ({ itemsInBlock }) => {
                 variant="contained"
                 style={{marginBottom: '15px'}}
                 color="secondary"
-                onClick={() => {downloadSticker('warehouselocation_id', itemsInBlock.data.warehouselocation_id, 'landscape')}}
+                onClick={() => {
+                    downloadSticker('warehouselocation_id', itemsInBlock.data.warehouselocation_id, 'landscape')
+                  }
+                }
               >
                 Imprimir etiquetas H
               </Button>

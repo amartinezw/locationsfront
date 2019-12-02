@@ -19,7 +19,6 @@ const Blocks = ({ blocks }) => {
         setSelected(rows);
       }
     }
-    console.log(selected,blocks.data);
   });
 
   if (blocks.data) {
