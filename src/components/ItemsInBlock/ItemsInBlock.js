@@ -11,7 +11,7 @@ const renderDetail = (rowData) => {
     { title: 'Id', field: 'id' },
     { title: 'SKU', field: 'sku' },
     { title: 'Talla', field: 'name' },
-    { title: 'Inventario', field: 'stock' },
+    { title: 'Inventario', field: 'stock', defaultSort: 'desc' },
     { title: 'Precio', field: 'price' },
     { title: 'Color', field: 'color.name' },
     {
@@ -94,6 +94,17 @@ const ItemsInBlock = ({ itemsInBlock }) => {
       { title: 'Depto', field: 'parent_name' },
       { title: 'Categoria', field: 'family' },
       { title: 'Color', field: 'colors_es' },
+      { 
+        title: 'Total Piezas',
+        field: '',
+        render: (rowData) => {
+          let totalPieces = 0;
+          rowData.variations.map((sku) => {
+            totalPieces += sku.stock;          
+          })
+          return totalPieces;
+        }
+      },
       {
         title: 'Ubicacion',
         field: 'mapped_string',

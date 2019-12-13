@@ -26,9 +26,12 @@ const fetchBlocks = (rack, urlBlocks) => {
   return promise;
 }
 
-const fetchItemsInBlock = (block) => {
-  return new Promise((resolve, reject) => {                                    
+const fetchItemsInBlock = (block, withZeros) => {
+  return new Promise((resolve, reject) => {
     let url = process.env.REACT_APP_API_LOCATION+'/locationvariation/getitemsinlocation?warehouse_id=1&mapped_string='+block
+    if (withZeros) {
+      url += '&withzeros=true';
+    }                 
     let headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
@@ -114,6 +117,7 @@ const config = {
     roles: {
         loading: false,
     },
+    withZeros: false,
   },
   actionsCreators: {
     getBlocks: async (_, actions, rack, url) => {
@@ -123,8 +127,11 @@ const config = {
     setToken: async (_, actions, token) => {
       return { token: { access_token: token } }
     },
-    getItemsInBlock: async (_, actions, block) => {      
-      const data = await fetchItemsInBlock(block)      
+    setWithZeros: (_, actions, withZeros) => {      
+      return { withZeros: withZeros }
+    },
+    getItemsInBlock: async (_, actions, block, withZeros) => {      
+      const data = await fetchItemsInBlock(block, withZeros)      
       return { itemsInBlock: { loading: false, data: data } }
     },
     clearItemsInBlock: async (_, actions) => {            

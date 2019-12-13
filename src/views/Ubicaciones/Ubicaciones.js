@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import SearchIcon from '@material-ui/icons/Search';
 import {
-    TextField, MenuItem, Fab, FormControlLabel,
+    TextField, MenuItem, Fab, FormControlLabel, Checkbox,
 } from '@material-ui/core';
 import Blocks from "components/Blocks/Blocks.js";
 import ItemsInBlock from "components/ItemsInBlock/ItemsInBlock.js";
@@ -56,6 +56,7 @@ class Ubicaciones extends Component {
         };
         this.query = "";
         this.state = {
+            withZeros: false,
             selected: [],
             active: -1,
             product: '',
@@ -101,6 +102,11 @@ class Ubicaciones extends Component {
         });
         this.fetchRacks(this.state.getUrlRacks, this.params);
     }
+    handleChangeCheckBox = (name) => (event) => {
+      this.setState({[name]: event.target.checked });      
+      actions.setWithZeros(event.target.checked);
+
+    };
 
     handleChange = (name) => (event) => {
         this.setState({[name]: event.target.value })
@@ -141,14 +147,34 @@ class Ubicaciones extends Component {
 
     handleSearch = () => {
         const filters = [];
-        filters.push({ name: 'active', value: this.state.active });
-        filters.push({ name: 'product', value: this.state.product });
-        filters.push({ name: 'sku', value: this.state.sku });
-        filters.push({ name: 'category', value: this.state.category });
-        filters.push({ name: 'subcategory', value: this.state.subCategory });
+        let urlFilters = '';
+        if (this.state.withZeros === true) {
+          filters.push({ name: 'withzeros', value: this.state.withZeros });
+        }
+        if (this.state.active !== -1) {
+          filters.push({ name: 'active', value: this.state.active });
 
-        let getUrlRacks = this.serverApi+'/warehouselocations/getracks?warehouse_id=1&active='+filters[0].value+'&product='+filters[1].value+'&sku='+filters[2].value+'&category='+filters[3].value+'&subcategory='+filters[4].value;
-        let getUrlBlocks = this.serverApi+'/warehouselocations/getblocks?warehouse_id=1&active='+filters[0].value+'&product='+filters[1].value+'&sku='+filters[2].value+'&category='+filters[3].value+'&subcategory='+filters[4].value;
+        }
+        if (this.state.product !== '') {
+          filters.push({ name: 'product', value: this.state.product });  
+        }
+        if (this.state.sku !== '') {
+          filters.push({ name: 'sku', value: this.state.sku });  
+        }
+        if (this.state.category !== '0') {
+          filters.push({ name: 'category', value: this.state.category });  
+        }
+        if (this.state.subcategory !== '0') {
+          filters.push({ name: 'subcategory', value: this.state.subCategory });  
+        }
+        
+        filters.map((filter) => {
+          urlFilters += `&${filter.name}=${filter.value}`;
+          return true;
+        });
+
+        let getUrlRacks = this.serverApi+'/warehouselocations/getracks?warehouse_id=1'+urlFilters;
+        let getUrlBlocks = this.serverApi+'/warehouselocations/getblocks?warehouse_id=1'+urlFilters;
         this.fetchRacks(getUrlRacks, this.params);
         this.setState({ getUrlBlocks: getUrlBlocks });
     };
@@ -293,6 +319,18 @@ class Ubicaciones extends Component {
                         <SearchIcon className={classes.extendedIcon} />
                         Buscar
                     </Fab>
+                    <FormControlLabel
+                      control={(
+                        <Checkbox
+                          checked={this.state.withZeros}
+                          onChange={this.handleChangeCheckBox('withZeros')}
+                          value="withZeros"
+                          color="primary"
+                        />
+                      )}
+                      className={classes.FormControlLabel}
+                      label="Productos sin stock"
+                    />
                 </form>
                 <GridContainer>
                     <GridItem xs={12} sm={4} md={3} style={{maxHeight: '50vh', overflow: 'auto'}}>
@@ -304,7 +342,7 @@ class Ubicaciones extends Component {
                         </GridContainer>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12}>
-                        <ItemsInBlock />
+                        <ItemsInBlock withZeros={this.state.withZeros}/>
                     </GridItem>
                 </GridContainer>
             </Card>

@@ -5,7 +5,7 @@ import GridItem from 'components/Grid/GridItem';
 import { actions, connect } from 'store';
 import * as overlay from '../../components/loader';
 
-const Blocks = ({ blocks }) => {
+const Blocks = ({ blocks, withZeros }) => { 
   const [selected,setSelected] = useState([]);
   const [memory,setMemory] = useState(0);
 
@@ -19,11 +19,11 @@ const Blocks = ({ blocks }) => {
         setSelected(rows);
       }
     }
-    console.log(selected,blocks.data);
   });
 
   if (blocks.data) {
     const maxLevels = Math.max.apply(Math, blocks.data.map((o) => o.level));
+
     let blockWidth;
     if (maxLevels < 7) {
       blockWidth = Math.round((12 / maxLevels));
@@ -97,7 +97,7 @@ const Blocks = ({ blocks }) => {
                 });
                 setSelected(temp);
                 overlay.showLoader();
-                actions.getItemsInBlock(block.mapped_string)
+                actions.getItemsInBlock(block.mapped_string, withZeros)                
               }
             }
             >
@@ -111,4 +111,4 @@ const Blocks = ({ blocks }) => {
   return null;
 };
 
-export default connect(({ blocks }) => ({ blocks }))(Blocks);
+export default connect(({ blocks, withZeros }) => ({ blocks, withZeros }))(Blocks);
