@@ -132,7 +132,6 @@ export default function Bodegas() {
     res
         .json()
         .then(res => {
-          console.log(res);
           if(res.message){
               setMsg("La petición se realizó con éxito");
               setTypeMsg("success");

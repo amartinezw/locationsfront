@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import materialTableLocaleES from '../MaterialTableLocaleES';
+import * as overlay from '../../components/loader';
 
 const renderDetail = (rowData) => {
   const columns = [
@@ -87,6 +88,7 @@ export default function LocatedInventory() {
   const [subCategory, setSubCategory] = useState(-1);
 
   const downloadSticker = (product_id, format) => {
+    overlay.showLoader();
     const fetchOptions = {
       method: 'GET',
       headers: {
@@ -104,6 +106,7 @@ export default function LocatedInventory() {
           a.href = url;
           a.download = `product ${product_id}.pdf`;
           a.click();
+          overlay.hideLoader();
         });
       });
   };
